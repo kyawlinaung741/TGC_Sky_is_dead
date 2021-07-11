@@ -496,6 +496,7 @@ crlist = {
 {map='StormEnd',x=0.13,y=84.75,z=-173.92},  
 {map='StormEnd',x=8.27,y=84.70,z=-176.73},  
 {map='StormEnd',x=-4.07,y=84.61,z=-180.96},  
+{map='StormEnd',x=2.72,y=84.75,z=-185.72},
 {map='StormEnd',x=7.59,y=84.69,z=-191.18},  
 {map='StormEnd',x=0.45,y=84.68,z=-190.60},  
 {map='StormEnd',x=0.06,y=84.61,z=-206.35},  
