@@ -1,6 +1,6 @@
 function init2()
   map = {
-  --map[x] = {("文本"),代码,("名称"),花,光翼，烛火}
+  --map[x] = {("Text"),code,("name"),flower,light wings, candlelight}
    {("CandleSpace"),-768833570,("遇境"),0,0,1}
   , {'Dawn',1649439303,("晨岛"),1,1,1}
   , {'Prairie_ButterflyFields',-1817621630,("云野一图"),0,1,1}
