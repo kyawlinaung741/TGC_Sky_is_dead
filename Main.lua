@@ -5,7 +5,7 @@
 
 
 gg.toast('FuckChina Loaded')
-ddd = "a21.08.12"
+ddd = "b21.08.12"
 pshare = ''
 umenu = true
 fasthome = true
@@ -51,8 +51,6 @@ pbase = 0x00
 prange = {a = 0,b = -1}
 pui = '9f9a41cd98bb22afe63b2ce2ede9b9eed9'
 rbootloader = gg.getRangesList('libBootloader.so')[1].start
---Mportal = (h 00 00 00 00 00 00 00 00 8A 00 4C FF 00 00 00 01 00 00 00 00 00 00 00 00)
---Vcandles = [h 00 00 80 3F 00 00 00 00 00 00 00 00 00 00 80 3F 00 00 FF FF] or [h F7 F3 B4 40 D9 7B 94 3F 48 45 CA 40 00 00 80 3F] candlespace
 poffsets = {
   sival = -1096122630,
   ptoplayer = 0x1871A90,
@@ -3420,7 +3418,7 @@ function crmenu()
   vhq = gg.toast
   --gg.toast(#crlist)
   if #crarray == 0 then
-    vhq(fbyte(pui,poffsets.sival,poffsets.rrace))
+    --vhq(fbyte(pui,poffsets.sival,poffsets.rrace))
     crset.map = hq
     crset.level = 0
     for k,v in ipairs(crlist) do
