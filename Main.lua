@@ -5,7 +5,7 @@
 
 
 gg.toast('FuckChina Loaded')
-ddd = "b21.08.13"
+ddd = "c21.08.13"
 pshare = ''
 umenu = true
 fasthome = true
@@ -968,7 +968,7 @@ end
 --B0700C
 mm = {}
  for i=1,256 do
-   mm[i]= {address = nn + poffsets.eflowers + ((i-1) * 8),flags = 16}
+   mm[i]= {address = eoffsets.nentity + poffsets.eflowers + ((i-1) * 8),flags = 16}
  end
  flowers = gg.getValues(mm)
  
