@@ -5,7 +5,7 @@
 
 
 gg.toast('FuckChina Loaded')
-ddd = "b21.08.12"
+ddd = "b21.08.13"
 pshare = ''
 umenu = true
 fasthome = true
@@ -31,7 +31,7 @@ psettings = {
   portaldef = false
   }
   
-scriptv = {process ='com.tgc.sky.android',version=174224}
+scriptv = {process ='com.tgc.sky.android',version=174878}
 teleparr = {spec = false,follow = false,collect = false,enable = false,hide = false,arr = 1}
 gameinfo = gg.getTargetInfo()
 crarray = {}
@@ -88,7 +88,7 @@ poffsets = {
   ucandle = 0x595400,
   fullmagic = 0x27B68,
   mymagic = 0x23A18,
-  mportal = 0x17198,
+  mportal = 0x17438,
   mcandles = 0x266F8,
   sglow = 0x21D00,
   wwind = 0x96833C,
@@ -213,6 +213,10 @@ mid = {
  {'🆕️Chair Cloth',472595010,0},
  {'🆕️Chair Pipe',2428135093,0},
 {'🆕️Hair Pin',4123817368,0},
+{'🆕️Brazier 2',160072902,0},
+{'🆕️Summer Umbrella',2878211958,0},
+{'🆕️Summer Hat',2052387583,2},
+{'🆕️Recliner',2875484078,0},
  {'❌none',0,0}
 };
 windwallset = {
@@ -404,6 +408,8 @@ pid = {
        {-1723880395,'Fox'},
        {-994414187,'Birthday flag'},
        {1638144370,'Ocarina'},
+       {-2058340788,'Yellow Umbrella'},
+       {1480625729,'Double Chair'},
        {2035109393,"Nothing"}
 }
 
@@ -1077,6 +1083,18 @@ function upemote()
   gg.toast('done : ' .. maxemote)
 end
 
+function getcoord(boo)
+  if boo then
+    return {getadd(pbase + poffsets.positX,gg.TYPE_FLOAT)
+    ,getadd(pbase + poffsets.positY,gg.TYPE_FLOAT)
+    ,getadd(pbase + poffsets.positZ,gg.TYPE_FLOAT)}
+  else
+    return {x=getadd(pbase + poffsets.positX,gg.TYPE_FLOAT)
+    ,y=getadd(pbase + poffsets.positY,gg.TYPE_FLOAT)
+    ,z=getadd(pbase + poffsets.positZ,gg.TYPE_FLOAT)}
+  end
+end
+
 function ggrange(vr)
   if andro < 30 then
     --gg.setRanges(vr)
@@ -1209,9 +1227,7 @@ function absflower()
   tmp = {}
   tup = {}
   kj = 0
-  mposit = {getadd(pbase + poffsets.positX,gg.TYPE_FLOAT)
-    ,getadd(pbase + poffsets.positY,gg.TYPE_FLOAT)
-    ,getadd(pbase + poffsets.positZ,gg.TYPE_FLOAT)}
+  mposit = getcoord(true)
   for i = 0,150 do
     jj = eoffsets.nentity + poffsets.wobjs + i*0x210
     if getadd(jj + 0xC,gg.TYPE_FLOAT) == 1 then
@@ -1328,8 +1344,10 @@ function portal(str)
   xr2 = 0
   xar = {}
   xtr = eoffsets.nentity - poffsets.mportal
+  mgc = getcoord(true)
   setstr(xtr + 0x36D0,24,str)
   setstr(xtr - 0x1B,8,'Clear')
+  setadd(xtr + 0x372C,gg.TYPE_DWORD,string.len(str),false)
   xar = {
     --{address = xtr + 0x372C,flags=gg.TYPE_DWORD,value=11},
     {address = xtr - 0x34,flags=gg.TYPE_QWORD,value=49},
@@ -1338,11 +1356,17 @@ function portal(str)
     {address = xtr - 0x90,flags=gg.TYPE_FLOAT,value=80000},
     {address = xtr - 0xA4,flags=gg.TYPE_FLOAT,value=80000},
     {address = xtr - 0x2C,flags=gg.TYPE_DWORD,value=28},
-    {address = xtr - 0x24,flags=gg.TYPE_QWORD,value=xtr + 0x36D0}
+    {address = xtr - 0x24,flags=gg.TYPE_QWORD,value=xtr + 0x36D0},
+    {address = xtr + 0x372C,flags = gg.TYPE_DWORD,value = string.len(str)},
+    --{address = xtr - 0x74,flags = gg.TYPE_FLOAT,value = mgc[1]},
+    --{address = xtr - 0x74 + 0x4,flags = gg.TYPE_FLOAT,value = mgc[2]},
+    --{address = xtr - 0x74 + 0x8,flags = gg.TYPE_FLOAT,value = mgc[3]},
+    {address = xtr,flags = gg.TYPE_DWORD,value = 1}
   }
   gg.setValues(xar)
-  setadd(xtr + 0x372C,gg.TYPE_DWORD,string.len(str),false)
-  setadd(xtr,gg.TYPE_DWORD,1,false)
+  --setadd(xtr + 0x372C,gg.TYPE_DWORD,string.len(str),false)
+  
+  --setadd(xtr,gg.TYPE_DWORD,1,false)
   if psettings.portalspeed then
     gamespeed(8)
     gg.sleep(1000)
@@ -1434,9 +1458,10 @@ function setposit(mx,my,mz)
 end
 
 function getpos()
- px = getadd(pbase + poffsets.positX,gg.TYPE_FLOAT)
- py = getadd(pbase + poffsets.positY,gg.TYPE_FLOAT)
- pz = getadd(pbase + poffsets.positZ,gg.TYPE_FLOAT)
+  pmg = getcoord(true)
+ px = pmg[1]
+ py = pmg[2]
+ pz = pmg[3]
 --print(px,py,pz)
 gg.toast(tostring(px) .. " / " .. tostring(py) .. " / " .. tostring(pz))
 end
@@ -1730,7 +1755,7 @@ function teleplayers()
         table.insert(vsr,'Empty')
       else
         ap = {x=getadd(ght,gg.TYPE_FLOAT),y=getadd(ght+0x4,gg.TYPE_FLOAT),z=getadd(ght+0x8,gg.TYPE_FLOAT)}
-        bp = {x=getadd(pbase+poffsets.positX,gg.TYPE_FLOAT),y=getadd(pbase+poffsets.positY,gg.TYPE_FLOAT),z=getadd(pbase+poffsets.positZ,gg.TYPE_FLOAT)}
+        bp = getcoord(false)
         table.insert(vsr,'['..i..'] wings : '..toint(getadd(ght + 0x5A88,gg.TYPE_FLOAT))..' distance : '..(math.floor(calc3d(bp,ap)*100)/100))
       end
     end
@@ -1750,7 +1775,7 @@ function teleplayers()
     teleparr.enable = true
     gg.setVisible(false)
     xde = {}
-    mpos = {getadd(pbase + poffsets.positX,gg.TYPE_FLOAT), getadd(pbase + poffsets.positY,gg.TYPE_FLOAT), getadd(pbase + poffsets.positZ,gg.TYPE_FLOAT)}
+    mpos = getcoord(true)
     for i=1, 7 do
       xda = pbase + poffsets.positX + (i * 0xFDC0)
       if getadd(xda,gg.TYPE_FLOAT) ~= 0 then
@@ -1773,7 +1798,7 @@ function teleplayers()
         table.insert(vsr,'Empty')
       else
         ap = {x=getadd(ght,gg.TYPE_FLOAT),y=getadd(ght+0x4,gg.TYPE_FLOAT),z=getadd(ght+0x8,gg.TYPE_FLOAT)}
-        bp = {x=getadd(pbase+poffsets.positX,gg.TYPE_FLOAT),y=getadd(pbase+poffsets.positY,gg.TYPE_FLOAT),z=getadd(pbase+poffsets.positZ,gg.TYPE_FLOAT)}
+        bp = getcoord(false)
         table.insert(vsr,'['..i..'] wings : '..toint(getadd(ght + 0x5A88,gg.TYPE_FLOAT))..' distance : '..(math.floor(calc3d(bp,ap)*100)/100))
       end
     end
@@ -1804,7 +1829,7 @@ function teleplayers()
         table.insert(vsr,'Empty')
       else
         ap = {x=getadd(ght,gg.TYPE_FLOAT),y=getadd(ght+0x4,gg.TYPE_FLOAT),z=getadd(ght+0x8,gg.TYPE_FLOAT)}
-        bp = {x=getadd(pbase+poffsets.positX,gg.TYPE_FLOAT),y=getadd(pbase+poffsets.positY,gg.TYPE_FLOAT),z=getadd(pbase+poffsets.positZ,gg.TYPE_FLOAT)}
+        bp = getcoord(false)
         table.insert(vsr,'['..i..'] wings : '..toint(getadd(ght + 0x5A88,gg.TYPE_FLOAT))..' distance : '..(math.floor(calc3d(bp,ap)*100)/100))
       end
     end
@@ -2132,7 +2157,7 @@ function collectcrab(uy)
   frz = true
   eval = {}
   rpoint = eoffsets.nentity - poffsets.ecrabs
-  mpoint = {getadd(pbase+poffsets.positX,gg.TYPE_FLOAT),getadd(pbase+poffsets.positY,gg.TYPE_FLOAT),getadd(pbase+poffsets.positZ,gg.TYPE_FLOAT)}
+  mpoint = getcoord(true)
   if uy == 0 then
     for i=0,50 do
     evalid = getadd(rpoint + (0x640*i)+0x30,gg.TYPE_FLOAT)
@@ -2214,7 +2239,7 @@ function collectkrill(uy)
   frz = true
   eval = {}
   rpoint = eoffsets.nentity - poffsets.ecrabs - 0xC170
-  mpoint = {getadd(pbase+poffsets.positX,gg.TYPE_FLOAT),getadd(pbase+poffsets.positY,gg.TYPE_FLOAT),getadd(pbase+poffsets.positZ,gg.TYPE_FLOAT)}
+  mpoint = getcoord(true)
   if uy == 0 then
     for i=0,50 do
     evalid = getadd(rpoint + (0x640*i)+0x30,gg.TYPE_FLOAT)
@@ -2326,17 +2351,17 @@ function hookui()
     setadd(vtarget,gg.TYPE_DWORD,1,false)
   end
   if cgh == 7 then
-    if getadd(vtarget - 0xC208,gg.TYPE_DWORD) == 0 then
-      setadd(vtarget - 0xC208,gg.TYPE_DWORD,1,false)
+    if getadd(vtarget - 0xC208 + 0x30,gg.TYPE_DWORD) == 0 then
+      setadd(vtarget - 0xC208 + 0x30,gg.TYPE_DWORD,1,false)
     else
-      setadd(vtarget - 0xC208,gg.TYPE_DWORD,0,false)
+      setadd(vtarget - 0xC208 + 0x30,gg.TYPE_DWORD,0,false)
     end
   end
   if cgh == 8 then
-    if isfreeze(vtarget - 0xC208) then
-      setadd(vtarget - 0xC208,gg.TYPE_DWORD,0,false)
+    if isfreeze(vtarget - 0xC208 + 0x30) then
+      setadd(vtarget - 0xC208 + 0x30,gg.TYPE_DWORD,0,false)
       else
-      setadd(vtarget - 0xC208,gg.TYPE_DWORD,0,true)
+      setadd(vtarget - 0xC208 + 0x30,gg.TYPE_DWORD,0,true)
     end
   end
   if cgh == 9 then
@@ -3658,7 +3683,7 @@ function telemenu()
   if xh == 2 then
       gg.setVisible(false)
     xde = {}
-    mpos = {getadd(pbase + poffsets.positX,gg.TYPE_FLOAT), getadd(pbase + poffsets.positY,gg.TYPE_FLOAT), getadd(pbase + poffsets.positZ,gg.TYPE_FLOAT)}
+    mpos = getcoord(true)
     for i=1, 7 do
       xda = pbase + poffsets.positX + (i * 0xFDC0)
       for d=0,2 do
