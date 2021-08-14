@@ -5,7 +5,7 @@
 
 
 gg.toast('FuckChina Loaded')
-ddd = "c21.08.13"
+ddd = "a21.08.14"
 pshare = ''
 umenu = true
 fasthome = true
@@ -49,7 +49,6 @@ reached = ''
 
 pbase = 0x00
 prange = {a = 0,b = -1}
-pui = '9f9a41cd98bb22afe63b2ce2ede9b9eed9'
 rbootloader = gg.getRangesList('libBootloader.so')[1].start
 poffsets = {
   sival = -1096122630,
@@ -399,9 +398,9 @@ pid = {
        {1079120316,"Bookcase"},
        {1994487329,"Hammock"},
        {-1762117817,"Torch"},
-       {-1513173800,"Rain Shelter"},
+       {-1513173800,"Tent"},
        {-2094712299,"lantern?"},
-       {1661108877,"A frame"},
+       {1661108877,"Hoop"},
        {3314486409, "Tea table"},
        {351343999,'Rose'},
        {638976622,'Star lamp'},
@@ -410,6 +409,12 @@ pid = {
        {1638144370,'Ocarina'},
        {-2058340788,'Yellow Umbrella'},
        {1480625729,'Double Chair'},
+       {-1352265746,'Wooden Double chair'},
+       {1192794220,'Pipe'},
+       {9427151,'Beach ball'},
+       {-1192675672,'Beach bed'},
+       {1793801900,'Stone fire'},
+       {313507026,'Mini stone fire'},
        {2035109393,"Nothing"}
 }
 
@@ -1158,7 +1163,7 @@ function getemote()
     cd1 = addtostr(xd,12)
     cd2 = addtostr(xd + 0x18,12)
     cd3 = addtostr(xd + 0x30,24)
-    cd4 = getadd(xd + 0xD7,gg.TYPE_DWORD)
+    cd4 = getadd(xd + 0xD7 - 0x10,gg.TYPE_DWORD)
     cd5 = addtostr(xd + 0x60,24)
     table.insert(emotelist,{cd1,cd2,cd3,xd,cd4,cd5})
   end
@@ -2132,7 +2137,7 @@ function dumpdata()
   end
  xcv = gg.getResults(1)[1].address
  for i = 0, 512 do
-   xbv = xcv + (0x6C0 * i)
+   xbv = xcv + (0x6D0 * i)
    if getadd(xbv,gg.TYPE_DWORD) == 0 then 
      break;
    end
@@ -3440,10 +3445,8 @@ function crmenu()
     return;
   end
   hq = getmap()
-  vhq = gg.toast
   --gg.toast(#crlist)
   if #crarray == 0 then
-    --vhq(fbyte(pui,poffsets.sival,poffsets.rrace))
     crset.map = hq
     crset.level = 0
     for k,v in ipairs(crlist) do
