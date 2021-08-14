@@ -5,7 +5,7 @@
 
 
 gg.toast('FuckChina Loaded')
-ddd = "a21.08.14"
+ddd = "b21.08.14"
 pshare = ''
 umenu = true
 fasthome = true
@@ -74,7 +74,7 @@ poffsets = {
   uemote = -0x43D50,
   eflowers = 0xB266B8,
   pshout = 0x22DE0,
-  pdamage = 0x2244C,
+  pdamage = 0x2245C,
   wwings = 0x4E069C,
   wobjs = 0x8F88D4,
   wbtns = 0x91E178,
@@ -994,8 +994,10 @@ eoffsets.ncamera = eoffsets.nentity - poffsets.gcamera
 gg.clearResults()
 gg.toast('\n𝙉𝙤 𝙋𝙖𝙞𝙣 𝙔𝙚𝙨 𝙂𝙖𝙞𝙣\n' .. ddd .. ' by Kel')
   
+if psettings.nodamage then
+  setadd(pbase + poffsets.pdamage,gg.TYPE_DWORD,0,true)
+end
 
-setadd(pbase + poffsets.pdamage,gg.TYPE_DWORD,0,true)
 getpatch()
 print('𝙉𝙤 𝙋𝙖𝙞𝙣 𝙔𝙚𝙨 𝙂𝙖𝙞𝙣\n')
 end
