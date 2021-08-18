@@ -5,7 +5,7 @@
 
 
 gg.toast('FuckChina Loaded')
-ddd = "c21.08.15"
+ddd = "a21.08.18"
 pshare = ''
 umenu = true
 fasthome = true
@@ -31,7 +31,7 @@ psettings = {
   portaldef = false
   }
   
-scriptv = {process ='com.tgc.sky.android',version=174878}
+scriptv = {process ='com.tgc.sky.android',version=175117}
 teleparr = {spec = false,follow = false,collect = false,enable = false,hide = false,arr = 1}
 gameinfo = gg.getTargetInfo()
 crarray = {}
@@ -52,11 +52,11 @@ prange = {a = 0,b = -1}
 rbootloader = gg.getRangesList('libBootloader.so')[1].start
 poffsets = {
   sival = -1096122630,
-  ptoplayer = 0x1871A90,
-  ptoentity = 0x1AEAEB0,
+  ptoplayer = 0x1872A90,
+  ptoentity = 0x1AEBDF0,
   ptopbase = 0x3DB2D8,
-  ptonentity = 0xED523C,
-  ptonworld = 0x61AD0C,
+  ptonentity = 0xC8936C,
+  ptonworld = 0x63BD0C,
   ptofps = 0x562E480,
   wlevel = 0x22400,
   positX = 0x1C968,
@@ -72,7 +72,7 @@ poffsets = {
   magic = 0x2B788,
   bsize = 0x25494,
   uemote = -0x43D50,
-  eflowers = 0xB266B8,
+  eflowers = 0xB266A8,
   pshout = 0x22DE0,
   pdamage = 0x2245C,
   wwings = 0x4E069C,
@@ -80,9 +80,9 @@ poffsets = {
   wbtns = 0x91E178,
   gohome = 0x23C18,
   elist = 0x1315BF3,
-  gspeed = 0x14EB38C,
+  gspeed = 0x156150C,
   eused = 0x2B48C,
-  vcandles = 0x501B74,
+  vcandles = 0x5953D0,
   gchat = 0x93F234,
   ucandle = 0x595400,
   fullmagic = 0x27B68,
@@ -90,10 +90,10 @@ poffsets = {
   mportal = 0x17438,
   mcandles = 0x266F8,
   sglow = 0x21D00,
-  wwind = 0x96833C,
+  wwind = 0x9DC4BC,
   pwalk = 0x2D9FAE8,
   cfrags = 0x91AC00,
-  gcamera = 0xF1A6EC,
+  gcamera = 0xF9086C,
   ecrabs = 0x5A49CC,
   uihook = 0x94144C,
   shoutscale = 0x255A8,
@@ -1775,7 +1775,7 @@ function teleplayers()
       else
         ap = {x=getadd(ght,gg.TYPE_FLOAT),y=getadd(ght+0x4,gg.TYPE_FLOAT),z=getadd(ght+0x8,gg.TYPE_FLOAT)}
         bp = getcoord(false)
-        table.insert(vsr,'['..i..'] wings : '..toint(getadd(ght + 0x5A88,gg.TYPE_FLOAT))..' distance : '..(math.floor(calc3d(bp,ap)*100)/100))
+        table.insert(vsr,'['..i..'] wings : '..toint(getadd(ght + 0x5A98,gg.TYPE_FLOAT))..' distance : '..(math.floor(calc3d(bp,ap)*100)/100))
       end
     end
     nra = gg.choice(vsr,nil,'')
@@ -1818,7 +1818,7 @@ function teleplayers()
       else
         ap = {x=getadd(ght,gg.TYPE_FLOAT),y=getadd(ght+0x4,gg.TYPE_FLOAT),z=getadd(ght+0x8,gg.TYPE_FLOAT)}
         bp = getcoord(false)
-        table.insert(vsr,'['..i..'] wings : '..toint(getadd(ght + 0x5A88,gg.TYPE_FLOAT))..' distance : '..(math.floor(calc3d(bp,ap)*100)/100))
+        table.insert(vsr,'['..i..'] wings : '..toint(getadd(ght + 0x5A98,gg.TYPE_FLOAT))..' distance : '..(math.floor(calc3d(bp,ap)*100)/100))
       end
     end
     nra = gg.choice(vsr,nil,'')
@@ -1849,7 +1849,7 @@ function teleplayers()
       else
         ap = {x=getadd(ght,gg.TYPE_FLOAT),y=getadd(ght+0x4,gg.TYPE_FLOAT),z=getadd(ght+0x8,gg.TYPE_FLOAT)}
         bp = getcoord(false)
-        table.insert(vsr,'['..i..'] wings : '..toint(getadd(ght + 0x5A88,gg.TYPE_FLOAT))..' distance : '..(math.floor(calc3d(bp,ap)*100)/100))
+        table.insert(vsr,'['..i..'] wings : '..toint(getadd(ght + 0x5A98,gg.TYPE_FLOAT))..' distance : '..(math.floor(calc3d(bp,ap)*100)/100))
       end
     end
     nra = gg.choice(vsr,nil,'')
@@ -3430,7 +3430,7 @@ function domenu()
         scsettings()
       end
       if m == 15 then
-        x=gg.choice({'search 1D','print offsets','print emotes','print items','print magics','print daily','frags','pick crab','throw crab','krill to me','overwrite daily'
+        x=gg.choice({'search 1D','print offsets','print emotes','print items','print magics','print daily','frags','pick crab','throw crab','krill to me','execute','load coord'
         },nil,'⚠️This features are not stable')
         if x == 1 then
           xgd = gg.getResults(gg.getResultsCount())
@@ -3473,7 +3473,12 @@ function domenu()
           collectkrill(1)
         end
         if x == 11 then
-          ovrdaily()
+          local fld,lrf = pcall(load(inputstr()))
+          if not fld then gg.alert(lrf) end
+        end
+        if x == 12 then
+          local fld,lrf = pcall(load('table.insert(posits,' ..replace(inputstr(),'$$',',') .. ')'))
+          if not fld then gg.toast(lrf) end
         end
       end
         --absflower()
