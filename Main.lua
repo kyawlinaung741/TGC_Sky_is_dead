@@ -5,7 +5,7 @@
 
 
 gg.toast('FuckChina Loaded')
-ddd = "b21.08.18"
+ddd = "c21.08.18"
 pshare = ''
 umenu = true
 fasthome = true
@@ -92,7 +92,7 @@ poffsets = {
   sglow = 0x21D00,
   wwind = 0x9DC4BC,
   pwalk = 0x2D9FAE8,
-  cfrags = 0x91AC00,
+  cfrags = 0x91ABD0,
   gcamera = 0xF9086C,
   ecrabs = 0x5A49CC,
   uihook = 0x94143C,
