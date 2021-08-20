@@ -3230,7 +3230,7 @@ function domenu()
            'Upgrade all emotes'
            ,'Change special emotes'
            ,'Change all emotes'
-         },nil,'')
+         },nil,'❌This features got patched by tgc❌')
        if x == 1 then
          gg.setVisible(false)
          upemote()
