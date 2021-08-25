@@ -628,6 +628,7 @@ posits = {
 {map='StormStart',name='Skip',x=-2,y=196,z=-19},
 {map='StormEnd',name='White Child',x=803.8466796875,y=0.6778343915939331,z=-11.73253059387207},
 {map='OrbitMid',name='Skip',x=923.1694946289062,y=2764.83251953125,z=146.8410186767578},
+{map='OrbitMid',name='Stones OOB',x=184.6337890625,y=1345.392333984375,z=-831.4788818359375},
 {map='OrbitEnd',name='Skip',x=-42.1104621887207,y=2465.890380859375,z=2261.208251953125},
 {map='Prairie_Cave',name='paintingoob',x=280.9242858886719,y=166.0093231201172,z=191.56130981445312},
 {map='Prairie_Cave',name='castle_oob',x=133.543701171875,y=308.047607421875,z=494.5435791015625},
@@ -659,8 +660,8 @@ posits = {
 {map='Prairie_Cave',name='Prairie Butterfly Field',x=192.0,y=171.0,z=12.0},
 {map='Prairie_Cave',name='Prairie Village',x=243.0,y=198.0,z=226.0},
 {map='DayEnd',name='Prairie Village',x=-62.0,y=85.0,z=41.0},
-{map='DayEnd',name='Hidden Forest',x=-134.0,y=109.0,z=41.0},
-{map='Prairie_NestAndKeeper',name='Prairie Village',x=-105,y=185.0,z=176.0},
+{map='Prairie_NestAndKeeper',name='Prairie Village',x=-109.54730224609375,y=184.3603515625,z=168.52159118652344},
+{map='DayEnd',name='Hidden Forest',x=-126.30734252929688,y=105.23834991455078,z=41.5018310546875},
 {map='Prairie_NestAndKeeper',name='Prairie Butterfly field',x=-49.0,y=163.0,z=37.0},
 {map='Prairie_NestAndKeeper',name='Sanctuary Islands',x=-358.0,y=127.0,z=109.0},
 {map='Prairie_Island',name='Dirty Water',x=142.66439819335938,y=2.3796894550323486,z=417.6568603515625},
@@ -725,5 +726,8 @@ posits = {
 {map='NightDesert',name='Throne',x=399.643310546875,y=92.43084716796875,z=778.90869140625},
 {map='NightDesert',name='BigBooks',x=408.36773681640625,y=154.7767791748047,z=1037.8370361328125},
 {map='NightDesert',name='Floating Eggrock',x=144.13259887695312,y=45.12910461425781,z=770.6494750976562},
-{map='CandleSpace',name='black_room_island',x=-401.7143859863281,y=14.144501686096191,z=413.95562744140625}
+{map='CandleSpace',name='black_room_island',x=-401.7143859863281,y=14.144501686096191,z=413.95562744140625},
+{map='NightDesertBeach',name='jelly',x=-5397,73779296875,y=2580,5859375,z=6082,1962890625},
+{map='NightDesert',name='To Infinite Desert',x=-21.14558982849121,y=9.46289348602295,z=547.5945434570312},
+{map='Night_InfiniteDesert',name='Back to desert',x=635.3980712890625,y=54.36724853515625,z=-85.38371276855469}
 }
