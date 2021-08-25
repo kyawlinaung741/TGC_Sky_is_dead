@@ -5,7 +5,7 @@
 
 
 gg.toast('FuckChina Loaded')
-ddd = "a21.08.24"
+ddd = "a21.08.25"
 pshare = ''
 umenu = true
 fasthome = true
@@ -31,7 +31,8 @@ psettings = {
   portaldef = false,
   fhspeed = 100,
   cmimage = 1,
-  aeleven = false
+  aeleven = false,
+  ufps = 30
   }
   
 scriptv = {process ='com.tgc.sky.android',version=175117}
@@ -313,7 +314,7 @@ cworld = {
     {"⚠️Eden rebirt1⚠️", 'OrbitMid'},
     {"⚠️Eden rebirth2⚠️", 'OrbitEnd'},
     {"⚠️Heaven⚠️", 'CandleSpaceEnd'},
-    {"⚠️Credit⚠️", 'Credit'},
+    {"⚠️Credit⚠️", 'Credits'},
  }
  
  doors = {
@@ -712,6 +713,9 @@ function loadsave()
     if psettings.aeleven == nil then
       psettings.aeleven = false
     end
+    if psettings.ufps == nil then
+      psettings.ufps = 30
+    end
   end
 end
 
@@ -1055,7 +1059,11 @@ end
 if psettings.nodamage then
   setadd(pbase + poffsets.pdamage,gg.TYPE_DWORD,0,true)
 end
-
+if psettings.fasthome then
+  fasthome = true
+end
+eoffsets.gframe = getadd(rbootloader + poffsets.ptofps,gg.TYPE_QWORD) + 0x160
+setadd(eoffsets.gframe,gg.TYPE_FLOAT,psettings.ufps,false)
 getpatch()
 print('𝙉𝙤 𝙋𝙖𝙞𝙣 𝙔𝙚𝙨 𝙂𝙖𝙞𝙣\n')
 end
@@ -1163,7 +1171,7 @@ end
 function ggrange(vr)
   if psettings.aeleven then
     if vr ~= gg.REGION_CODE_APP then
-      gg.setRanges(gg.REGION_OTHER)
+      gg.setRanges(vr | gg.REGION_OTHER)
     else
       gg.setRanges(vr)
     end
@@ -1180,21 +1188,21 @@ function echange(boo)
   for i,v in ipairs(emotelist) do
     if v[5] == 2089048596 then
       setadd(v[4]+0xD7-0x10,gg.TYPE_DWORD,1251050323,false)
-      --setstr(v[4]+0x60,24,'UiSocialPlayfight')
+      setstr(v[4]+0x60-0x18,24,'UiSocialPlayfight')
       hitarr[1] = v[4]
     end
     if v[5] == -1968658055 then
       setadd(v[4]+0xD7-0x10,gg.TYPE_DWORD,145501185,false)
-      --setstr(v[4]+0x60,24,'UiEmoteSocialBearHug')
+      setstr(v[4]+0x60-0x18,24,'UiEmoteSocialBearHug')
       hitarr[2] = v[4]
     end
   end
   else
     setadd(hitarr[1]+0xD7-0x10,gg.TYPE_DWORD,2089048596,false)
-    --setstr(hitarr[1]+0x60,24,'UiEmoteAP10Bubbles')
+    setstr(hitarr[1]+0x60-0x18,24,'UiEmoteAP10Bubbles')
       
     setadd(hitarr[2]+0xD7-0x10,gg.TYPE_DWORD,-1968658055,false)
-    --setstr(hitarr[2]+0x60,24,'UiEmoteAP08DeepBreath')
+    setstr(hitarr[2]+0x60-0x18,24,'UiEmoteAP08DeepBreath')
   end
 end
 
@@ -1228,7 +1236,7 @@ function getemote()
     cd2 = addtostr(xd + 0x18,12)
     cd3 = addtostr(xd + 0x30,24)
     cd4 = getadd(xd + 0xD7 - 0x10,gg.TYPE_DWORD)
-    cd5 = addtostr(xd + 0x60,24)
+    cd5 = addtostr(xd + 0x60 - 0x18,24)
     table.insert(emotelist,{cd1,cd2,cd3,xd,cd4,cd5})
   end
   epoint = pbase + poffsets.uemote
@@ -2724,7 +2732,8 @@ function scsettings()
     'Use legacy map changer : ' .. boolling(psettings.portaldef),
     'Fasthome speed : ' .. psettings.fhspeed,
     'Change map image : ' .. imgs[psettings.cmimage],
-    'Android 11(Testing) : ' .. boolling(psettings.aeleven)
+    'Android 11(Testing) : ' .. boolling(psettings.aeleven),
+    'Fps : ' .. psettings.ufps
   },nil,'')
   if xcs == nil then return; end
   if xcs == 1 then
@@ -2777,6 +2786,9 @@ function scsettings()
   end
   if xcs == 16 then
     psettings.aeleven = toggle(psettings.aeleven)
+  end
+  if xcs == 17 then
+    psettings.ufps = inputnum(30)
   end
   savedata()
   scsettings()
@@ -3085,7 +3097,7 @@ function domenu()
            '🚹No knockdown',
            '🔥Auto burn',
            '🌬Remove wind wall',
-           '🏠Faster return to home',
+           '🏠Fast home/candles',
            '🔦Light multiply'
          },nil,'')
           if x == 1 then 
@@ -3120,8 +3132,10 @@ function domenu()
           if eoffsets.gframe == 0x00 then
             eoffsets.gframe = getadd(rbootloader + poffsets.ptofps,gg.TYPE_QWORD) + 0x160
           end
-          setadd(eoffsets.gframe,gg.TYPE_FLOAT,inputnum(30),false)
-          
+          vframe = inputnum(30)
+          setadd(eoffsets.gframe,gg.TYPE_FLOAT,vframe,false)
+          psettings.ufps = vframe
+          savedata()
         end
         if x == 9 then 
            setadd(pbase + poffsets.bsize,gg.TYPE_FLOAT,inputnum(0),true)
