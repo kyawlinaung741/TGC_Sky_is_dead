@@ -5,12 +5,13 @@
 
 
 gg.toast('FuckChina Loaded')
-ddd = "a21.08.24"
+ddd = "b21.08.25"
 pshare = ''
 umenu = true
 fasthome = true
 fastvalue = false
 echanged = false
+teleping = false
 fastmax = 0
 crset = {enable = false, level = 0, map = ''}
 wrset = {enable = false, level = 0, map = ''}
@@ -31,7 +32,8 @@ psettings = {
   portaldef = false,
   fhspeed = 100,
   cmimage = 1,
-  aeleven = false
+  aeleven = false,
+  ufps = 30
   }
   
 scriptv = {process ='com.tgc.sky.android',version=175117}
@@ -313,7 +315,7 @@ cworld = {
     {"⚠️Eden rebirt1⚠️", 'OrbitMid'},
     {"⚠️Eden rebirth2⚠️", 'OrbitEnd'},
     {"⚠️Heaven⚠️", 'CandleSpaceEnd'},
-    {"⚠️Credit⚠️", 'Credit'},
+    {"⚠️Credit⚠️", 'Credits'},
  }
  
  doors = {
@@ -712,6 +714,9 @@ function loadsave()
     if psettings.aeleven == nil then
       psettings.aeleven = false
     end
+    if psettings.ufps == nil then
+      psettings.ufps = 30
+    end
   end
 end
 
@@ -1055,7 +1060,13 @@ end
 if psettings.nodamage then
   setadd(pbase + poffsets.pdamage,gg.TYPE_DWORD,0,true)
 end
-
+if psettings.fasthome then
+  fasthome = true
+  else
+  fasthome = false
+end
+eoffsets.gframe = getadd(rbootloader + poffsets.ptofps,gg.TYPE_QWORD) + 0x160
+setadd(eoffsets.gframe,gg.TYPE_FLOAT,psettings.ufps,false)
 getpatch()
 print('𝙉𝙤 𝙋𝙖𝙞𝙣 𝙔𝙚𝙨 𝙂𝙖𝙞𝙣\n')
 end
@@ -1163,7 +1174,7 @@ end
 function ggrange(vr)
   if psettings.aeleven then
     if vr ~= gg.REGION_CODE_APP then
-      gg.setRanges(gg.REGION_OTHER)
+      gg.setRanges(vr | gg.REGION_OTHER)
     else
       gg.setRanges(vr)
     end
@@ -1180,21 +1191,21 @@ function echange(boo)
   for i,v in ipairs(emotelist) do
     if v[5] == 2089048596 then
       setadd(v[4]+0xD7-0x10,gg.TYPE_DWORD,1251050323,false)
-      --setstr(v[4]+0x60,24,'UiSocialPlayfight')
+      setstr(v[4]+0x60-0x18,24,'UiSocialPlayfight')
       hitarr[1] = v[4]
     end
     if v[5] == -1968658055 then
       setadd(v[4]+0xD7-0x10,gg.TYPE_DWORD,145501185,false)
-      --setstr(v[4]+0x60,24,'UiEmoteSocialBearHug')
+      setstr(v[4]+0x60-0x18,24,'UiEmoteSocialBearHug')
       hitarr[2] = v[4]
     end
   end
   else
     setadd(hitarr[1]+0xD7-0x10,gg.TYPE_DWORD,2089048596,false)
-    --setstr(hitarr[1]+0x60,24,'UiEmoteAP10Bubbles')
+    setstr(hitarr[1]+0x60-0x18,24,'UiEmoteAP10Bubbles')
       
     setadd(hitarr[2]+0xD7-0x10,gg.TYPE_DWORD,-1968658055,false)
-    --setstr(hitarr[2]+0x60,24,'UiEmoteAP08DeepBreath')
+    setstr(hitarr[2]+0x60-0x18,24,'UiEmoteAP08DeepBreath')
   end
 end
 
@@ -1228,7 +1239,7 @@ function getemote()
     cd2 = addtostr(xd + 0x18,12)
     cd3 = addtostr(xd + 0x30,24)
     cd4 = getadd(xd + 0xD7 - 0x10,gg.TYPE_DWORD)
-    cd5 = addtostr(xd + 0x60,24)
+    cd5 = addtostr(xd + 0x60 - 0x18,24)
     table.insert(emotelist,{cd1,cd2,cd3,xd,cd4,cd5})
   end
   epoint = pbase + poffsets.uemote
@@ -1738,7 +1749,9 @@ function dorace()
 end
 
 function espam()
-  if mslot[1] == 'none' then return; end
+  if getadd(pbase + (poffsets.magic + 0x30),gg.TYPE_DWORD) == 0 then 
+    pmagic(1,1750685908,0)
+  end
   adr = pbase + poffsets.magic + 0x28
   --gg.toast(tostring(isfreeze(adr)))
   if isfreeze(adr) then
@@ -2519,6 +2532,7 @@ function hookui()
       setadd(vtarget - 0xC208 + 0x30,gg.TYPE_DWORD,0,true)
     end
   end
+  ThisScriptMadeBy = 'Kel'
   if cgh == 9 then
     huiset = false
     domenu()
@@ -2724,7 +2738,8 @@ function scsettings()
     'Use legacy map changer : ' .. boolling(psettings.portaldef),
     'Fasthome speed : ' .. psettings.fhspeed,
     'Change map image : ' .. imgs[psettings.cmimage],
-    'Android 11(Testing) : ' .. boolling(psettings.aeleven)
+    'Android 11(Testing) : ' .. boolling(psettings.aeleven),
+    'Fps : ' .. psettings.ufps
   },nil,'')
   if xcs == nil then return; end
   if xcs == 1 then
@@ -2777,6 +2792,9 @@ function scsettings()
   end
   if xcs == 16 then
     psettings.aeleven = toggle(psettings.aeleven)
+  end
+  if xcs == 17 then
+    psettings.ufps = inputnum(30)
   end
   savedata()
   scsettings()
@@ -2927,8 +2945,10 @@ function domenu()
          r=gg.choice(y,nil,'Fasthome feature will be disabled! ')
          if (r ~= nil) then 
            gg.setVisible(false)
-           if psettings.fhspeed > 1 then
+           if psettings.fhspeed > 1 and fasthome and not teleping then
             fasthome = false
+            teleping = true
+            gg.toast('Fast home disabled')
            end
            xre = eoffsets.nentity - poffsets.wingmap
            setadd(xre,gg.TYPE_QWORD,49,false)
@@ -2943,8 +2963,8 @@ function domenu()
             setstr(eoffsets.nentity - poffsets.wingmap + 0x36D0,24,cworld[r][2])
           end
            setadd(pbase + poffsets.ewing,gg.TYPE_DWORD,1973407668,false)
-           gg.toast('Use your wing to change map')
          end
+         WhyYouRemoveThisLine = 'by ExMachina'
       	end
       	if x == 4 then 
       	   y={}
@@ -3085,7 +3105,7 @@ function domenu()
            '🚹No knockdown',
            '🔥Auto burn',
            '🌬Remove wind wall',
-           '🏠Faster return to home',
+           '🏠Fast home/candles',
            '🔦Light multiply'
          },nil,'')
           if x == 1 then 
@@ -3120,8 +3140,10 @@ function domenu()
           if eoffsets.gframe == 0x00 then
             eoffsets.gframe = getadd(rbootloader + poffsets.ptofps,gg.TYPE_QWORD) + 0x160
           end
-          setadd(eoffsets.gframe,gg.TYPE_FLOAT,inputnum(30),false)
-          
+          vframe = inputnum(30)
+          setadd(eoffsets.gframe,gg.TYPE_FLOAT,vframe,false)
+          psettings.ufps = vframe
+          savedata()
         end
         if x == 9 then 
            setadd(pbase + poffsets.bsize,gg.TYPE_FLOAT,inputnum(0),true)
@@ -4030,6 +4052,11 @@ while true do
     end
   end
   if gg.isVisible(true) then
+    if teleping then
+      gg.toast('Fast home enabled')
+      teleping = false
+      fasthome = true
+    end
     if umenu and psettings.showmenu then
       umenu = false
       if crset.enable then
