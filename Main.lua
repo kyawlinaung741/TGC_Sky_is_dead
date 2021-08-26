@@ -1033,7 +1033,7 @@ mm = {}
  if gg.getResultsCount() > 3 then
  nn = gg.getResults(5)[4].address
  gg.clearResults()
- setstr(nn,27,'by ExMachina')
+ setstr(nn,27,'Kyaw')
  end
  ggrange(4)
  --[[
@@ -3146,7 +3146,7 @@ function domenu()
           savedata()
         end
         if x == 9 then 
-           setadd(pbase + poffsets.bsize,gg.TYPE_FLOAT,inputnum(0),true)
+           setadd(pbase + poffsets.bsize,gg.TYPE_FLOAT,inputnum(30),true)
         end
         if x == 10 then
           adr = pbase + poffsets.pose
