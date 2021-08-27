@@ -2965,7 +2965,7 @@ function domenu()
           end
            setadd(pbase + poffsets.ewing,gg.TYPE_DWORD,1973407668,false)
          end
-         WhyYouRemoveThisLine = 'by ExMachina'
+         WhyYouRemoveThisLine = 'Kyaw'
       	end
       	if x == 4 then 
       	   y={}
