@@ -5,7 +5,7 @@
 
 
 gg.toast('FuckChina Loaded')
-ddd = "a21.08.27"
+ddd = "a21.08.28"
 pshare = ''
 umenu = true
 fasthome = true
@@ -91,7 +91,7 @@ poffsets = {
   eused = 0x2B48C,
   vcandles = 0x501B44,
   gchat = 0x93F224,
-  ucandle = 0x595400,
+  ucandle = 0x5953D0,
   fullmagic = 0x27B68,
   mymagic = 0x23A18,
   mportal = 0x17438,
@@ -137,7 +137,8 @@ eoffsets = {
   gframe = 0x00,
   gspirits = 0x00,
   pdesk = 0x00,
-  glight = 0x00
+  glight = 0x00,
+  wlight = 0x00
 }
 mid = {
   {'💫Small',1692428656,0},
@@ -228,6 +229,8 @@ mid = {
 {'🆕️Recliner',2875484078,0},
 {'🆕️Golden Cape',330655056,1},
 {'🆕️Kizuna AI Call',2413103828,0},
+{'🆕️Small rabit',-848739711,0},
+{'🆕️Winter piano',-1202427550,0},
  {'❌none',0,0}
 };
 windwallset = {
@@ -839,6 +842,7 @@ function startup()
   eoffsets.glight = eoffsets.sspeed - 0x1C134
   eoffsets.wforce = eoffsets.sspeed + 0x530
   eoffsets.jforce = eoffsets.sspeed + 0x638
+  eoffsets.wlight = eoffsets.sspeed - 0x3FD08
   --[[
   ggrange(gg.REGION_C_DATA)
 gg.searchNumber("3.5", gg.TYPE_FLOAT)
@@ -2407,18 +2411,17 @@ end
 function collectkrill(uy)
   frz = true
   eval = {}
+  pattern = 0x2B0
   rpoint = eoffsets.nentity - poffsets.ecrabs - 0xC170
   mpoint = getcoord(true)
   if uy == 0 then
-    for i=0,50 do
-    evalid = getadd(rpoint + (0xC80*i)+0x30,gg.TYPE_FLOAT)
+    for i=0,10 do
+    evalid = getadd(rpoint + (pattern*i)+0x30,gg.TYPE_FLOAT)
     if evalid == 0 then
       break
     end
     --eposit = {getadd(rpoint + (0xC80*i),gg.TYPE_FLOAT),getadd(rpoint + (0xC80*i)+0x4,gg.TYPE_FLOAT),getadd(rpoint + (0xC80*i)+0x8,gg.TYPE_FLOAT)}
-    table.insert(eval,{address=rpoint + (0xC80*i),flags=gg.TYPE_FLOAT,value=-999,freeze=true,name='krillX'})
-    table.insert(eval,{address=rpoint + (0xC80*i)+0x4,flags=gg.TYPE_FLOAT,value=-999,freeze=true,name='krillY'})
-    table.insert(eval,{address=rpoint + (0xC80*i)+0x8,flags=gg.TYPE_FLOAT,value=-999,freeze=true,name='krillZ'})
+    table.insert(eval,{address=rpoint + (pattern*i)+0x4,flags=gg.TYPE_FLOAT,value=-999,freeze=true,name='krillY'})
     end
 if #eval == 0 then return; end
   --gg.setValues(eval)
@@ -2432,17 +2435,62 @@ if #eval == 0 then return; end
   return;
   end
   if uy == 1 then
-    for i=0,50 do
+    for i=0,10 do
     --detec : 1D0
-    evalid = getadd(rpoint + (0xC80*i),gg.TYPE_FLOAT)
+    evalid = getadd(rpoint + (pattern*i),gg.TYPE_FLOAT)
     if evalid == 0 then
       break
     end
-      table.insert(eval,{address=rpoint + (0xC80*i),flags=gg.TYPE_FLOAT,value=mpoint[1]})
-      table.insert(eval,{address=rpoint + (0xC80*i)+0x4,flags=gg.TYPE_FLOAT,value=mpoint[2]})
-      table.insert(eval,{address=rpoint + (0xC80*i)+0x8,flags=gg.TYPE_FLOAT,value=mpoint[3]})
+      table.insert(eval,{address=rpoint + (pattern*i),flags=gg.TYPE_FLOAT,value=mpoint[1]})
+      table.insert(eval,{address=rpoint + (pattern*i)+0x4,flags=gg.TYPE_FLOAT,value=mpoint[2]})
+      table.insert(eval,{address=rpoint + (pattern*i)+0x8,flags=gg.TYPE_FLOAT,value=mpoint[3]})
     end
     gg.setValues(eval)
+    return;
+  end
+  if uy == 2 then
+    for i=0,10 do
+    --detec : 1D0
+    evalid = getadd(rpoint + (pattern*i),gg.TYPE_FLOAT)
+    if evalid == 0 then
+      break
+    end
+    if isfreeze(rpoint+(pattern*i)+0x24) then
+      setadd(rpoint+(pattern*i)+0x24,gg.TYPE_FLOAT,0,false)
+    else
+      setadd(rpoint+(pattern*i)+0x24,gg.TYPE_FLOAT,0,true)
+    end
+    end
+    return;
+  end
+  if uy == 3 then
+    for i=0,10 do
+    --detec : 1D0
+    evalid = getadd(rpoint + (pattern*i),gg.TYPE_FLOAT)
+    if evalid == 0 then
+      break
+    end
+    if isfreeze(rpoint+(pattern*i)+0x1AC) then
+      setadd(rpoint+(pattern*i)+0x1AC,gg.TYPE_DWORD,257,false)
+    else
+      setadd(rpoint+(pattern*i)+0x1AC,gg.TYPE_DWORD,257,true)
+    end
+    end
+    return;
+  end
+  if uy == 4 then
+    for i=0,10 do
+    --detec : 1D0
+    evalid = getadd(rpoint + (pattern*i),gg.TYPE_FLOAT)
+    if evalid == 0 then
+      break
+    end
+    if isfreeze(rpoint+(pattern*i)+0x1AC) then
+      setadd(rpoint+(pattern*i)+0x1AC,gg.TYPE_DWORD,258,false)
+    else
+      setadd(rpoint+(pattern*i)+0x1AC,gg.TYPE_DWORD,258,true)
+    end
+    end
     return;
   end
 end
@@ -2910,8 +2958,8 @@ function domenu()
       	,'☁️Show/Hide clouds'
       	,'⏫Warp up'
       	,'⏬Warp down'
-      	,'☢Collect crabs'
-      	,'🍴Remove crabs'
+      	,'🦀Crabs'
+      	,'🦐Krills'
       	,'🚪Remove map changes/limits'
       	,'Set Warp distance'
       	,'Set breaching hotkey'
@@ -2943,7 +2991,7 @@ function domenu()
           table.insert(y,cworld[i][1])
         end
         table.insert(y,'⚠️Crash game')
-         r=gg.choice(y,nil,'Fasthome feature will be disabled! ')
+         r=gg.choice(y,nil,'Select map and use your wing! ')
          if (r ~= nil) then 
            gg.setVisible(false)
            if psettings.fhspeed > 1 and fasthome and not teleping then
@@ -3052,12 +3100,27 @@ function domenu()
           gg.setVisible(false)
       end
       if x == 14 then
+        xfr = gg.choice({'Collect all','Remove all'})
         gg.setVisible(false)
-        collectcrab(1)
+        if xfr == 1 then
+          collectcrab(1)
+        elseif xfr == 2 then
+          collectcrab(0)
+        end
+        
       end
       if x == 15 then
+        xfr = gg.choice({'Collect all','Remove all','Idiot'})
         gg.setVisible(false)
-        collectcrab(0)
+        if xfr == 1 then
+          collectkrill(1)
+        elseif xfr == 2 then
+          collectkrill(0)
+        elseif xfr == 3 then
+          collectkrill(2)
+        elseif xfr == 4 then
+          collectkrill(4)
+        end
       end
       if x == 16 then
         doorpeek(true)
@@ -3100,7 +3163,6 @@ function domenu()
            '⏭Engine speed',
            '↗️Jump acceleration', 
            '⤴️Jump distance',
-           '❔Gravity',
            '📳FPS',
            '🚸Body size(Client)',
            '🚹No knockdown',
@@ -3108,6 +3170,7 @@ function domenu()
            '🌬Remove wind wall',
            '🏠Fast home/candles',
            '🔦Light multiply'
+           '🏜World bright'
          },nil,'')
           if x == 1 then 
             if getadd(eoffsets.cspeed,gg.TYPE_FLOAT) >= 3.0 then
@@ -3135,9 +3198,6 @@ function domenu()
            setadd(eoffsets.jforce,gg.TYPE_FLOAT,inputnum(1),false)
         end
         if x == 7 then 
-           setadd(eoffsets.gravity,gg.TYPE_FLOAT,inputnum(-3.16081619263),false)
-        end
-        if x == 8 then 
           if eoffsets.gframe == 0x00 then
             eoffsets.gframe = getadd(rbootloader + poffsets.ptofps,gg.TYPE_QWORD) + 0x160
           end
@@ -3146,10 +3206,10 @@ function domenu()
           psettings.ufps = vframe
           savedata()
         end
-        if x == 9 then 
+        if x == 8 then 
            setadd(pbase + poffsets.bsize,gg.TYPE_FLOAT,inputnum(0),true)
         end
-        if x == 10 then
+        if x == 9 then
           adr = pbase + poffsets.pose
           if isfreeze(adr) then
             setadd(adr,gg.TYPE_DWORD,0,false)
@@ -3159,7 +3219,7 @@ function domenu()
             gg.toast('on')
           end
         end
-        if x == 11 then
+        if x == 10 then
           if candles[1].freeze then
             for i,v in pairs(candles) do
               v.value = 0
@@ -3190,10 +3250,10 @@ function domenu()
             gg.toast('on')
           end
         end
-        if x == 12 then
+        if x == 11 then
           nowind()
         end
-        if x == 13 then
+        if x == 12 then
           if fasthome then
             fasthome = false
             gamespeed(1)
@@ -3205,8 +3265,11 @@ function domenu()
           end
           
         end
-        if x == 14 then
+        if x == 13 then
           setadd(eoffsets.glight,gg.TYPE_FLOAT,inputnum(1),false)
+        end
+        if x == 14 then
+          setadd(eoffsets.wlight,gg.TYPE_FLOAT,inputnum(1),false)
         end
         
       end
