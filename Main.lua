@@ -3169,7 +3169,7 @@ function domenu()
            '🔥Auto burn',
            '🌬Remove wind wall',
            '🏠Fast home/candles',
-           '🔦Light multiply'
+           '🔦Light multiply',
            '🏜World bright'
          },nil,'')
           if x == 1 then 
