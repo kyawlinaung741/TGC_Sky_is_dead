@@ -34,7 +34,7 @@ psettings = {
   fhspeed = 100,
   cmimage = 1,
   aeleven = false,
-  ufps = 40
+  ufps = 35
   }
   
 scriptv = {process ='com.tgc.sky.android',version=175117}
@@ -719,7 +719,7 @@ function loadsave()
       psettings.aeleven = false
     end
     if psettings.ufps == nil then
-      psettings.ufps = 40
+      psettings.ufps = 35
     end
   end
 end
@@ -3207,7 +3207,7 @@ function domenu()
           savedata()
         end
         if x == 8 then 
-           setadd(pbase + poffsets.bsize,gg.TYPE_FLOAT,inputnum(40),true)
+           setadd(pbase + poffsets.bsize,gg.TYPE_FLOAT,inputnum(35),true)
         end
         if x == 9 then
           adr = pbase + poffsets.pose
