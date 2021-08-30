@@ -5,7 +5,7 @@
 
 
 gg.toast('FuckChina Loaded')
-ddd = "a21.08.28"
+ddd = "a21.08.30"
 pshare = ''
 umenu = true
 fasthome = true
@@ -263,8 +263,7 @@ windwallset = {
     {"NightDesert", 4756517339743666084},
     {"NightDesert", 4689256204097823239}
 }
---wip
---coord, magic id, map id, props id leaked from mom0 script by Kel
+
 cworld = {
    {"[Home]CandleSpace", 'CandleSpace'},
    {"[Isle]Dawn", 'Dawn'},
@@ -316,7 +315,7 @@ cworld = {
     {"Eden2", 'Storm'},
     {"[Nintendo] Nintendo_CandleSpace", 'Nintendo_CandleSpace'},
     {"⚠️Eden sacrifice⚠️", 'StormEnd'},
-    {"⚠️Eden rebirt1⚠️", 'OrbitMid'},
+    {"⚠️Eden rebirth1⚠️", 'OrbitMid'},
     {"⚠️Eden rebirth2⚠️", 'OrbitEnd'},
     {"⚠️Heaven⚠️", 'CandleSpaceEnd'},
     {"⚠️Credit⚠️", 'Credits'},
@@ -1381,6 +1380,21 @@ function absorb()
   gg.setValues(nn)
   --gg.addListItems(nn)
   gg.clearResults()
+end
+
+function absspirits()
+  ExMach = 0xFCD0
+  xde = {}
+  mpos = getcoord(true)
+  for i = 0, 40 do
+    xda = pbase + 0xAB438 + (i * ExMach)
+    if getadd(xda-0x18,gg.TYPE_DWORD) ~= 0 and getadd(xda,gg.TYPE_FLOAT) ~= 0 then
+      table.insert(xde,{address=xda,flags=gg.TYPE_FLOAT,value=mpos[1],freeze=true})
+      table.insert(xde,{address=xda+(0x4),flags=gg.TYPE_FLOAT,value=mpos[2],freeze=true})
+      table.insert(xde,{address=xda+(0x8),flags=gg.TYPE_FLOAT,value=mpos[3],freeze=true})
+      end
+  end
+  gg.setValues(xde)
 end
 
 function portallegacy(str)
@@ -2493,6 +2507,9 @@ if #eval == 0 then return; end
     end
     return;
   end
+  if uy == 5 then
+    setposit(getadd(rpoint,gg.TYPE_FLOAT),getadd(rpoint+0x4,gg.TYPE_FLOAT),getadd(rpoint+0x8,gg.TYPE_FLOAT))
+  end
 end
 
 function fkelders()
@@ -3110,7 +3127,7 @@ function domenu()
         
       end
       if x == 15 then
-        xfr = gg.choice({'Collect all','Remove all','Idiot'})
+        xfr = gg.choice({'Collect all','Remove all','Idiot','Go to Krill'})
         gg.setVisible(false)
         if xfr == 1 then
           collectkrill(1)
@@ -3119,7 +3136,7 @@ function domenu()
         elseif xfr == 3 then
           collectkrill(2)
         elseif xfr == 4 then
-          collectkrill(4)
+          collectkrill(5)
         end
       end
       if x == 16 then
@@ -3289,7 +3306,7 @@ function domenu()
            ,'🦀Throw crabs'
            ,'📢Super shout'
            ,'🎤Lock shout scale'
-           ,'🔃Spin bot'
+           ,'🔃Spinbot'
          },nil,'')
        if x == nil then
          x = 0
@@ -3419,10 +3436,16 @@ function domenu()
         if x == 13 then
           adr = pbase + poffsets.shoutscale
           if isfreeze(adr) then
-            setadd(adr,gg.TYPE_FLOAT,5,false)
+            setadd(adr,gg.TYPE_FLOAT,0,false)
             gg.toast('off')
           else
-            setadd(adr,gg.TYPE_FLOAT,5,true)
+            vsld = gg.prompt({'seek bar 1 [0; 50]'},{50},{'number'})
+            if vsld[1] == nil then
+              vsld[1] = 5
+              else
+              vsld[1] = vsld[1] / 10
+            end
+            setadd(adr,gg.TYPE_FLOAT,vsld[1],true)
             gg.toast('on')
           end
         end
@@ -3483,6 +3506,7 @@ function domenu()
            ,'Semi-Auto wing farm'
            ,'Lock player candle'
            ,'Unlock elders'
+           ,'Absorb spirits(unstable!)'
          },nil,'')
        if x == 1 then
          y=gg.choice({
@@ -3581,7 +3605,19 @@ function domenu()
           gg.setVisible(false)
           fkelders()
         end
-        
+        if x == 7 then
+          gg.setVisible(false)
+          pmap = getmap()
+          gg.toast('Open gg to stop')
+          for i = 0, 60 do
+            if gg.isVisible(true) or pmap ~= getmap() then
+              break;
+            end
+            absspirits()
+            gg.sleep(900)
+          end
+          gg.toast('Absorb spirits disabled')
+        end
       end
       if m == 11 then
         if hcamera() then
@@ -3692,7 +3728,7 @@ function domenu()
         scsettings()
       end
       if m == 15 then
-        x=gg.choice({'search 1D','print offsets','print emotes','print items','print magics','print daily','frags','pick crab','throw crab','krill to me','execute','load coord','door'
+        x=gg.choice({'search 1D','print offsets','print emotes','print items','print magics','print daily','frags','pick crab','throw crab','absorb spirits','execute','load coord','door'
         },nil,'⚠️This features are not stable')
         if x == 1 then
           xgd = gg.getResults(gg.getResultsCount())
@@ -3732,7 +3768,7 @@ function domenu()
           collectcrab(4)
         end
         if x == 10 then
-          collectkrill(1)
+          absspirits()
         end
         if x == 11 then
           local fld,lrf = pcall(load(inputstr()))
