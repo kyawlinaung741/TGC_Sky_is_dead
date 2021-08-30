@@ -4,7 +4,7 @@
 
 
 
-gg.toast('FuckChina Loaded')
+gg.toast('မင်္လာပါ')
 ddd = "a21.08.30"
 pshare = ''
 umenu = true
