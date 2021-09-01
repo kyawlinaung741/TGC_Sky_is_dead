@@ -1037,7 +1037,7 @@ mm = {}
  if gg.getResultsCount() > 3 then
  nn = gg.getResults(5)[4].address
  gg.clearResults()
- setstr(nn,27,'‌ေကျာ်')
+ setstr(nn,27,'‌ကျော်')
  end
  ggrange(4)
  --[[
