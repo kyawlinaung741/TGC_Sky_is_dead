@@ -4,7 +4,7 @@
 
 
 
-gg.toast('FuckChina Loaded')
+gg.toast('မင်္ဂလာပါ')
 ddd = "b21.09.02"
 pshare = ''
 umenu = true
@@ -34,7 +34,7 @@ psettings = {
   fhspeed = 100,
   cmimage = 1,
   aeleven = false,
-  ufps = 30
+  ufps = 40
   }
   
 scriptv = {process ='com.tgc.sky.android',version=175117}
@@ -1038,7 +1038,7 @@ mm = {}
  if gg.getResultsCount() > 3 then
  nn = gg.getResults(5)[4].address
  gg.clearResults()
- setstr(nn,27,'by ExMachina')
+ setstr(nn,27,'ကျော်')
  end
  ggrange(4)
  --[[
@@ -3259,13 +3259,13 @@ function domenu()
           if eoffsets.gframe == 0x00 then
             eoffsets.gframe = getadd(rbootloader + poffsets.ptofps,gg.TYPE_QWORD) + 0x160
           end
-          vframe = inputnum(30)
+          vframe = inputnum(40)
           setadd(eoffsets.gframe,gg.TYPE_FLOAT,vframe,false)
           psettings.ufps = vframe
           savedata()
         end
         if x == 9 then 
-           setadd(pbase + poffsets.bsize,gg.TYPE_FLOAT,inputnum(0),true)
+           setadd(pbase + poffsets.bsize,gg.TYPE_FLOAT,inputnum(40),true)
         end
         if x == 10 then
           adr = pbase + poffsets.pose
