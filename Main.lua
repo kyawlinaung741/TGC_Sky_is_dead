@@ -34,7 +34,7 @@ psettings = {
   fhspeed = 100,
   cmimage = 1,
   aeleven = false,
-  ufps = 40
+  ufps = 30
   }
   
 scriptv = {process ='com.tgc.sky.android',version=175117}
@@ -3259,13 +3259,13 @@ function domenu()
           if eoffsets.gframe == 0x00 then
             eoffsets.gframe = getadd(rbootloader + poffsets.ptofps,gg.TYPE_QWORD) + 0x160
           end
-          vframe = inputnum(40)
+          vframe = inputnum(30)
           setadd(eoffsets.gframe,gg.TYPE_FLOAT,vframe,false)
           psettings.ufps = vframe
           savedata()
         end
         if x == 9 then 
-           setadd(pbase + poffsets.bsize,gg.TYPE_FLOAT,inputnum(40),true)
+           setadd(pbase + poffsets.bsize,gg.TYPE_FLOAT,inputnum(30),true)
         end
         if x == 10 then
           adr = pbase + poffsets.pose
