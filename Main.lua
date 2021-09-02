@@ -5,7 +5,7 @@
 
 
 gg.toast('FuckChina Loaded')
-ddd = "a21.09.02"
+ddd = "b21.09.02"
 pshare = ''
 umenu = true
 fasthome = true
@@ -1769,7 +1769,7 @@ function dorace()
 end
 
 function espam()
-  if getadd(pbase + (poffsets.magic + 0x30),gg.TYPE_DWORD) == 0 then 
+  if getadd(pbase + poffsets.magic,gg.TYPE_DWORD) == 0 then 
     pmagic(1,1750685908,0)
   end
   adr = pbase + poffsets.magic + 0x28
