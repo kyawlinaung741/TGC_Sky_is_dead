@@ -5,7 +5,7 @@
 
 
 gg.toast('FuckChina Loaded')
-ddd = "b21.09.02"
+ddd = "a21.09.05"
 pshare = ''
 umenu = true
 fasthome = true
@@ -578,6 +578,10 @@ mlist = {}
 hitarr = {
 }
 
+--That dead sky open source by Kel
+--Do you have some good functions or codes?
+--Tell me discord ExMachina#5142
+
 function indexof(a,b)
   for k,v in ipairs(a) do 
     if v == b then
@@ -585,6 +589,10 @@ function indexof(a,b)
     end
   end
   return -1
+end
+
+function compare2(a,b)
+  return a.v < b.v
 end
 
 function getadd(add,flag)
@@ -1867,6 +1875,9 @@ function teleplayers()
   },nil,'')
   if vh == 1 then
     vsr = {}
+    vsw = {}
+    table.insert(vsr,'Nearest')
+    table.insert(vsr,'Farthest')
     for i = 1, 7 do
       ght=pbase + poffsets.positX + (i * 0xFDC0)
       if getadd(ght,gg.TYPE_FLOAT) == 0 then
@@ -1874,11 +1885,25 @@ function teleplayers()
       else
         ap = {x=getadd(ght,gg.TYPE_FLOAT),y=getadd(ght+0x4,gg.TYPE_FLOAT),z=getadd(ght+0x8,gg.TYPE_FLOAT)}
         bp = getcoord(false)
-        table.insert(vsr,'['..i..'] wings : '..toint(getadd(ght + 0x5A98,gg.TYPE_FLOAT))..' distance : '..(math.floor(calc3d(bp,ap)*100)/100))
+        dist = (math.floor(calc3d(bp,ap)*100)/100)
+        table.insert(vsw,{v=dist,a=i})
+        table.insert(vsr,'['..i..'] wings : '..toint(getadd(ght + 0x5A98,gg.TYPE_FLOAT))..' distance : '..dist)
       end
     end
     nra = gg.choice(vsr,nil,'')
     if nra == nil then return; end
+    if #vsw ~= 0 then
+      table.sort(vsw,compare2)
+      if nra == 1 then
+        nra = vsw[1].a
+      elseif nra == 2 then
+        nra = vsw[#vsw].a
+      else
+        nra = nra - 2
+      end
+    else
+      nra = nra - 2
+    end
     exma = pbase + poffsets.positX + (nra * 0xFDC0)
     elkhan = {getadd(exma,gg.TYPE_FLOAT),getadd(exma + 0x4,gg.TYPE_FLOAT),getadd(exma + 0x8,gg.TYPE_FLOAT)}
     if elkhan[1] ~= 0 and elkhan[2] ~= 0 then
@@ -1910,6 +1935,9 @@ function teleplayers()
   end
   if vh == 3 then
     vsr = {}
+    vsw = {}
+    table.insert(vsr,'Nearest')
+    table.insert(vsr,'Farthest')
     for i = 1, 7 do
       ght=pbase + poffsets.positX + (i * 0xFDC0)
       if getadd(ght,gg.TYPE_FLOAT) == 0 then
@@ -1917,11 +1945,25 @@ function teleplayers()
       else
         ap = {x=getadd(ght,gg.TYPE_FLOAT),y=getadd(ght+0x4,gg.TYPE_FLOAT),z=getadd(ght+0x8,gg.TYPE_FLOAT)}
         bp = getcoord(false)
-        table.insert(vsr,'['..i..'] wings : '..toint(getadd(ght + 0x5A98,gg.TYPE_FLOAT))..' distance : '..(math.floor(calc3d(bp,ap)*100)/100))
+        dist = (math.floor(calc3d(bp,ap)*100)/100)
+        table.insert(vsw,{v=dist,a=i})
+        table.insert(vsr,'['..i..'] wings : '..toint(getadd(ght + 0x5A98,gg.TYPE_FLOAT))..' distance : '..dist)
       end
     end
     nra = gg.choice(vsr,nil,'')
     if nra == nil then return; end
+    if #vsw ~= 0 then
+      table.sort(vsw,compare2)
+      if nra == 1 then
+        nra = vsw[1].a
+      elseif nra == 2 then
+        nra = vsw[#vsw].a
+      else
+        nra = nra - 2
+      end
+    else
+      nra = nra - 2
+    end
     exma = pbase + poffsets.positX + (nra * 0xFDC0)
     elkhan = {getadd(exma,gg.TYPE_FLOAT),getadd(exma + 0x4,gg.TYPE_FLOAT),getadd(exma + 0x8,gg.TYPE_FLOAT)}
     if elkhan[1] ~= 0 and elkhan[2] ~= 0 then
@@ -1941,6 +1983,9 @@ function teleplayers()
     end
       
     vsr = {}
+    vsw = {}
+    table.insert(vsr,'Nearest')
+    table.insert(vsr,'Farthest')
     for i = 1, 7 do
       ght=pbase + poffsets.positX + (i * 0xFDC0)
       if getadd(ght,gg.TYPE_FLOAT) == 0 then
@@ -1948,11 +1993,25 @@ function teleplayers()
       else
         ap = {x=getadd(ght,gg.TYPE_FLOAT),y=getadd(ght+0x4,gg.TYPE_FLOAT),z=getadd(ght+0x8,gg.TYPE_FLOAT)}
         bp = getcoord(false)
-        table.insert(vsr,'['..i..'] wings : '..toint(getadd(ght + 0x5A98,gg.TYPE_FLOAT))..' distance : '..(math.floor(calc3d(bp,ap)*100)/100))
+        dist = (math.floor(calc3d(bp,ap)*100)/100)
+        table.insert(vsw,{v=dist,a=i})
+        table.insert(vsr,'['..i..'] wings : '..toint(getadd(ght + 0x5A98,gg.TYPE_FLOAT))..' distance : '..dist)
       end
     end
     nra = gg.choice(vsr,nil,'')
     if nra == nil then return; end
+    if #vsw ~= 0 then
+      table.sort(vsw,compare2)
+      if nra == 1 then
+        nra = vsw[1].a
+      elseif nra == 2 then
+        nra = vsw[#vsw].a
+      else
+        nra = nra - 2
+      end
+    else
+      nra = nra - 2
+    end
     exma = pbase + poffsets.positX + (nra * 0xFDC0)
     elkhan = {getadd(exma,gg.TYPE_FLOAT),getadd(exma + 0x4,gg.TYPE_FLOAT),getadd(exma + 0x8,gg.TYPE_FLOAT)}
     if elkhan[1] ~= 0 and elkhan[2] ~= 0 then
@@ -1967,6 +2026,9 @@ function teleplayers()
   if vh == 5 then
     --Taran and Tosta will copy this
     vsr = {}
+    vsw = {}
+    table.insert(vsr,'Nearest')
+    table.insert(vsr,'Farthest')
     for i = 1, 7 do
       ght=pbase + poffsets.positX + (i * 0xFDC0)
       if getadd(ght,gg.TYPE_FLOAT) == 0 then
@@ -1974,11 +2036,25 @@ function teleplayers()
       else
         ap = {x=getadd(ght,gg.TYPE_FLOAT),y=getadd(ght+0x4,gg.TYPE_FLOAT),z=getadd(ght+0x8,gg.TYPE_FLOAT)}
         bp = getcoord(false)
-        table.insert(vsr,'['..i..'] wings : '..toint(getadd(ght + 0x5A98,gg.TYPE_FLOAT))..' distance : '..(math.floor(calc3d(bp,ap)*100)/100))
+        dist = (math.floor(calc3d(bp,ap)*100)/100)
+        table.insert(vsw,{v=dist,a=i})
+        table.insert(vsr,'['..i..'] wings : '..toint(getadd(ght + 0x5A98,gg.TYPE_FLOAT))..' distance : '..dist)
       end
     end
     nra = gg.choice(vsr,nil,'')
     if nra == nil then return; end
+    if #vsw ~= 0 then
+      table.sort(vsw,compare2)
+      if nra == 1 then
+        nra = vsw[1].a
+      elseif nra == 2 then
+        nra = vsw[#vsw].a
+      else
+        nra = nra - 2
+      end
+    else
+      nra = nra - 2
+    end
     gg.setVisible(false)
     exma = pbase + poffsets.positX + (nra * 0xFDC0)
     elkhan = {getadd(exma+0xEB78,gg.TYPE_DWORD),getadd(exma + 0xEB7C,gg.TYPE_DWORD)}
@@ -2897,9 +2973,10 @@ function scsettings()
   scsettings()
 end
 
---setstr(0x7C43439A33,13,'testing')
 startup()
---gg.toast(getadd(0x12C400BC,gg.TYPE_DWORD))
+--That dead sky open source by Kel
+--Do you have some good functions or codes?
+--Tell me discord ExMachina#5142
 
 gg.setVisible(false)
 gg.showUiButton()
@@ -3844,7 +3921,12 @@ function crmenu()
       end
     end
     if #crarray == 0 then
-      jy=gg.choice({'Exit',''},nil,'No data on this map')
+      jy=gg.choice({'❌Exit',
+    '🔒Lock player candle',
+    '⬆️Breach Wall',
+    '⏩Teleport',
+    '🔥Auto burn',
+    '💸Wing run'},nil,'No data on this map')
       if jy == 1 then
         gg.setVisible(false)
         crarray = {}
@@ -3852,6 +3934,46 @@ function crmenu()
         crset.map = ''
         crset.enable = false
         domenu()
+      end
+      if jy == 2 then
+        if isfreeze(eoffsets.nentity + poffsets.ucandle) then
+          setadd(eoffsets.nentity + poffsets.ucandle,gg.TYPE_DWORD,getadd(eoffsets.nentity + poffsets.ucandle,gg.TYPE_DWORD),false)
+          gg.toast('off')
+        else
+          setadd(eoffsets.nentity + poffsets.ucandle,gg.TYPE_DWORD,getadd(eoffsets.nentity + poffsets.ucandle,gg.TYPE_DWORD),true)
+          gg.toast('on')
+        end
+      end
+      if jy == 3 then
+        pmove(psettings.warpdis)
+      end
+      if jy == 4 then
+        telelist()
+      end
+      if jy == 5 then
+        if candles[1].freeze then
+          gg.removeListItems(candles)
+          gg.removeListItems(flowers)
+          gg.toast('off')
+        else
+          for i,v in pairs(candles) do
+            v.value = 1.0
+            v.freeze = true
+          end
+          gg.addListItems(candles)
+          for i,v in pairs(flowers) do
+            v.value = 0
+            v.freeze = true
+          end
+          gg.addListItems(flowers)
+          gg.toast('on')
+        end
+      end
+      if jy == 6 then
+        crset.enable = false
+        wrset.enable = true
+        wrmenu()
+        return;
       end
       return
     end
@@ -3872,6 +3994,7 @@ function crmenu()
     '⬆️Breach Wall',
     '⏩Teleport',
     '🔁Run all',
+    '⏸Coord list',
     '🔥Auto burn',
     'Hotkey',
     '💸Wing run',
@@ -3922,6 +4045,19 @@ function crmenu()
     end
   end
   if jy == 7 then
+    xvw = {}
+    for i,v in ipairs(crarray) do
+      table.insert(xvw,'['..i..'] '..math.floor(v.x)..' / '..math.floor(v.y)..' / '..math.floor(v.z))
+    end
+    xve = gg.choice(xvw,nil,'')
+    if xve == nil then
+      return;
+      else
+      crset.level = xve
+      setposit(crarray[crset.level].x,crarray[crset.level].y,crarray[crset.level].z)
+    end
+  end
+  if jy == 8 then
     if candles[1].freeze then
       gg.removeListItems(candles)
       gg.removeListItems(flowers)
@@ -3940,7 +4076,7 @@ function crmenu()
       gg.toast('on')
     end
   end
-  if jy == 8 then
+  if jy == 9 then
     k=gg.choice({
         'Disable'
       	,'Honk'
@@ -3956,22 +4092,23 @@ function crmenu()
     if k == 4 then mev = 3 end
     gg.setVisible(false)
   end
-  if jy == 9 then
+  if jy == 10 then
     crset.enable = false
     wrset.enable = true
     wrmenu()
     return;
   end
-  if jy == 10 then
+  if jy == 11 then
     domenu()
     return;
   end
-  if jy == 11 then
+  if jy == 12 then
     mev = 0
     gg.setVisible(false)
     crset.enable = false
     domenu()
   end
+  gg.setVisible(false)
 end
 
 function wrmenu()
@@ -3990,7 +4127,11 @@ function wrmenu()
       end
     end
     if #wrarray == 0 then
-      jy=gg.choice({'Exit',''},nil,'No wings detected on this map')
+      jy=gg.choice({'❌Exit',
+    '🔒Lock player candle',
+    '⬆️Breach Wall',
+    '⏩Teleport',
+    '🕯Candle run'},nil,'No wings detected on this map')
       if jy == 1 then
         gg.setVisible(false)
         wrarray = {}
@@ -3998,6 +4139,27 @@ function wrmenu()
         wrset.map = ''
         wrset.enable = false
         domenu()
+      end
+      if jy == 2 then
+        if isfreeze(eoffsets.nentity + poffsets.ucandle) then
+          setadd(eoffsets.nentity + poffsets.ucandle,gg.TYPE_DWORD,getadd(eoffsets.nentity + poffsets.ucandle,gg.TYPE_DWORD),false)
+          gg.toast('off')
+        else
+          setadd(eoffsets.nentity + poffsets.ucandle,gg.TYPE_DWORD,getadd(eoffsets.nentity + poffsets.ucandle,gg.TYPE_DWORD),true)
+          gg.toast('on')
+        end
+      end
+      if jy == 3 then
+        pmove(psettings.warpdis)
+      end
+      if jy == 4 then
+        telelist()
+      end
+      if jy == 5 then
+        crset.enable = true
+        wrset.enable = false
+        crmenu()
+        return;
       end
       return
     end
@@ -4013,7 +4175,15 @@ function wrmenu()
   end
   
   
-  jy=gg.choice({'➡️Next Point','⬅️Previous Point','⬆️Breach Wall','⏩Teleport','🔁Run all','🕯Candle run','🛄Main menu','❌Exit'},nil,'candle : ' .. wrset.level .. '/' .. #wrarray)
+  jy=gg.choice({'➡️Next Point',
+    '⬅️Previous Point',
+    '⬆️Breach Wall',
+    '⏩Teleport',
+    '🔁Run all',
+    '⏸Coord list',
+    '🕯Candle run',
+    '🛄Main menu',
+    '❌Exit'},nil,'candle : ' .. wrset.level .. '/' .. #wrarray)
   if jy == 1 then
     gg.setVisible(false)
     if wrset.level >= #wrarray then
@@ -4049,20 +4219,34 @@ function wrmenu()
     end
   end
   if jy == 6 then
+    xvw = {}
+    for i,v in ipairs(wrarray) do
+      table.insert(xvw,'['..i..'] '..math.floor(v.x)..' / '..math.floor(v.y)..' / '..math.floor(v.z))
+    end
+    xve = gg.choice(xvw,nil,'')
+    if xve == nil then
+      return;
+      else
+      wrset.level = xve
+      setposit(wrarray[wrset.level].x,wrarray[wrset.level].y,wrarray[wrset.level].z)
+    end
+  end
+  if jy == 7 then
     crset.enable = true
     wrset.enable = false
     crmenu()
     return;
   end
-  if jy == 7 then
+  if jy == 8 then
     domenu()
     return;
   end
-  if jy == 8 then
+  if jy == 9 then
     gg.setVisible(false)
     wrset.enable = false
     domenu()
   end
+  gg.setVisible(false)
 end
 
 function spinmenu()
@@ -4279,4 +4463,6 @@ while true do
    gg.sleep(100)
 end
 
---
+--That dead sky open source by Kel
+--Do you have some good functions or codes?
+--Tell me discord ExMachina#5142
