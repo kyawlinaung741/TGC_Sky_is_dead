@@ -4,7 +4,7 @@
 
 
 
-gg.toast('FuckChina Loaded')
+gg.toast('FackChina start')
 ddd = "a21.09.05"
 pshare = ''
 umenu = true
