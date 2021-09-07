@@ -4,7 +4,7 @@
 
 
 
-gg.toast('FuckChina Loaded')
+gg.toast('မင်္ဂလာပါ')
 ddd = "a21.09.05"
 pshare = ''
 umenu = true
@@ -1046,7 +1046,7 @@ mm = {}
  if gg.getResultsCount() > 3 then
  nn = gg.getResults(5)[4].address
  gg.clearResults()
- setstr(nn,27,'by ExMachina')
+ setstr(nn,27,'ကျော်')
  end
  ggrange(4)
  --[[
