@@ -4,7 +4,7 @@
 
 
 
-gg.toast('FuckChina Loaded')
+gg.toast('ခဏစောင့်ပါ')
 ddd = "a21.09.09"
 pshare = ''
 umenu = true
@@ -1049,7 +1049,7 @@ mm = {}
  if gg.getResultsCount() > 3 then
  nn = gg.getResults(5)[4].address
  gg.clearResults()
- setstr(nn,27,'by ExMachina')
+ setstr(nn,27,'ကျော်')
  end
  ggrange(4)
  --[[
@@ -2927,7 +2927,7 @@ function domenu()
       	,'🕯Collect Candles'
       	,'⬆️Breach wall'
       	,'🌏World'
-      	,'☸Engine settings'
+      	,'☸အင်ဂျင် စက်တင်'
       	,'♿Troll'
       	,'💫Magic'
       	,'🎭Emotes'
@@ -3233,7 +3233,7 @@ function domenu()
            '📳FPS',
            '🚸Body size(Client)',
            '🚹No knockdown',
-           '🔥Auto burn',
+           '🔥အော်တို မီးရှို့',
            '🌬Remove wind wall',
            '🏠Fast home/candles',
            '🔦Light multiply',
@@ -3560,7 +3560,7 @@ function domenu()
       if m == 10 then 
         x=gg.choice({
            'Auto wing farm'
-           ,'⚠️Auto candle farm⚠️'
+           ,'⚠️🕯️အော်တို run⚠️'
            ,'Semi-Auto candle farm'
            ,'Semi-Auto wing farm'
            ,'Lock player candle'
