@@ -4,8 +4,8 @@
 
 
 
-gg.toast('မင်္ဂလာပါ')
-ddd = "a21.09.05"
+gg.toast('FuckChina Loaded')
+ddd = "a21.09.09"
 pshare = ''
 umenu = true
 fasthome = true
@@ -55,7 +55,7 @@ reached = ''
 
 pbase = 0x00
 prange = {a = 0,b = -1}
-rbootloader = gg.getRangesList('libBootloader.so')[1].start
+rbootloader = 0x00
 poffsets = {
   sival = -1096122630,
   ptoplayer = 0x1872A90,
@@ -819,19 +819,22 @@ function fpbase()
 end
 
 function vcheck()
+  if gameinfo.packageName ~= scriptv.process then
+    gg.alert('[Error] You selected wrong process!\ngame : ' .. gameinfo.packageName)
+    os.exit()
+  else
+    rbootloader = gg.getRangesList('libBootloader.so')[1].start
+    gg.addListItems({{address=gg.getRangesList('libBootloader.so')[1].start,flags=32,name='bootloader'}})
+  end
   if tonumber(gameinfo.versionCode) < scriptv.version then
     gg.alert('[Error] Game version mismatch! \ngame : ' .. tonumber(gameinfo.versionCode) .. '\nscript : ' .. scriptv.version)
   end
   if tonumber(gameinfo.versionCode) > scriptv.version then
     gg.alert('[Error] Script needs update! \ngame : ' .. tonumber(gameinfo.versionCode) .. '\nscript : ' .. scriptv.version)
   end
-  if gameinfo.packageName ~= scriptv.process then
-    gg.alert('[Error] You selected wrong process!\ngame : ' .. gameinfo.packageName)
-  end
 end
 
 function startup()
-  gg.addListItems({{address=gg.getRangesList('libBootloader.so')[1].start,flags=32,name='bootloader'}})
   loadsave()
   vcheck()
   nn = 0
@@ -1046,7 +1049,7 @@ mm = {}
  if gg.getResultsCount() > 3 then
  nn = gg.getResults(5)[4].address
  gg.clearResults()
- setstr(nn,27,'ကျော်')
+ setstr(nn,27,'by ExMachina')
  end
  ggrange(4)
  --[[
@@ -1862,6 +1865,41 @@ function htrigger()
   
 end
 
+function chooseplayer()
+  vsr = {}
+  vsw = {}
+  ret = 0
+  table.insert(vsr,'Nearest')
+  table.insert(vsr,'Farthest')
+  for i = 1, 7 do
+    ght=pbase + poffsets.positX + (i * 0xFDC0)
+    if getadd(ght,gg.TYPE_FLOAT) == 0 then
+      table.insert(vsr,'Empty')
+    else
+      ap = {x=getadd(ght,gg.TYPE_FLOAT),y=getadd(ght+0x4,gg.TYPE_FLOAT),z=getadd(ght+0x8,gg.TYPE_FLOAT)}
+      bp = getcoord(false)
+      dist = (math.floor(calc3d(bp,ap)*100)/100)
+      table.insert(vsw,{v=dist,a=i})
+      table.insert(vsr,'['..i..'] wings : '..toint(getadd(ght + 0x5A98,gg.TYPE_FLOAT))..' distance : '..dist..' /code : '..getadd(ght + 0xEB78,gg.TYPE_DWORD))
+    end
+  end
+  ret = gg.choice(vsr,nil,'')
+  if ret == nil then return -1 end
+  if #vsw ~= 0 then
+      table.sort(vsw,compare2)
+      if ret == 1 then
+        ret = vsw[1].a
+      elseif nra == 2 then
+        ret = vsw[#vsw].a
+      else
+        ret = ret - 2
+      end
+    else
+      ret = ret - 2
+    end
+  if ret == nil then return -1 else return ret end
+end
+
 function teleplayers()
   vh = gg.choice({
     '⏩Teleport to players',
@@ -1869,41 +1907,14 @@ function teleplayers()
     '🏃Follow players',
     '👁Spectate players',
     '🤝Take players hands',
+    '🎠Ride players',
     '🚷Hide all players',
     '💕Unlock friendly nodes',
     '🔄Reset friendly nodes'
   },nil,'')
   if vh == 1 then
-    vsr = {}
-    vsw = {}
-    table.insert(vsr,'Nearest')
-    table.insert(vsr,'Farthest')
-    for i = 1, 7 do
-      ght=pbase + poffsets.positX + (i * 0xFDC0)
-      if getadd(ght,gg.TYPE_FLOAT) == 0 then
-        table.insert(vsr,'Empty')
-      else
-        ap = {x=getadd(ght,gg.TYPE_FLOAT),y=getadd(ght+0x4,gg.TYPE_FLOAT),z=getadd(ght+0x8,gg.TYPE_FLOAT)}
-        bp = getcoord(false)
-        dist = (math.floor(calc3d(bp,ap)*100)/100)
-        table.insert(vsw,{v=dist,a=i})
-        table.insert(vsr,'['..i..'] wings : '..toint(getadd(ght + 0x5A98,gg.TYPE_FLOAT))..' distance : '..dist)
-      end
-    end
-    nra = gg.choice(vsr,nil,'')
-    if nra == nil then return; end
-    if #vsw ~= 0 then
-      table.sort(vsw,compare2)
-      if nra == 1 then
-        nra = vsw[1].a
-      elseif nra == 2 then
-        nra = vsw[#vsw].a
-      else
-        nra = nra - 2
-      end
-    else
-      nra = nra - 2
-    end
+    nra = chooseplayer()
+    if nra < 1 then return; end
     exma = pbase + poffsets.positX + (nra * 0xFDC0)
     elkhan = {getadd(exma,gg.TYPE_FLOAT),getadd(exma + 0x4,gg.TYPE_FLOAT),getadd(exma + 0x8,gg.TYPE_FLOAT)}
     if elkhan[1] ~= 0 and elkhan[2] ~= 0 then
@@ -1934,36 +1945,8 @@ function teleplayers()
     return;
   end
   if vh == 3 then
-    vsr = {}
-    vsw = {}
-    table.insert(vsr,'Nearest')
-    table.insert(vsr,'Farthest')
-    for i = 1, 7 do
-      ght=pbase + poffsets.positX + (i * 0xFDC0)
-      if getadd(ght,gg.TYPE_FLOAT) == 0 then
-        table.insert(vsr,'Empty')
-      else
-        ap = {x=getadd(ght,gg.TYPE_FLOAT),y=getadd(ght+0x4,gg.TYPE_FLOAT),z=getadd(ght+0x8,gg.TYPE_FLOAT)}
-        bp = getcoord(false)
-        dist = (math.floor(calc3d(bp,ap)*100)/100)
-        table.insert(vsw,{v=dist,a=i})
-        table.insert(vsr,'['..i..'] wings : '..toint(getadd(ght + 0x5A98,gg.TYPE_FLOAT))..' distance : '..dist)
-      end
-    end
-    nra = gg.choice(vsr,nil,'')
-    if nra == nil then return; end
-    if #vsw ~= 0 then
-      table.sort(vsw,compare2)
-      if nra == 1 then
-        nra = vsw[1].a
-      elseif nra == 2 then
-        nra = vsw[#vsw].a
-      else
-        nra = nra - 2
-      end
-    else
-      nra = nra - 2
-    end
+    nra = chooseplayer()
+    if nra < 1 then return; end
     exma = pbase + poffsets.positX + (nra * 0xFDC0)
     elkhan = {getadd(exma,gg.TYPE_FLOAT),getadd(exma + 0x4,gg.TYPE_FLOAT),getadd(exma + 0x8,gg.TYPE_FLOAT)}
     if elkhan[1] ~= 0 and elkhan[2] ~= 0 then
@@ -1982,36 +1965,8 @@ function teleplayers()
       return;
     end
       
-    vsr = {}
-    vsw = {}
-    table.insert(vsr,'Nearest')
-    table.insert(vsr,'Farthest')
-    for i = 1, 7 do
-      ght=pbase + poffsets.positX + (i * 0xFDC0)
-      if getadd(ght,gg.TYPE_FLOAT) == 0 then
-        table.insert(vsr,'Empty')
-      else
-        ap = {x=getadd(ght,gg.TYPE_FLOAT),y=getadd(ght+0x4,gg.TYPE_FLOAT),z=getadd(ght+0x8,gg.TYPE_FLOAT)}
-        bp = getcoord(false)
-        dist = (math.floor(calc3d(bp,ap)*100)/100)
-        table.insert(vsw,{v=dist,a=i})
-        table.insert(vsr,'['..i..'] wings : '..toint(getadd(ght + 0x5A98,gg.TYPE_FLOAT))..' distance : '..dist)
-      end
-    end
-    nra = gg.choice(vsr,nil,'')
-    if nra == nil then return; end
-    if #vsw ~= 0 then
-      table.sort(vsw,compare2)
-      if nra == 1 then
-        nra = vsw[1].a
-      elseif nra == 2 then
-        nra = vsw[#vsw].a
-      else
-        nra = nra - 2
-      end
-    else
-      nra = nra - 2
-    end
+    nra = chooseplayer()
+    if nra < 1 then return; end
     exma = pbase + poffsets.positX + (nra * 0xFDC0)
     elkhan = {getadd(exma,gg.TYPE_FLOAT),getadd(exma + 0x4,gg.TYPE_FLOAT),getadd(exma + 0x8,gg.TYPE_FLOAT)}
     if elkhan[1] ~= 0 and elkhan[2] ~= 0 then
@@ -2025,36 +1980,8 @@ function teleplayers()
   end
   if vh == 5 then
     --Taran and Tosta will copy this
-    vsr = {}
-    vsw = {}
-    table.insert(vsr,'Nearest')
-    table.insert(vsr,'Farthest')
-    for i = 1, 7 do
-      ght=pbase + poffsets.positX + (i * 0xFDC0)
-      if getadd(ght,gg.TYPE_FLOAT) == 0 then
-        table.insert(vsr,'Empty')
-      else
-        ap = {x=getadd(ght,gg.TYPE_FLOAT),y=getadd(ght+0x4,gg.TYPE_FLOAT),z=getadd(ght+0x8,gg.TYPE_FLOAT)}
-        bp = getcoord(false)
-        dist = (math.floor(calc3d(bp,ap)*100)/100)
-        table.insert(vsw,{v=dist,a=i})
-        table.insert(vsr,'['..i..'] wings : '..toint(getadd(ght + 0x5A98,gg.TYPE_FLOAT))..' distance : '..dist)
-      end
-    end
-    nra = gg.choice(vsr,nil,'')
-    if nra == nil then return; end
-    if #vsw ~= 0 then
-      table.sort(vsw,compare2)
-      if nra == 1 then
-        nra = vsw[1].a
-      elseif nra == 2 then
-        nra = vsw[#vsw].a
-      else
-        nra = nra - 2
-      end
-    else
-      nra = nra - 2
-    end
+    nra = chooseplayer()
+    if nra < 1 then return; end
     gg.setVisible(false)
     exma = pbase + poffsets.positX + (nra * 0xFDC0)
     elkhan = {getadd(exma+0xEB78,gg.TYPE_DWORD),getadd(exma + 0xEB7C,gg.TYPE_DWORD)}
@@ -2069,7 +1996,21 @@ function teleplayers()
       gg.toast('Failed!')
     end
   end
+  --19F8
   if vh == 6 then
+    --Taran and Tosta will copy this again
+    nra = chooseplayer()
+    if nra < 1 then return; end
+    gg.setVisible(false)
+    exma = pbase + poffsets.positX + (nra * 0xFDC0)
+    elkhan = getadd(exma+0xEB78,gg.TYPE_DWORD)
+    if elkhan ~= 0 then
+      setadd(pbase+0x1AF08+0x19F8,gg.TYPE_DWORD,elkhan,false)
+      else
+      gg.toast('Failed!')
+    end
+  end
+  if vh == 7 then
     teleparr.enable = true
     teleparr.hide = true
     for i = 1, 7 do
@@ -2077,7 +2018,7 @@ function teleplayers()
     end
     gg.setVisible(false)
   end
-  if vh == 7 then
+  if vh == 8 then
     gg.setVisible(false)
     getfriendnode()
     srd = {}
@@ -2087,7 +2028,7 @@ function teleplayers()
     gg.setValues(srd)
     gg.toast('done')
   end
-  if vh == 8 then
+  if vh == 9 then
     gg.setVisible(false)
     resetfriendnode()
   end
