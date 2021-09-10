@@ -3,6 +3,9 @@ Fuck China
 Fuck Cheaters
 Fuck tgc
 
+This is patch list for TGC
+Now fix it all
+
 Features
 - Customize wings
 - Customize all props
@@ -12,7 +15,7 @@ Features
 - Unlimited Wings
 - Keep burn candles and flowers
 - Auto farm wings, candles(Not completed)
-- Force upgrade gestures
+- Change gestures
 - Teleport
 - Change map
 - Wall breach
