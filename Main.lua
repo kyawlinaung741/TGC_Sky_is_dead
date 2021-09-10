@@ -1,17 +1,19 @@
 --That dead sky open source by Kel
+--tgc must patch this all
 --Do you have some good functions or codes?
 --Tell me discord ExMachina#5142
 
 
 
 gg.toast('FuckChina Loaded')
-ddd = "a21.09.09"
+ddd = "a21.09.10"
 pshare = ''
 umenu = true
 fasthome = true
 fastvalue = false
 echanged = false
 teleping = false
+message = 'Use at educational and personal only\nYour own risk'
 fastmax = 0
 crset = {enable = false, level = 0, map = ''}
 wrset = {enable = false, level = 0, map = ''}
@@ -603,6 +605,22 @@ function getadd(add,flag)
   }
   yy = gg.getValues(uu)
   return tonumber(yy[1].value)
+end
+
+function getaddm(arr)
+  local uu = {}
+  local yy = {}
+  for i,v in ipairs(arr) do
+    uu[i] = {
+      address = v[1],
+      flags = v[2]
+    }
+  end
+  uu = gg.getValues(uu)
+  for i,v in ipairs(uu) do
+    table.insert(yy,v.value)
+  end
+  return yy
 end
 
 function gamespeed(val)
@@ -1727,6 +1745,8 @@ end
 
 function dorace()
   gg.toast('Starting race...')
+  gg.removeListItems(flowers)
+  gg.removeListItems(candles)
   if getmap() == 'Sunset_FlyRace' then
     startrace(1)
     else
@@ -1756,8 +1776,7 @@ function dorace()
       end
     end
     portal('SunsetColosseum')
-    gg.sleep(psettings.crdelay)
-    gg.sleep(psettings.crdelay)
+    gg.sleep(psettings.crdelay*2)
     absflower()
     for i = 0,10 do
       if getadd(eoffsets.nentity + poffsets.cfrags - 0x8,gg.TYPE_DWORD) ~= 0 then
@@ -1776,6 +1795,18 @@ function dorace()
       end
     end
     gg.sleep(psettings.crdelay)
+    for i,v in pairs(flowers) do
+    v.value = 0
+    v.freeze = true
+    end
+    gg.setValues(flowers)
+    gg.addListItems(flowers)
+    for i,v in pairs(candles) do
+    v.value = 1
+    v.freeze = true
+    end
+    gg.setValues(candles)
+    gg.addListItems(candles)
   gamespeed(psettings.crspeed)
 end
 
@@ -1873,14 +1904,22 @@ function chooseplayer()
   table.insert(vsr,'Farthest')
   for i = 1, 7 do
     ght=pbase + poffsets.positX + (i * 0xFDC0)
-    if getadd(ght,gg.TYPE_FLOAT) == 0 then
+    ghr = {
+      {ght,gg.TYPE_FLOAT},
+      {ght+0x4,gg.TYPE_FLOAT},
+      {ght+0x8,gg.TYPE_FLOAT},
+      {ght+0x5A98,gg.TYPE_FLOAT},
+      {ght+0xEB78,gg.TYPE_DWORD}
+    }
+    ghr = getaddm(ghr)
+    ap = {x=ghr[1],y=ghr[2],z=ghr[3]}
+    if ap.x == 0 then
       table.insert(vsr,'Empty')
     else
-      ap = {x=getadd(ght,gg.TYPE_FLOAT),y=getadd(ght+0x4,gg.TYPE_FLOAT),z=getadd(ght+0x8,gg.TYPE_FLOAT)}
       bp = getcoord(false)
       dist = (math.floor(calc3d(bp,ap)*100)/100)
       table.insert(vsw,{v=dist,a=i})
-      table.insert(vsr,'['..i..'] wings : '..toint(getadd(ght + 0x5A98,gg.TYPE_FLOAT))..' distance : '..dist..' /code : '..getadd(ght + 0xEB78,gg.TYPE_DWORD))
+      table.insert(vsr,'['..i..'] wings : '..toint(ghr[4])..' distance : '..dist..' /code : '..ghr[5])
     end
   end
   ret = gg.choice(vsr,nil,'')
@@ -2938,7 +2977,8 @@ function domenu()
         ,'🆖️Interface'
         ,'📝Script settings'
         ,'⚠️Testing features'
-      },nil,'')
+      },nil,message)
+    message = ''
       if m == 1 then
         nn = 0
         nn = getadd(pbase,gg.TYPE_DWORD)
@@ -3365,6 +3405,7 @@ function domenu()
            ,'🦀Throw crabs'
            ,'📢Super shout'
            ,'🎤Lock shout scale'
+           ,'🧎Lock player pose'
            ,'🔃Spinbot'
          },nil,'')
        if x == nil then
@@ -3509,6 +3550,25 @@ function domenu()
           end
         end
         if x == 14 then
+          if isfreeze(pbase+poffsets.pose) then
+            setadd(pbase+poffsets.pose,gg.TYPE_DWORD,0,false)
+            gg.toast('off')
+            gg.setVisible(false)
+            return;
+          end
+          vfc = gg.choice({'Standing',
+            'Rest',
+            'Sit',
+            'Sleep',
+            'Sit afk',
+            'Standing afk'
+          },nil,'')
+          if vfc == nil then return; end
+          setadd(pbase+poffsets.pose,gg.TYPE_DWORD,vfc-1,true)
+          gg.toast('on')
+          gg.setVisible(false)
+        end
+        if x == 15 then
           spinmenu()
         end
       end
