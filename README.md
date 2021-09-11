@@ -21,5 +21,4 @@ Features
 - Camera Hook
 - And more
 
-Decryption packets with SSL sniffing worked well for gg
-But they fixed it now so I leaked mom0 script's data array and tosta
+Plz fix the game
