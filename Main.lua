@@ -6,14 +6,15 @@
 
 
 gg.toast('FuckChina Loaded')
-ddd = "a21.09.10"
+ddd = "a21.09.12"
 pshare = ''
 umenu = true
 fasthome = true
 fastvalue = false
+fastitem = false
 echanged = false
 teleping = false
-message = 'Use at educational and personal only\nYour own risk'
+message = '⚠️Use at educational and personal only⚠️\nYour own risk'
 fastmax = 0
 crset = {enable = false, level = 0, map = ''}
 wrset = {enable = false, level = 0, map = ''}
@@ -76,6 +77,7 @@ poffsets = {
   pwing = 0x223DC,
   ewing = 0x24018,
   eprop = 0x24034,
+  sleeping = 0x266E8,
   famount = 0x25558,
   gesture = 0x2C4C4,
   magic = 0x2B788,
@@ -109,7 +111,7 @@ poffsets = {
   daily = 0x1303A24,
   wingmap = 0x12CE41C,
   enode = 0x1397DC0,
-  fastfly = 0x122523C
+  fastfly = 0x122523C,
   }
 
 allmagics = {}
@@ -317,6 +319,7 @@ cworld = {
     {"Eden1", 'StormStart'},
     {"Eden2", 'Storm'},
     {"[Nintendo] Nintendo_CandleSpace", 'Nintendo_CandleSpace'},
+    {"Before eden",'NightEnd'},
     {"⚠️Eden sacrifice⚠️", 'StormEnd'},
     {"⚠️Eden rebirth1⚠️", 'OrbitMid'},
     {"⚠️Eden rebirth2⚠️", 'OrbitEnd'},
@@ -1540,7 +1543,9 @@ function getmap()
     end
     nn = nn .. string.char(mm)
   end
-  
+  if string.len(nn) < 3 then
+    nn = '[Error]'
+  end
   return nn
 end
 
@@ -1823,10 +1828,20 @@ function espam()
   end
 end
 
+function ftrigger()
+  --ctrl+C,V
+  if not fastitem then return; end
+  vtarget = getadd(eoffsets.nentity + poffsets.uihook,gg.TYPE_QWORD) + 0x18
+  xv = getadd(vtarget - 0xC208 + 0x30+0x1298,gg.TYPE_QWORD)
+  if xv < 0xFFFFFF then return; end
+  setadd(xv+0x264,gg.TYPE_FLOAT,0,false)
+end
+
 function mtrigger()
+  dfs = getadd(pbase + poffsets.pshout,gg.TYPE_FLOAT)
   if crset.enable then
     if mev == 1 then
-    if getadd(pbase + poffsets.pshout,gg.TYPE_FLOAT) < 0.6 then
+    if dfs < 0.6 then
       if crset.level >= #crarray then
       crset.level = #crarray - 1
     end
@@ -1836,7 +1851,7 @@ function mtrigger()
     end
   end
   if mev == 2 then
-    if getadd(pbase + poffsets.pose,gg.TYPE_DWORD) == 2 then
+    if dfs == 2 then
       if crset.level >= #crarray then
       crset.level = #crarray - 1
     end
@@ -1846,7 +1861,7 @@ function mtrigger()
     end
   end
   if mev == 3 then
-    if getadd(pbase + poffsets.pose,gg.TYPE_DWORD) == 1 then
+    if dfs == 1 then
       if crset.level >= #crarray then
       crset.level = #crarray - 1
     end
@@ -1857,19 +1872,19 @@ function mtrigger()
   end
     else
   if mev == 1 then
-    if getadd(pbase + poffsets.pshout,gg.TYPE_FLOAT) < 0.6 then
+    if dfs < 0.6 then
       pmove(psettings.warpdis)
       setadd(pbase + poffsets.pshout,gg.TYPE_FLOAT,2.0,false)
     end
   end
   if mev == 2 then
-    if getadd(pbase + poffsets.pose,gg.TYPE_DWORD) == 2 then
+    if dfs == 2 then
       pmove(psettings.warpdis)
       setadd(pbase + poffsets.pose,gg.TYPE_DWORD,0,false)
     end
   end
   if mev == 3 then
-    if getadd(pbase + poffsets.pose,gg.TYPE_DWORD) == 1 then
+    if dfs == 1 then
       pmove(psettings.warpdis)
       setadd(pbase + poffsets.pose,gg.TYPE_DWORD,0,false)
     end
@@ -1879,15 +1894,16 @@ end
 
 function htrigger()
   if fastvalue then
+    dfs = getadd(pbase + poffsets.gohome,gg.TYPE_FLOAT)
     fastmax = fastmax + 1
-    if getadd(pbase + poffsets.gohome,gg.TYPE_FLOAT) == 1 or fastmax > 25 then
+    if dfs == 1 or fastmax > 25 then
       gamespeed(1)
       fastvalue = false
       fastmax = 0
       setadd(pbase + poffsets.gohome,gg.TYPE_FLOAT,1,false)
     end
   else
-    if getadd(pbase + poffsets.gohome,gg.TYPE_FLOAT) ~= 1 then
+    if dfs ~= 1 then
       fastmax = 0
       gamespeed(psettings.fhspeed)
       fastvalue = true
@@ -1913,7 +1929,7 @@ function chooseplayer()
     }
     ghr = getaddm(ghr)
     ap = {x=ghr[1],y=ghr[2],z=ghr[3]}
-    if ap.x == 0 then
+    if ap.x == 0 or ghr[5] == 0 then
       table.insert(vsr,'Empty')
     else
       bp = getcoord(false)
@@ -2023,11 +2039,12 @@ function teleplayers()
     if nra < 1 then return; end
     gg.setVisible(false)
     exma = pbase + poffsets.positX + (nra * 0xFDC0)
-    elkhan = {getadd(exma+0xEB78,gg.TYPE_DWORD),getadd(exma + 0xEB7C,gg.TYPE_DWORD)}
-    if elkhan[1] ~= 0 and elkhan[2] ~= 0 then
-      setadd(pbase+0x1AF08+0x18,gg.TYPE_DWORD,elkhan[1],false)
-      setadd(pbase+0x1AF08+0x30,gg.TYPE_DWORD,elkhan[1],false)
-      setadd(pbase+0x1AF08+0x48,gg.TYPE_DWORD,elkhan[2],false)
+    elkhan = getadd(exma+0xEB78,gg.TYPE_DWORD)
+    if elkhan ~= 0 then
+      setadd(exma+0xEB7C,gg.TYPE_DWORD,41249,false)
+      setadd(pbase+0x1AF08+0x18,gg.TYPE_DWORD,elkhan,false)
+      setadd(pbase+0x1AF08+0x30,gg.TYPE_DWORD,elkhan,false)
+      setadd(pbase+0x1AF08+0x48,gg.TYPE_DWORD,41249,false)
       setadd(pbase+0x1AF08+0x10,gg.TYPE_QWORD,exma+0x5B90,false)
       setadd(pbase+0x1AF08+0x28,gg.TYPE_QWORD,exma+0x5B90,false)
       setadd(pbase+0x1AF08,gg.TYPE_DWORD,getadd(pbase+0x1AF08,gg.TYPE_DWORD)+1,false)
@@ -3277,7 +3294,8 @@ function domenu()
            '🌬Remove wind wall',
            '🏠Fast home/candles',
            '🔦Light multiply',
-           '🏜World bright'
+           '🏜World bright',
+           '📥No item cool down'
          },nil,'')
           if x == 1 then 
             if getadd(eoffsets.cspeed,gg.TYPE_FLOAT) >= 3.0 then
@@ -3296,6 +3314,7 @@ function domenu()
               setadd(eoffsets.nentity - poffsets.fastfly,gg.TYPE_FLOAT,1,false)
               gg.toast('off')
             else
+              setadd(adr,gg.TYPE_FLOAT,inputnum(14),true)
               setadd(eoffsets.nentity - poffsets.fastfly,gg.TYPE_FLOAT,-20,true)
               gg.toast('on')
             end
@@ -3387,7 +3406,11 @@ function domenu()
         if x == 15 then
           setadd(eoffsets.wlight,gg.TYPE_FLOAT,inputnum(1),false)
         end
-        
+        if x == 16 then
+          fastitem = toggle(fastitem)
+          gg.toast(boolling(fastitem))
+        end
+        gg.setVisible(false)
       end
         
       if m == 6 then
@@ -3406,6 +3429,7 @@ function domenu()
            ,'📢Super shout'
            ,'🎤Lock shout scale'
            ,'🧎Lock player pose'
+           ,'💤Fake sleeping'
            ,'🔃Spinbot'
          },nil,'')
        if x == nil then
@@ -3430,6 +3454,7 @@ function domenu()
           if isfreeze(adr) then
             setadd(adr,gg.TYPE_DWORD,5,false)
           else
+            setadd(pbase + poffsets.eprop,gg.TYPE_DWORD,3280753494,false)
             setadd(adr,gg.TYPE_DWORD,5,true)
           end
         end
@@ -3569,6 +3594,16 @@ function domenu()
           gg.setVisible(false)
         end
         if x == 15 then
+          if isfreeze(pbase+poffsets.sleeping) then
+            setadd(pbase+poffsets.sleeping,gg.TYPE_DWORD,1,false)
+            gg.toast('off')
+          else
+            setadd(pbase+poffsets.sleeping,gg.TYPE_DWORD,257,true)
+            gg.toast('on')
+          end
+          gg.setVisible(false)
+        end
+        if x == 16 then
           spinmenu()
         end
       end
@@ -4406,6 +4441,9 @@ while true do
   end
   if fasthome and teleparr.enable == false then
     htrigger()
+  end
+  if fastitem then
+    ftrigger()
   end
   if spinset.enable then
     spinloop()
