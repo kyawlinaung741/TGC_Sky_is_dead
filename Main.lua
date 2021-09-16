@@ -6,7 +6,7 @@
 
 
 gg.toast('FuckChina Loaded')
-ddd = "a21.09.15"
+ddd = "a21.09.16"
 pshare = ''
 umenu = true
 fasthome = true
@@ -1072,6 +1072,16 @@ mm = {}
  nn = gg.getResults(5)[4].address
  gg.clearResults()
  setstr(nn,27,'by ExMachina')
+ end
+ nn = 0
+ gg.clearResults()
+ gg.searchNumber(256000,16)
+ if gg.getResultsCount() > 0 then
+   nn = gg.getResults(1)[1].address
+   eoffsets.gravity = nn + 0x20
+   eoffsets.jump = nn - 0x4E8C
+   eoffsets.slide = nn - 0x54828
+   print(nn)
  end
  ggrange(4)
  --[[
@@ -3305,6 +3315,8 @@ function domenu()
            '⏭Engine speed',
            '↗️Jump acceleration', 
            '⤴️Jump distance',
+           '🔼Gravity',
+           '🏂Slide mode',
            '📳FPS',
            '🚸Body size(Client)',
            '🚹No knockdown',
@@ -3332,7 +3344,7 @@ function domenu()
               setadd(eoffsets.nentity - poffsets.fastfly,gg.TYPE_FLOAT,1,false)
               gg.toast('off')
             else
-              setadd(adr,gg.TYPE_FLOAT,inputnum(14),true)
+              setadd(pbase + poffsets.pwing,gg.TYPE_FLOAT,14,true)
               setadd(eoffsets.nentity - poffsets.fastfly,gg.TYPE_FLOAT,-20,true)
               gg.toast('on')
             end
@@ -3350,7 +3362,19 @@ function domenu()
         if x == 7 then 
            setadd(eoffsets.jforce,gg.TYPE_FLOAT,inputnum(1),false)
         end
-        if x == 8 then 
+        if x == 8 then
+          setadd(eoffsets.gravity,gg.TYPE_FLOAT,inputnum(-3.16081619263),false)
+        end
+        if x == 9 then
+          if getadd(eoffsets.slide,gg.TYPE_FLOAT) == -1 then
+            setadd(eoffsets.slide,gg.TYPE_FLOAT,0.8,false)
+            gg.toast('off')
+            else
+            setadd(eoffsets.slide,gg.TYPE_FLOAT,-1,false)
+            gg.toast('on')
+          end
+        end
+        if x == 10 then 
           if eoffsets.gframe == 0x00 then
             eoffsets.gframe = getadd(rbootloader + poffsets.ptofps,gg.TYPE_QWORD) + 0x160
           end
@@ -3359,10 +3383,10 @@ function domenu()
           psettings.ufps = vframe
           savedata()
         end
-        if x == 9 then 
+        if x == 11 then 
            setadd(pbase + poffsets.bsize,gg.TYPE_FLOAT,inputnum(0),true)
         end
-        if x == 10 then
+        if x == 12 then
           adr = pbase + poffsets.pose
           if isfreeze(adr) then
             setadd(adr,gg.TYPE_DWORD,0,false)
@@ -3372,7 +3396,7 @@ function domenu()
             gg.toast('on')
           end
         end
-        if x == 11 then
+        if x == 13 then
           if candles[1].freeze then
             for i,v in pairs(candles) do
               v.value = 0
@@ -3403,7 +3427,7 @@ function domenu()
             gg.toast('on')
           end
         end
-        if x == 12 then
+        if x == 14 then
           nowind()
         end
         if x == 13 then
@@ -3418,13 +3442,13 @@ function domenu()
           end
           
         end
-        if x == 14 then
+        if x == 15 then
           setadd(eoffsets.glight,gg.TYPE_FLOAT,inputnum(1),false)
         end
-        if x == 15 then
+        if x == 16 then
           setadd(eoffsets.wlight,gg.TYPE_FLOAT,inputnum(1),false)
         end
-        if x == 16 then
+        if x == 17 then
           fastitem = toggle(fastitem)
           gg.toast(boolling(fastitem))
         end
