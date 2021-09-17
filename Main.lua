@@ -6,7 +6,7 @@
 
 
 gg.toast('FuckChina Loaded')
-ddd = "a21.09.12"
+ddd = "a21.09.16"
 pshare = ''
 umenu = true
 fasthome = true
@@ -76,7 +76,7 @@ poffsets = {
   pose = 0x1FCC0,
   pwing = 0x223DC,
   ewing = 0x24018,
-  eprop = 0x24034,
+  eprop = 0x24018+0x1C,
   sleeping = 0x266E8,
   famount = 0x25558,
   gesture = 0x2C4C4,
@@ -107,11 +107,12 @@ poffsets = {
   gcamera = 0xF9086C,
   ecrabs = 0x5A49CC,
   uihook = 0x94143C,
-  shoutscale = 0x255A8,
+  shoutscale = 0x25558+0x50,
   daily = 0x1303A24,
   wingmap = 0x12CE41C,
   enode = 0x1397DC0,
   fastfly = 0x122523C,
+  phands = 0x1AF08,
   }
 
 allmagics = {}
@@ -1070,7 +1071,17 @@ mm = {}
  if gg.getResultsCount() > 3 then
  nn = gg.getResults(5)[4].address
  gg.clearResults()
- setstr(nn,27,'ကျော်')
+ setstr(nn,27,'Kyaw')
+ end
+ nn = 0
+ gg.clearResults()
+ gg.searchNumber(256000,16)
+ if gg.getResultsCount() > 0 then
+   nn = gg.getResults(1)[1].address
+   eoffsets.gravity = nn + 0x20
+   eoffsets.jump = nn - 0x4E8C
+   eoffsets.slide = nn - 0x54828
+   print(nn)
  end
  ggrange(4)
  --[[
@@ -1893,8 +1904,8 @@ function mtrigger()
 end
 
 function htrigger()
+  dfs = getadd(pbase + poffsets.gohome,gg.TYPE_FLOAT)
   if fastvalue then
-    dfs = getadd(pbase + poffsets.gohome,gg.TYPE_FLOAT)
     fastmax = fastmax + 1
     if dfs == 1 or fastmax > 25 then
       gamespeed(1)
@@ -1915,6 +1926,7 @@ end
 function chooseplayer()
   vsr = {}
   vsw = {}
+  vid = {}
   ret = 0
   table.insert(vsr,'Nearest')
   table.insert(vsr,'Farthest')
@@ -1931,11 +1943,13 @@ function chooseplayer()
     ap = {x=ghr[1],y=ghr[2],z=ghr[3]}
     if ap.x == 0 or ghr[5] == 0 then
       table.insert(vsr,'Empty')
+      table.insert(vid,0)
     else
       bp = getcoord(false)
       dist = (math.floor(calc3d(bp,ap)*100)/100)
       table.insert(vsw,{v=dist,a=i})
       table.insert(vsr,'['..i..'] wings : '..toint(ghr[4])..' distance : '..dist..' /code : '..ghr[5])
+      table.insert(vid,ghr[5])
     end
   end
   ret = gg.choice(vsr,nil,'')
@@ -1952,7 +1966,12 @@ function chooseplayer()
     else
       ret = ret - 2
     end
-  if ret == nil then return -1 else return ret end
+  if ret == nil then 
+    return -1 
+  else 
+    gg.toast('['..ret..'] '..vid[ret])
+    return ret 
+  end
 end
 
 function teleplayers()
@@ -2042,12 +2061,12 @@ function teleplayers()
     elkhan = getadd(exma+0xEB78,gg.TYPE_DWORD)
     if elkhan ~= 0 then
       setadd(exma+0xEB7C,gg.TYPE_DWORD,41249,false)
-      setadd(pbase+0x1AF08+0x18,gg.TYPE_DWORD,elkhan,false)
-      setadd(pbase+0x1AF08+0x30,gg.TYPE_DWORD,elkhan,false)
-      setadd(pbase+0x1AF08+0x48,gg.TYPE_DWORD,41249,false)
-      setadd(pbase+0x1AF08+0x10,gg.TYPE_QWORD,exma+0x5B90,false)
-      setadd(pbase+0x1AF08+0x28,gg.TYPE_QWORD,exma+0x5B90,false)
-      setadd(pbase+0x1AF08,gg.TYPE_DWORD,getadd(pbase+0x1AF08,gg.TYPE_DWORD)+1,false)
+      setadd(pbase+poffsets.phands+0x18,gg.TYPE_DWORD,elkhan,false)
+      setadd(pbase+poffsets.phands+0x30,gg.TYPE_DWORD,elkhan,false)
+      setadd(pbase+poffsets.phands+0x48,gg.TYPE_DWORD,41249,false)
+      setadd(pbase+poffsets.phands+0x10,gg.TYPE_QWORD,exma+0x5B90,false)
+      setadd(pbase+poffsets.phands+0x28,gg.TYPE_QWORD,exma+0x5B90,false)
+      setadd(pbase+poffsets.phands,gg.TYPE_DWORD,getadd(pbase+poffsets.phands,gg.TYPE_DWORD)+1,false)
       else
       gg.toast('Failed!')
     end
@@ -2061,7 +2080,7 @@ function teleplayers()
     exma = pbase + poffsets.positX + (nra * 0xFDC0)
     elkhan = getadd(exma+0xEB78,gg.TYPE_DWORD)
     if elkhan ~= 0 then
-      setadd(pbase+0x1AF08+0x19F8,gg.TYPE_DWORD,elkhan,false)
+      setadd(pbase+poffsets.phands+0x19F8,gg.TYPE_DWORD,elkhan,false)
       else
       gg.toast('Failed!')
     end
@@ -2615,6 +2634,15 @@ if #eval == 0 then return; end
     setposit(getadd(rpoint,gg.TYPE_FLOAT),getadd(rpoint+0x4,gg.TYPE_FLOAT),getadd(rpoint+0x8,gg.TYPE_FLOAT))
   end
 end
+
+function killgame()
+  nn = {}
+  for i=0,4000 do
+    table.insert(nn,{address=eoffsets.nentity-(0xC*2000)+(0xC*i),flags=gg.TYPE_QWORD,value=-1})
+  end
+  gg.setValues(nn)
+end
+
 
 function fkelders()
   gg.clearResults()
@@ -3287,6 +3315,8 @@ function domenu()
            '⏭Engine speed',
            '↗️Jump acceleration', 
            '⤴️Jump distance',
+           '🔼Gravity',
+           '🏂Slide mode',
            '📳FPS',
            '🚸Body size(Client)',
            '🚹No knockdown',
@@ -3314,7 +3344,7 @@ function domenu()
               setadd(eoffsets.nentity - poffsets.fastfly,gg.TYPE_FLOAT,1,false)
               gg.toast('off')
             else
-              setadd(adr,gg.TYPE_FLOAT,inputnum(14),true)
+              setadd(pbase + poffsets.pwing,gg.TYPE_FLOAT,14,true)
               setadd(eoffsets.nentity - poffsets.fastfly,gg.TYPE_FLOAT,-20,true)
               gg.toast('on')
             end
@@ -3332,7 +3362,19 @@ function domenu()
         if x == 7 then 
            setadd(eoffsets.jforce,gg.TYPE_FLOAT,inputnum(1),false)
         end
-        if x == 8 then 
+        if x == 8 then
+          setadd(eoffsets.gravity,gg.TYPE_FLOAT,inputnum(-3.16081619263),false)
+        end
+        if x == 9 then
+          if getadd(eoffsets.slide,gg.TYPE_FLOAT) == -1 then
+            setadd(eoffsets.slide,gg.TYPE_FLOAT,0.8,false)
+            gg.toast('off')
+            else
+            setadd(eoffsets.slide,gg.TYPE_FLOAT,-1,false)
+            gg.toast('on')
+          end
+        end
+        if x == 10 then 
           if eoffsets.gframe == 0x00 then
             eoffsets.gframe = getadd(rbootloader + poffsets.ptofps,gg.TYPE_QWORD) + 0x160
           end
@@ -3341,10 +3383,10 @@ function domenu()
           psettings.ufps = vframe
           savedata()
         end
-        if x == 9 then 
+        if x == 11 then 
            setadd(pbase + poffsets.bsize,gg.TYPE_FLOAT,inputnum(0),true)
         end
-        if x == 10 then
+        if x == 12 then
           adr = pbase + poffsets.pose
           if isfreeze(adr) then
             setadd(adr,gg.TYPE_DWORD,0,false)
@@ -3354,7 +3396,7 @@ function domenu()
             gg.toast('on')
           end
         end
-        if x == 11 then
+        if x == 13 then
           if candles[1].freeze then
             for i,v in pairs(candles) do
               v.value = 0
@@ -3385,7 +3427,7 @@ function domenu()
             gg.toast('on')
           end
         end
-        if x == 12 then
+        if x == 14 then
           nowind()
         end
         if x == 13 then
@@ -3400,13 +3442,13 @@ function domenu()
           end
           
         end
-        if x == 14 then
+        if x == 15 then
           setadd(eoffsets.glight,gg.TYPE_FLOAT,inputnum(1),false)
         end
-        if x == 15 then
+        if x == 16 then
           setadd(eoffsets.wlight,gg.TYPE_FLOAT,inputnum(1),false)
         end
-        if x == 16 then
+        if x == 17 then
           fastitem = toggle(fastitem)
           gg.toast(boolling(fastitem))
         end
@@ -3882,15 +3924,10 @@ function domenu()
         scsettings()
       end
       if m == 15 then
-        x=gg.choice({'search 1D','print offsets','print emotes','print items','print magics','print daily','frags','pick crab','throw crab','absorb spirits','execute','load coord','door'
+        x=gg.choice({'Kill game','print offsets','print emotes','print items','print magics','print daily','frags','pick crab','throw crab','absorb spirits','execute','load coord','door'
         },nil,'⚠️This features are not stable')
         if x == 1 then
-          xgd = gg.getResults(gg.getResultsCount())
-          for k,v in ipairs(xgd) do
-            if getadd(v.address + 0x50,gg.TYPE_DWORD) == 30 and getadd(v.address + 0x50 + 0x50,gg.TYPE_DWORD) == 31 and getadd(v.address + 0x50+ 0x50 + 0x50,gg.TYPE_DWORD) == 32 then
-              gg.addListItems({v})
-            end
-          end
+          killgame()
         end
         if x == 2 then
           debg()
@@ -4031,6 +4068,7 @@ function crmenu()
     '⏩Teleport',
     '🔁Run all',
     '⏸Coord list',
+    '🤝Change map together',
     '🔥Auto burn',
     'Hotkey',
     '💸Wing run',
@@ -4094,6 +4132,35 @@ function crmenu()
     end
   end
   if jy == 8 then
+    y={}
+    for i, v in ipairs(cworld) do
+      table.insert(y,cworld[i][1])
+    end
+    table.insert(y,'⚠️Crash game')
+    r=gg.choice(y,nil,'Select map and use your wing! ')
+    if (r ~= nil) then 
+      gg.setVisible(false)
+      if psettings.fhspeed > 1 and fasthome and not teleping then
+        fasthome = false
+        teleping = true
+        gg.toast('Fast home disabled')
+      end
+      xre = eoffsets.nentity - poffsets.wingmap
+      setadd(xre,gg.TYPE_QWORD,49,false)
+      setadd(xre+0x4,gg.TYPE_DWORD,0,false)
+      setadd(xre+0x8,gg.TYPE_DWORD,28,false)
+      setadd(xre+0xC,gg.TYPE_DWORD,0,false)
+      setadd(xre+0x10,gg.TYPE_QWORD,eoffsets.nentity - poffsets.wingmap + 0x36D0,false)
+      if r == #y then
+        setstr(eoffsets.nentity - poffsets.wingmap + 0x36D0,24,'ExMachina')
+      else
+        setstr(eoffsets.nentity - poffsets.wingmap + 0x36D0,24,cworld[r][2])
+      end
+        setadd(pbase + poffsets.ewing,gg.TYPE_DWORD,1973407668,false)
+    end
+    WhyYouRemoveThisLine = 'by Ex'
+  end
+  if jy == 9 then
     if candles[1].freeze then
       gg.removeListItems(candles)
       gg.removeListItems(flowers)
@@ -4112,7 +4179,7 @@ function crmenu()
       gg.toast('on')
     end
   end
-  if jy == 9 then
+  if jy == 10 then
     k=gg.choice({
         'Disable'
       	,'Honk'
@@ -4128,17 +4195,17 @@ function crmenu()
     if k == 4 then mev = 3 end
     gg.setVisible(false)
   end
-  if jy == 10 then
+  if jy == 11 then
     crset.enable = false
     wrset.enable = true
     wrmenu()
     return;
   end
-  if jy == 11 then
+  if jy == 12 then
     domenu()
     return;
   end
-  if jy == 12 then
+  if jy == 13 then
     mev = 0
     gg.setVisible(false)
     crset.enable = false
