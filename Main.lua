@@ -6,7 +6,7 @@
 
 
 gg.toast('FuckChina Loaded')
-ddd = "a21.09.16"
+ddd = "a21.09.18"
 pshare = ''
 umenu = true
 fasthome = true
@@ -20,6 +20,7 @@ crset = {enable = false, level = 0, map = ''}
 wrset = {enable = false, level = 0, map = ''}
 spinset = {enable = false, rot = 0, val = 0, lby = true, speed = 20}
 huiset = false
+hsmem = false
 psettings = {
   crspeed=3,
   crdelay=1500,
@@ -113,6 +114,7 @@ poffsets = {
   enode = 0x1397DC0,
   fastfly = 0x122523C,
   phands = 0x1AF08,
+  hidenseek = 0x1C8F4
   }
 
 allmagics = {}
@@ -144,7 +146,9 @@ eoffsets = {
   gspirits = 0x00,
   pdesk = 0x00,
   glight = 0x00,
-  wlight = 0x00
+  wlight = 0x00,
+  legs = 0x00,
+  msgr = 0x00
 }
 mid = {
   {'💫Small',1692428656,0},
@@ -1071,7 +1075,7 @@ mm = {}
  if gg.getResultsCount() > 3 then
  nn = gg.getResults(5)[4].address
  gg.clearResults()
- setstr(nn,27,'Kyaw')
+ setstr(nn,27,'by ExMachina')
  end
  nn = 0
  gg.clearResults()
@@ -1966,7 +1970,7 @@ function chooseplayer()
     else
       ret = ret - 2
     end
-  if ret == nil then 
+  if ret == nil or ret < 1 then 
     return -1 
   else 
     gg.toast('['..ret..'] '..vid[ret])
@@ -2235,6 +2239,10 @@ function candlefarm(aa,bb)
   setadd(pbase + poffsets.pose,gg.TYPE_DWORD,0,false)
   gg.removeListItems(candles)
   gg.removeListItems(flowers)
+end
+
+function showmessage()
+  
 end
 
 function doorpeek(boo)
@@ -2937,7 +2945,8 @@ function scsettings()
     'Fasthome speed : ' .. psettings.fhspeed,
     'Change map image : ' .. imgs[psettings.cmimage],
     'Android 11(Testing) : ' .. boolling(psettings.aeleven),
-    'Fps : ' .. psettings.ufps
+    'Fps : ' .. psettings.ufps,
+    '👋 Exit script'
   },nil,'')
   if xcs == nil then return; end
   if xcs == 1 then
@@ -2995,6 +3004,11 @@ function scsettings()
     psettings.ufps = inputnum(30)
   end
   savedata()
+  if xcs == 18 then
+    gg.toast('Bye 👋 ')
+    os.exit()
+  end
+  
   scsettings()
 end
 
@@ -3472,6 +3486,8 @@ function domenu()
            ,'🎤Lock shout scale'
            ,'🧎Lock player pose'
            ,'💤Fake sleeping'
+           ,'🦽Break legs'
+           ,'😝Hide and seek'
            ,'🔃Spinbot'
          },nil,'')
        if x == nil then
@@ -3646,8 +3662,35 @@ function domenu()
           gg.setVisible(false)
         end
         if x == 16 then
+          if eoffsets.legs == 0x00 then
+          gg.setRanges(gg.REGION_C_BSS)
+          gg.clearResults()
+          gg.searchNumber(0.78539818525,gg.TYPE_FLOAT)
+          if gg.getResultsCount() == 0 then
+            gg.toast('failed!')
+            return;
+          end
+          eoffsets.legs = gg.getResults(1)[1].address - 0x4
+          end
+          if getadd(eoffsets.legs,gg.TYPE_FLOAT) < 0.7 then
+            setadd(eoffsets.legs,gg.TYPE_FLOAT,8,false)
+            setadd(eoffsets.legs-0x4B0,gg.TYPE_FLOAT,8,false)
+            gg.toast('on')
+          else
+            setadd(eoffsets.legs,gg.TYPE_FLOAT,0.64278763533,false)
+            setadd(eoffsets.legs-0x4B0,gg.TYPE_FLOAT,0.64278763533,false)
+            gg.toast('off')
+          end
+        end
+        if x == 17 then
+          hsmenu()
+          hsmem = true
+          return;
+        end
+        if x == 18 then
           spinmenu()
         end
+        gg.setVisible(false)
       end
       
       if m == 7 then
@@ -3976,6 +4019,43 @@ function domenu()
       end
         --absflower()
       
+end
+
+function hsmenu()
+  --h 73 6F 63 69 61 6C 6C 5F 68 69 64 64 65 5F 6E 5F 5F 73 65 65 6B 6B 5F 77 6F 6E 6E 00 73 6F 63 63 69 61 6C 5F 5F 68 69 64 65 65 5F 6E 5F 73 73 65 65 6B 5F 5F 66 69 6E 69 69 73 68 65 64 64 00 48 69 64 64 65 53 65 65 65 6B 57 69 6E 6E
+  vqw = gg.choice(
+    {'Set game : Exit game',
+    'Set game : wait for players',
+    'Set game : wait for hide',
+    'Set game : Start game',
+    'Set game timer',
+    'Lock game status',
+    'Exit'
+    },nil,'')
+  if vqw == nil then return; end
+  if vqw <= 4 then
+    setadd(pbase+poffsets.hidenseek,gg.TYPE_DWORD,vqw-1,false)
+  elseif vqw == 5 then
+    setadd(pbase+poffsets.hidenseek,gg.TYPE_FLOAT,inputnum(20)/20,false)
+  elseif vqw == 6 then
+    if isfreeze(pbase+poffsets.hidenseek) then
+      setadd(pbase+poffsets.hidenseek,gg.TYPE_DWORD,0,false)
+      gg.toast('off')
+    else
+      vqe = gg.choice({
+    'Set game : Exit game',
+    'Set game : wait for players',
+    'Set game : wait for hide',
+    'Set game : Start game'
+    },nil,'')
+      if vqe == nil then return; end
+      setadd(pbase+poffsets.hidenseek,gg.TYPE_DWORD,vqe,true)
+      gg.toast('on')
+    end
+  elseif vqw == 7 then
+    hsmem = false
+  end
+  gg.setVisible(false)
 end
 
 function crmenu()
@@ -4539,6 +4619,8 @@ while true do
       telemenu()
     elseif huiset then
       hookui()
+    elseif hsmem then
+      hsmenu()
     else
       domenu()
     end
@@ -4559,6 +4641,8 @@ while true do
         telemenu()
       elseif huiset then
         hookui()
+      elseif hsmem then
+        hsmenu()
       else
         domenu()
       end
