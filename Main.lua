@@ -1103,10 +1103,10 @@ eoffsets.ncamera = eoffsets.nentity - poffsets.gcamera
 --gg.addListItems(candles)
 gg.clearResults()
 if andro >= 30 then
-    gg.toast('\n𝙉𝙤 𝙋𝙖𝙞𝙣 𝙔𝙚𝙨 𝙂𝙖𝙞𝙣\n' .. ddd .. ' [A11] by Kel')
+    gg.toast('\nnDiscord got tos strike and removed now\n' .. ddd .. ' [A11] by Kel')
     print('Android 11 detected')
   else
-    gg.toast('\n𝙉𝙤 𝙋𝙖𝙞𝙣 𝙔𝙚𝙨 𝙂𝙖𝙞𝙣\n' .. ddd .. ' by Kel')
+    gg.toast('\nDiscord got tos strike and removed now\n' .. ddd .. ' by Kel')
 end
   
 if psettings.nodamage then
