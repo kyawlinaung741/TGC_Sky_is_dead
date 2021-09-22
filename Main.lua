@@ -760,6 +760,7 @@ function loadsave()
     if psettings.ver == nil or psettings.ver ~= ddd then
       psettings.ver = ddd
       gg.alert(changelog)
+      savedata()
     end
   end
 end
