@@ -1,12 +1,12 @@
 --That dead sky open source by Kel
 --tgc must patch this all
 --Do you have some good functions or codes?
---Tell me discord ExMachina#5142
+--Tell me https://t.me/EL_Khan049
 
 
 
-gg.toast('ခဏစောင့်ပါ')
-ddd = "a21.09.18"
+gg.toast('ခဏစောင့်ပါ')
+ddd = 210922
 pshare = ''
 umenu = true
 fasthome = true
@@ -22,6 +22,7 @@ spinset = {enable = false, rot = 0, val = 0, lby = true, speed = 20}
 huiset = false
 hsmem = false
 psettings = {
+  ver=0,
   crspeed=3,
   crdelay=1500,
   crabsorb=100,
@@ -41,6 +42,7 @@ psettings = {
   ufps = 30
   }
   
+changelog = '09.22 update\n\n-New algorithm for "Take players hands" is stable and works well\n-Added "Request relationships" in players option\nYou can take other black guys and carry, hug and more'
 scriptv = {process ='com.tgc.sky.android',version=175117}
 teleparr = {spec = false,follow = false,collect = false,enable = false,hide = false,arr = 1}
 gameinfo = gg.getTargetInfo()
@@ -82,7 +84,7 @@ poffsets = {
   famount = 0x25558,
   gesture = 0x2C4C4,
   magic = 0x2B788,
-  bsize = 0x25494,
+  bsize = 0x25494+0x14,
   uemote = -0x43D20,
   eflowers = 0xB266A8,
   pshout = 0x22DE0,
@@ -590,7 +592,7 @@ hitarr = {
 
 --That dead sky open source by Kel
 --Do you have some good functions or codes?
---Tell me discord ExMachina#5142
+--Tell me https://t.me/EL_Khan049
 
 function indexof(a,b)
   for k,v in ipairs(a) do 
@@ -754,6 +756,11 @@ function loadsave()
     end
     if psettings.ufps == nil then
       psettings.ufps = 30
+    end
+    if psettings.ver == nil or psettings.ver ~= ddd then
+      psettings.ver = ddd
+      gg.alert(changelog)
+      savedata()
     end
   end
 end
@@ -1075,7 +1082,7 @@ mm = {}
  if gg.getResultsCount() > 3 then
  nn = gg.getResults(5)[4].address
  gg.clearResults()
- setstr(nn,27,'ကျော်လင်း')
+ setstr(nn,27,'KYAW')
  end
  nn = 0
  gg.clearResults()
@@ -1986,6 +1993,7 @@ function teleplayers()
     '👁Spectate players',
     '🤝Take players hands',
     '🎠Ride players',
+    '😱Request relationships',
     '🚷Hide all players',
     '💕Unlock friendly nodes',
     '🔄Reset friendly nodes'
@@ -2058,21 +2066,19 @@ function teleplayers()
   end
   if vh == 5 then
     --Taran and Tosta will copy this
-    nra = chooseplayer()
-    if nra < 1 then return; end
     gg.setVisible(false)
-    exma = pbase + poffsets.positX + (nra * 0xFDC0)
-    elkhan = getadd(exma+0xEB78,gg.TYPE_DWORD)
-    if elkhan ~= 0 then
-      setadd(exma+0xEB7C,gg.TYPE_DWORD,41249,false)
-      setadd(pbase+poffsets.phands+0x18,gg.TYPE_DWORD,elkhan,false)
-      setadd(pbase+poffsets.phands+0x30,gg.TYPE_DWORD,elkhan,false)
-      setadd(pbase+poffsets.phands+0x48,gg.TYPE_DWORD,41249,false)
-      setadd(pbase+poffsets.phands+0x10,gg.TYPE_QWORD,exma+0x5B90,false)
-      setadd(pbase+poffsets.phands+0x28,gg.TYPE_QWORD,exma+0x5B90,false)
-      setadd(pbase+poffsets.phands,gg.TYPE_DWORD,getadd(pbase+poffsets.phands,gg.TYPE_DWORD)+1,false)
+    if isfreeze(pbase + poffsets.positX + 0xFDC0-0x50) then
+      for i = 1, 8 do
+        setadd(pbase + poffsets.positX + (i*0xFDC0)-0x50,gg.TYPE_DWORD,0,false)
+        setadd(pbase + poffsets.positX + (i*0xFDC0)-0x50+0x4,gg.TYPE_DWORD,0,false)
+      end
+      gg.toast('off')
       else
-      gg.toast('Failed!')
+      for i = 1, 8 do
+        setadd(pbase + poffsets.positX + (i*0xFDC0)-0x50,gg.TYPE_DWORD,1,true)
+        setadd(pbase + poffsets.positX + (i*0xFDC0)-0x50+0x4,gg.TYPE_DWORD,41249,true)
+      end
+      gg.toast('on')
     end
   end
   --19F8
@@ -2088,8 +2094,57 @@ function teleplayers()
       else
       gg.toast('Failed!')
     end
+    gg.setVisible(false)
   end
   if vh == 7 then
+    nra = chooseplayer()
+    rutype = gg.choice({
+      'Take hands',
+      'Hug',
+      'Highfive',
+      'Double five',
+      'Hair',
+      'Carry',
+      'Beat',
+      'Bearhug',
+      'idk What is this',
+      'manual'
+    },nil,'')
+    rtype = 0
+    if rutype == nil then return; end
+    if rutype == 1 then
+      rtype = 1
+    elseif rutype == 2 then
+      rtype = 9
+    elseif rutype == 3 then
+      rtype = 10
+    elseif rutype == 4 then
+      rtype = 12
+    elseif rutype == 5 then
+      rtype = 16
+    elseif rutype == 6 then
+      rtype = 14
+    elseif rutype == 7 then
+      rtype = 18
+    elseif rutype == 8 then
+      rtype = 20
+    elseif rutype == 9 then
+      rtype = 7
+    elseif rutype == 10 then
+      rtype = inputnum(3)
+    end
+    exma = pbase + poffsets.positX + (nra * 0xFDC0)
+    elkhan = getadd(exma+0xEB78,gg.TYPE_DWORD)
+    if elkhan ~= 0 then
+      setadd(pbase+poffsets.pose,gg.TYPE_DWORD,6,false)
+      setadd(pbase+poffsets.phands+0x19F8+0x18,gg.TYPE_DWORD,rtype,false)
+      setadd(pbase+poffsets.phands+0x19F8+0x18+0x4,gg.TYPE_DWORD,elkhan,false)
+      else
+      gg.toast('Failed!')
+    end
+    gg.setVisible(false)
+  end
+  if vh == 8 then
     teleparr.enable = true
     teleparr.hide = true
     for i = 1, 7 do
@@ -2097,7 +2152,7 @@ function teleplayers()
     end
     gg.setVisible(false)
   end
-  if vh == 8 then
+  if vh == 9 then
     gg.setVisible(false)
     getfriendnode()
     srd = {}
@@ -2107,7 +2162,7 @@ function teleplayers()
     gg.setValues(srd)
     gg.toast('done')
   end
-  if vh == 9 then
+  if vh == 10 then
     gg.setVisible(false)
     resetfriendnode()
   end
@@ -3015,7 +3070,7 @@ end
 startup()
 --That dead sky open source by Kel
 --Do you have some good functions or codes?
---Tell me discord ExMachina#5142
+--Tell me https://t.me/EL_Khan049
 
 gg.setVisible(false)
 gg.showUiButton()
@@ -3444,7 +3499,7 @@ function domenu()
         if x == 14 then
           nowind()
         end
-        if x == 13 then
+        if x == 15 then
           if fasthome then
             fasthome = false
             gamespeed(1)
@@ -3456,13 +3511,13 @@ function domenu()
           end
           
         end
-        if x == 15 then
+        if x == 16 then
           setadd(eoffsets.glight,gg.TYPE_FLOAT,inputnum(1),false)
         end
-        if x == 16 then
+        if x == 17 then
           setadd(eoffsets.wlight,gg.TYPE_FLOAT,inputnum(1),false)
         end
-        if x == 17 then
+        if x == 18 then
           fastitem = toggle(fastitem)
           gg.toast(boolling(fastitem))
         end
@@ -3967,7 +4022,7 @@ function domenu()
         scsettings()
       end
       if m == 15 then
-        x=gg.choice({'Kill game','print offsets','print emotes','print items','print magics','print daily','frags','pick crab','throw crab','absorb spirits','execute','load coord','door'
+        x=gg.choice({'Kill game','print offsets','print emotes','print items','print magics','print daily','frags','pick crab','throw crab','absorb spirits','execute','load coord','door','search'
         },nil,'⚠️This features are not stable')
         if x == 1 then
           killgame()
@@ -4015,7 +4070,20 @@ function domenu()
         if x == 13 then
           doorpeek(false)
         end
-        
+        if x == 14 then
+          vde = gg.getResults(gg.getResultsCount())
+          vxd = inputnum(0)
+          vre = inputnum(0)
+          vcd = inputnum(0)
+          for i,v in ipairs(vde) do
+            gg.clearResults()
+            gg.searchNumber((v.address-vre)..'~'..(v.address+vre),gg.TYPE_QWORD,false,nil,vxd,vxd+vcd)
+            if gg.getResultsCount() ~= 0 then
+              break;
+            end
+          end
+          gg.toast('done')
+        end
       end
         --absflower()
       
@@ -4655,4 +4723,4 @@ end
 
 --That dead sky open source by Kel
 --Do you have some good functions or codes?
---Tell me discord ExMachina#5142
+--Tell me https://t.me/EL_Khan049
