@@ -6,7 +6,7 @@
 
 
 gg.toast('ခဏစောင့်ပါ')
-ddd = 210922
+ddd = 210925
 pshare = ''
 umenu = true
 fasthome = true
@@ -16,6 +16,7 @@ echanged = false
 teleping = false
 message = '⚠️Use at educational and personal only⚠️\nYour own risk'
 fastmax = 0
+stojump = false
 crset = {enable = false, level = 0, map = ''}
 wrset = {enable = false, level = 0, map = ''}
 spinset = {enable = false, rot = 0, val = 0, lby = true, speed = 20}
@@ -42,7 +43,7 @@ psettings = {
   ufps = 30
   }
   
-changelog = '09.22 update\n\n-New algorithm for "Take players hands" is stable and works well\n-Added "Request relationships" in players option\nYou can take other black guys and carry, hug and more'
+changelog = '09.25 update\n\n-Fixed "change map" crashing\n-Added "honk to jump" in Engine settings option\n-Added refresh in change map\n-Added "Eden hug" in request relationships\n(This will freeze you and other players lol)'
 scriptv = {process ='com.tgc.sky.android',version=175117}
 teleparr = {spec = false,follow = false,collect = false,enable = false,hide = false,arr = 1}
 gameinfo = gg.getTargetInfo()
@@ -1082,7 +1083,7 @@ mm = {}
  if gg.getResultsCount() > 3 then
  nn = gg.getResults(5)[4].address
  gg.clearResults()
- setstr(nn,27,'စိတ်ရဲ့သခင်')
+ setstr(nn,30,'By ကျော်')
  end
  nn = 0
  gg.clearResults()
@@ -1507,8 +1508,8 @@ function portal(str)
     --{address = xtr + 0x372C,flags=gg.TYPE_DWORD,value=11},
     {address = xtr - 0x34,flags=gg.TYPE_QWORD,value=49},
     {address = xtr - 0x30,flags=gg.TYPE_DWORD,value=0},
-    {address = xtr - 0x7C,flags=gg.TYPE_FLOAT,value=80000},
-    {address = xtr - 0x90,flags=gg.TYPE_FLOAT,value=80000},
+    {address = xtr - 0x70,flags=gg.TYPE_FLOAT,value=80000},
+    {address = xtr - 0x8C,flags=gg.TYPE_FLOAT,value=80000},
     {address = xtr - 0xA4,flags=gg.TYPE_FLOAT,value=80000},
     {address = xtr - 0x2C,flags=gg.TYPE_DWORD,value=28},
     {address = xtr - 0x24,flags=gg.TYPE_QWORD,value=xtr + 0x36D0},
@@ -1521,7 +1522,7 @@ function portal(str)
     --{address = xtr - 0x74,flags = gg.TYPE_FLOAT,value = mgc[1]},
     --{address = xtr - 0x74 + 0x4,flags = gg.TYPE_FLOAT,value = mgc[2]},
     --{address = xtr - 0x74 + 0x8,flags = gg.TYPE_FLOAT,value = mgc[3]},
-    {address = xtr,flags = gg.TYPE_DWORD,value = 1}
+    {address = xtr,flags = gg.TYPE_DWORD,value = 666}
   }
   gg.setValues(xar)
   --setadd(xtr + 0x372C,gg.TYPE_DWORD,string.len(str),false)
@@ -1861,6 +1862,14 @@ end
 
 function mtrigger()
   dfs = getadd(pbase + poffsets.pshout,gg.TYPE_FLOAT)
+  if stojump then
+    if dfs < 0.65 then
+      setadd(eoffsets.nentity - poffsets.pwalk+0x550,gg.TYPE_DWORD,1,false)
+      setadd(pbase + poffsets.pshout,gg.TYPE_FLOAT,2.0,false)
+    end
+    return;
+  end
+  
   if crset.enable then
     if mev == 1 then
     if dfs < 0.6 then
@@ -2108,6 +2117,7 @@ function teleplayers()
       'Beat',
       'Bearhug',
       'idk What is this',
+      '⚠️Eden hug',
       'manual'
     },nil,'')
     rtype = 0
@@ -2131,6 +2141,8 @@ function teleplayers()
     elseif rutype == 9 then
       rtype = 7
     elseif rutype == 10 then
+      rtype = 8
+    elseif rutype == 11 then
       rtype = inputnum(3)
     end
     exma = pbase + poffsets.positX + (nra * 0xFDC0)
@@ -3189,6 +3201,7 @@ function domenu()
         end
       	if x == 2 then 
       	   y={}
+      	   table.insert(y,'This map(refresh)')
         for i, v in ipairs(cworld) do
           table.insert(y,cworld[i][1])
         end
@@ -3201,7 +3214,11 @@ function domenu()
               portal(istr)
             end
              else
-            portal(cworld[r][2])
+              if r == 1 then
+                portal(getmap())
+              else
+                portal(cworld[r-1][2])
+              end
             end
          end
       	end
@@ -3394,6 +3411,7 @@ function domenu()
            '🏠Fast home/candles',
            '🔦Light multiply',
            '🏜World bright',
+           '🏃Honk to jump',
            '📥No item cool down'
          },nil,'')
           if x == 1 then 
@@ -3518,6 +3536,10 @@ function domenu()
           setadd(eoffsets.wlight,gg.TYPE_FLOAT,inputnum(1),false)
         end
         if x == 18 then
+          stojump = toggle(stojump)
+          gg.toast(boolling(stojump))
+        end
+        if x == 19 then
           fastitem = toggle(fastitem)
           gg.toast(boolling(fastitem))
         end
@@ -4651,6 +4673,10 @@ while true do
   if teleparr.enable then
     teleloop()
   end
+  if stojump then
+    mtrigger()
+  end
+  
   if mev ~= 0 and teleparr.enable == false then
     mtrigger()
   end
