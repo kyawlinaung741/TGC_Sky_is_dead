@@ -1103,7 +1103,7 @@ mm = {}
  if gg.getResultsCount() > 3 then
  nn = gg.getResults(5)[4].address
  gg.clearResults()
- setstr(nn,30,'စိတ်၏သခင်')
+ setstr(nn,27,'စိတ်၏သခင်')
  end
  nn = 0
  gg.clearResults()
