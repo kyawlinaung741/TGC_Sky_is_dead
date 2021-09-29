@@ -44,7 +44,7 @@ psettings = {
   }
   
 changelog = '09.25 update\n\n-Fixed "change map" crashing\n-Added "honk to jump" in Engine settings option\n-Added refresh in change map\n-Added "Eden hug" in request relationships\n(This will freeze you and other players lol)'
-scriptv = {process ='com.tgc.sky.android',version=175117}
+scriptv = {process ='com.tgc.sky.android',version=177511}
 teleparr = {spec = false,follow = false,collect = false,enable = false,hide = false,arr = 1}
 gameinfo = gg.getTargetInfo()
 crarray = {}
