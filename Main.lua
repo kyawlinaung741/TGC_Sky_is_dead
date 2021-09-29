@@ -812,7 +812,7 @@ function fpbase()
   eoffsets.nentity = getadd(rbootloader + poffsets.ptoentity,gg.TYPE_QWORD) + poffsets.ptonentity
   xtest1 = getadd(pbase,gg.TYPE_DWORD)
   xtest2 = getadd(eoffsets.nentity,gg.TYPE_DWORD)
-  if xtest1 < 0 and getadd(pbase + 0x10,gg.TYPE_DWORD) ~= 371 then
+  if getadd(sn5.address - 0x4,gg.TYPE_DWORD) == 0 and getadd(sn5.address - 0x8,gg.TYPE_DWORD) == 0 and getadd(sn5.address + 0x8,gg.TYPE_DWORD) == 0 and getadd(sn5.address + 0x4,gg.TYPE_DWORD) ~= 0 then
   gg.alert('Cannot find player base!\n1. Game loading is not completed\n2. restart script at home\n3. restart the game')
   os.exit()
   end
