@@ -5,7 +5,7 @@
 
 
 
-gg.toast('ခဏ‌
+gg.toast('ခဏ‌စောင့်ပါ')
 ddd = 210929
 pshare = ''
 umenu = true
@@ -43,7 +43,7 @@ psettings = {
   ufps = 30
   }
   
-changelog = '09.29 update\n\n-Updated to new game version\nbut not completed, some features may not works!\n-Added New magics, props, maps'
+changelog = '09.29 update\n\n-ဂိမ်းဗားရှင်းအသစ်သို့အဆင့်မြှင့်တင်ခဲ့သည်\n သို့သော်မပြီးစီးပါ၊ အချို့အင်္ဂါရပ်များအလုပ်မလုပ်ပါ!\n-မှော်အသစ်များ၊ အသုံးအဆောင်များ၊ မြေပုံများကိုထည့်ထားသည်'
 scriptv = {process ='com.tgc.sky.android',version=177511}
 teleparr = {spec = false,follow = false,collect = false,enable = false,hide = false,arr = 1}
 gameinfo = gg.getTargetInfo()
