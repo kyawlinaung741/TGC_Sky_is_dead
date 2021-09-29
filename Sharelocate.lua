@@ -726,10 +726,11 @@ posits = {
 {map='NightDesert',name='Throne',x=399.643310546875,y=92.43084716796875,z=778.90869140625},
 {map='NightDesert',name='BigBooks',x=408.36773681640625,y=154.7767791748047,z=1037.8370361328125},
 {map='NightDesert',name='Floating Eggrock',x=144.13259887695312,y=45.12910461425781,z=770.6494750976562},
-{map='CandleSpace',name='black_room_island',x=-401.7143859863281,y=14.144501686096191,z=413.95562744140625},
+{map='CandleSpace',name='Black_Room_island',x=-401.7143859863281,y=14.144501686096191,z=413.95562744140625},
 {map='NightDesertBeach',name='jelly',x=-5397,73779296875,y=2580,5859375,z=6082,1962890625},
 {map='NightDesert',name='To Infinite Desert',x=-21.14558982849121,y=9.46289348602295,z=547.5945434570312},
 {map='Night_InfiniteDesert',name='Back to desert',x=635.3980712890625,y=54.36724853515625,z=-85.38371276855469},
 {map='SunsetVillage',name='ALL_SPIRIT_LOL',x=-419.5585021972656,y=19.289306640625,z=-203.55723571777344},
 {map='SunsetVillage',name='OOB_STONEPIGpig2_by_MadBoii',x=2.1557862758636475,y=1.2917245626449585,z=0.5072160363197327},
 }
+{map='Skyway'$$name='Sky_way'$$x=9.182947158813477$$y=380.2497863769531$$z=281.39764404296875}$$
