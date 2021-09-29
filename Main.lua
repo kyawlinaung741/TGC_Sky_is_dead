@@ -5,8 +5,8 @@
 
 
 
-gg.toast('ခဏစောင့်ပါ')
-dddword = 210929
+gg.toast('ခဏ‌
+ddd = 210929
 pshare = ''
 umenu = true
 fasthome = true
@@ -706,7 +706,7 @@ function addtostr(add,amount)
 end
 
 function getpatch()
-  API = gg.makeRequest('raw.githubusercontent.com/kyawlinaung741/TGC_Sky_is_dead/main/Sharelocate.lua').content
+  API = gg.makeRequest('https://raw.githubusercontent.com/Kelrit402/TGC_Sky_is_dead/main/Sharelocate.lua').content
   if not API then
     gg.toast('patch failed')
   else
@@ -1103,7 +1103,7 @@ mm = {}
  if gg.getResultsCount() > 3 then
  nn = gg.getResults(5)[4].address
  gg.clearResults()
- setstr(nn,27,'စိတ်၏သခင်')
+ setstr(nn,27,'by ExMachina')
  end
  nn = 0
  gg.clearResults()
