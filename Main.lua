@@ -5,7 +5,7 @@
 
 
 
-gg.toast('ခဏစောင့်ပါ 21ခုနှစ်9လပိုင်း29ရက်')
+gg.toast('ခဏစောင့်ပါ')
 dddword = 210929
 pshare = ''
 umenu = true
