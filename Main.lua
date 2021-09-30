@@ -5,8 +5,8 @@
 
 
 
-gg.toast('ခဏ‌စောင့်ပါ')
-ddd = 210929
+gg.toast('ခဏစောင့်ပါ')
+ddd = 210930
 pshare = ''
 umenu = true
 fasthome = true
@@ -43,7 +43,7 @@ psettings = {
   ufps = 30
   }
   
-changelog = '09.29 update\n\n-ဂိမ်းဗားရှင်းအသစ်သို့အဆင့်မြှင့်တင်ခဲ့သည်\n သို့သော်မပြီးစီးပါ၊ အချို့အင်္ဂါရပ်များအလုပ်မလုပ်ပါ!\n-မှော်အသစ်များ၊ အသုံးအဆောင်များ၊ မြေပုံများကိုထည့်ထားသည်'
+changelog = '09.30 update\n\n-Updated to new game version is completed\n"Take other players hands" and "ride player" is patched by tgc\nnow it works for your friends only'
 scriptv = {process ='com.tgc.sky.android',version=177511}
 teleparr = {spec = false,follow = false,collect = false,enable = false,hide = false,arr = 1}
 gameinfo = gg.getTargetInfo()
@@ -91,32 +91,32 @@ poffsets = {
   pshout = 0x22DE0,
   pdamage = 0x224A4,
   wwings = 0x4E069C,
-  wobjs = 0x8F88A4,
-  wbtns = 0x992348,
+  wobjs = 0x8F9B54,
+  wbtns = 0x993778,
   gohome = 0x23C58,
   phands = 0x1AF08,
-  elist = 0x138BD73,
+  elist = 0x1392A33,
   gspeed = 0x156824C,
   eused = 0x2B48C,
   vcandles = 0x501B74,
-  gchat = 0x93F224,
+  gchat = 0x94EDC4,
   ucandle = 0x5953D0,
   fullmagic = 0x27B98,
-  mymagic = 0x23A18,
+  mymagic = 0x23A48,
   mportal = 0x17438,
   mcandles = 0x266F8,
   sglow = 0x21C28,
   wwind = 0x9DD8EC,
   pwalk = 0x123324C,
   fastfly = 0x123324C-0x8840,
-  cfrags = 0x91ABD0,
+  cfrags = 0x91BE80,
   gcamera = 0xF9604C,
   ecrabs = 0x5A49CC,
-  uihook = 0x94143C,
-  shoutscale = 0x25558+0x50, --
+  uihook = 0x95119C,
+  shoutscale = 0x25698, --
   daily = 0x1303A24,
-  wingmap = 0x12CE41C,
-  enode = 0x139EA83,
+  wingmap = 0x12C7DAC,
+  enode = 0x139EA84,
   hidenseek = 0x1C8F4
   }
 
@@ -706,7 +706,7 @@ function addtostr(add,amount)
 end
 
 function getpatch()
-  API = gg.makeRequest('https://raw.githubusercontent.com/kyawlinaung741/TGC_Sky_is_dead/main/Sharelocate.lua').content
+  API = gg.makeRequest('https://raw.githubusercontent.com/Kyawlinaung741/Kelrit402/TGC_Sky_is_dead/main/Sharelocate.lua').content
   if not API then
     gg.toast('patch failed')
   else
@@ -2216,7 +2216,7 @@ function teleplayers()
     getfriendnode()
     srd = {}
     for k,v in ipairs(nodes) do
-      table.insert(srd,{address = v[2] - 0x14,flags = gg.TYPE_DWORD,value = 0})
+      table.insert(srd,{address = v[2],flags = gg.TYPE_DWORD,value = 0})
     end
     gg.setValues(srd)
     gg.toast('done')
@@ -2888,11 +2888,10 @@ function getfriendnode()
     eoffsets.gnode=eoffsets.nentity - poffsets.enode
     for i = 0, 39 do
       nn = eoffsets.gnode + (0x2E0 * i)
-      mm = nn - 0x18
-      ww = mm - 0x14
-      yy = addtostr(nn - 0x4,20)
+      mm = nn - 0x28
+      yy = addtostr(nn + 0x1,20)
       if string.find(yy,'accept_') then
-        table.insert(nodes,{yy,mm,getadd(mm,gg.TYPE_DWORD),getadd(ww,gg.TYPE_DWORD)})
+        table.insert(nodes,{yy,mm,getadd(mm,gg.TYPE_DWORD)})
       end
     end
   end
@@ -2974,8 +2973,8 @@ end
 function resetfriendnode()
   xrs = {}
   for i,v in ipairs(nodes) do
-    table.insert(xrs,{address = nodes[i][2],flags = gg.TYPE_BYTE,value = nodes[i][3]})
-    table.insert(xrs,{address = nodes[i][2]-0x14,flags = gg.TYPE_DWORD,value = nodes[i][4]})
+    --table.insert(xrs,{address = nodes[i][2],flags = gg.TYPE_BYTE,value = nodes[i][3]})
+    table.insert(xrs,{address = nodes[i][2],flags = gg.TYPE_DWORD,value = nodes[i][3]})
   end
   gg.setValues(xrs)
   gg.toast('node reset')
@@ -4140,18 +4139,9 @@ function domenu()
           doorpeek(false)
         end
         if x == 14 then
-          vde = gg.getResults(gg.getResultsCount())
-          vxd = inputnum(0)
-          vre = inputnum(0)
-          vcd = inputnum(0)
-          for i,v in ipairs(vde) do
-            gg.clearResults()
-            gg.searchNumber((v.address-vre)..'~'..(v.address+vre),gg.TYPE_QWORD,false,nil,vxd,vxd+vcd)
-            if gg.getResultsCount() ~= 0 then
-              break;
-            end
-          end
-          gg.toast('done')
+          gg.setVisible(false)
+          gg.sleep(1000)
+          gg.refineNumber('0.01~3',gg.TYPE_FLOAT)
         end
       end
         --absflower()
