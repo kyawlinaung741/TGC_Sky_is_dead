@@ -288,14 +288,14 @@ windwallset = {
 }
 
 cworld = {
-   {"🏠[Home]CandleSpace", 'CandleSpace'},
-   {"[Isle]Dawn", 'Dawn'},
-   {"[Isle]DawnCave", 'DawnCave'},
-   {"[Trial]Dawn_TrialsWater", 'Dawn_TrialsWater'},
-   {"[Trial]Dawn_TrialsEarth", 'Dawn_TrialsEarth'},
-   {"[Trial]Dawn_TrialsAir", 'Dawn_TrialsAir'},
-   {"[Trial]Dawn_TrialsFire", 'Dawn_TrialsFire'},
-    {"[Prairie]Prairie_ButterflyFields", 'Prairie_ButterflyFields'},
+   {"[Home]🏠CandleSpace", 'CandleSpace'},
+   {"[Isle]🏝Dawn", 'Dawn'},
+   {"[Isle]🏝DawnCave", 'DawnCave'},
+   {"[Trial]🌊Dawn_TrialsWater", 'Dawn_TrialsWater'},
+   {"[Trial]🧱Dawn_TrialsEarth", 'Dawn_TrialsEarth'},
+   {"[Trial]🌪Dawn_TrialsAir", 'Dawn_TrialsAir'},
+   {"[Trial]🔥Dawn_TrialsFire", 'Dawn_TrialsFire'},
+   {"🌾[Prairie]Prairie_ButterflyFields", 'Prairie_ButterflyFields'},
     {"[Prairie]Prairie_NestAndKeeper", 'Prairie_NestAndKeeper'},
     {"[Prairie]Prairie_Island", 'Prairie_Island'},
     {"[Prairie]Prairie_Cave", 'Prairie_Cave'},
