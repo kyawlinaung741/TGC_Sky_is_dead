@@ -6,7 +6,7 @@
 
 
 gg.toast('ခဏစောင့်ပါ')
-ddd = 211001
+ddd = 210930
 pshare = ''
 umenu = true
 fasthome = true
@@ -43,7 +43,7 @@ psettings = {
   ufps = 30
   }
   
-changelog = '10.01 update\n\n-Fixed bugs in engine settings option\n-Added new exploit "Crab mode" in Troll option\nServer sided, others can see it'
+changelog = '09.30 update\n\n-Updated to new game version is completed\n"Take other players hands" and "ride player" is patched by tgc\nnow it works for your friends only'
 scriptv = {process ='com.tgc.sky.android',version=177511}
 teleparr = {spec = false,follow = false,collect = false,enable = false,hide = false,arr = 1}
 gameinfo = gg.getTargetInfo()
@@ -78,7 +78,6 @@ poffsets = {
   positZ = 0x1C970,
   bheight = 0x00,
   pose = 0x1FCF0,
-  crabmode = 0x23C08
   pwing = 0x2241C,
   ewing = 0x24108,
   eprop = 0x24108+0x1C,
@@ -289,14 +288,14 @@ windwallset = {
 }
 
 cworld = {
-   {"[Home]🏠CandleSpace", 'CandleSpace'},
-   {"[Isle]🏝Dawn", 'Dawn'},
-   {"[Isle]🏝DawnCave", 'DawnCave'},
-   {"[Trial]🌊Dawn_TrialsWater", 'Dawn_TrialsWater'},
-   {"[Trial]🧱Dawn_TrialsEarth", 'Dawn_TrialsEarth'},
-   {"[Trial]🌪Dawn_TrialsAir", 'Dawn_TrialsAir'},
-   {"[Trial]🔥Dawn_TrialsFire", 'Dawn_TrialsFire'},
-   {"🌾[Prairie]Prairie_ButterflyFields", 'Prairie_ButterflyFields'},
+   {"[Home]CandleSpace", 'CandleSpace'},
+   {"[Isle]Dawn", 'Dawn'},
+   {"[Isle]DawnCave", 'DawnCave'},
+   {"[Trial]Dawn_TrialsWater", 'Dawn_TrialsWater'},
+   {"[Trial]Dawn_TrialsEarth", 'Dawn_TrialsEarth'},
+   {"[Trial]Dawn_TrialsAir", 'Dawn_TrialsAir'},
+   {"[Trial]Dawn_TrialsFire", 'Dawn_TrialsFire'},
+    {"[Prairie]Prairie_ButterflyFields", 'Prairie_ButterflyFields'},
     {"[Prairie]Prairie_NestAndKeeper", 'Prairie_NestAndKeeper'},
     {"[Prairie]Prairie_Island", 'Prairie_Island'},
     {"[Prairie]Prairie_Cave", 'Prairie_Cave'},
@@ -903,12 +902,12 @@ function startup()
   print(nn)
   gg.clearResults()
   eoffsets.sspeed = getadd(rbootloader+poffsets.ptocwings,gg.TYPE_QWORD)
-  eoffsets.cspeed = eoffsets.sspeed - 0x34754
-  eoffsets.cloud = eoffsets.sspeed - 0x34758
-  eoffsets.glight = eoffsets.sspeed - 0x1C81C
+  eoffsets.cspeed = eoffsets.sspeed - 0x33CE4
+  eoffsets.cloud = eoffsets.sspeed - 0x33CE8
+  eoffsets.glight = eoffsets.sspeed - 0x1C134
   eoffsets.wforce = eoffsets.sspeed + 0x530
   eoffsets.jforce = eoffsets.sspeed + 0x638
-  eoffsets.wlight = eoffsets.sspeed - 0x40BE8
+  eoffsets.wlight = eoffsets.sspeed - 0x3FD08
   --[[
   ggrange(gg.REGION_C_DATA)
 gg.searchNumber("3.5", gg.TYPE_FLOAT)
@@ -3612,7 +3611,6 @@ function domenu()
            ,'💤Fake sleeping'
            ,'🦽Break legs'
            ,'😝Hide and seek'
-           ,'🦀Crab mode'
            ,'🔃Spinbot'
          },nil,'')
        if x == nil then
@@ -3813,15 +3811,6 @@ function domenu()
           return;
         end
         if x == 18 then
-          if isfreeze(pbase+poffsets.crabmode) then
-            setadd(pbase+poffsets.crabmode,gg.TYPE_DWORD,0,false)
-            gg.toast('off')
-            else
-            setadd(pbase+poffsets.crabmode,gg.TYPE_DWORD,132000,true)
-            gg.toast('on')
-          end
-        end
-        if x == 19 then
           spinmenu()
         end
         gg.setVisible(false)
@@ -4797,4 +4786,4 @@ end
 
 --That dead sky open source by Kel
 --Do you have some good functions or codes?
---Tell me https://t.me/EL_Khan049.
+--Tell me https://t.me/EL_Khan049
