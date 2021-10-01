@@ -343,7 +343,7 @@ cworld = {
     {"Before eden",'NightEnd'},
     {"⚠️👼Eden sacrifice⚠️", 'StormEnd'},
     {"⚠️👼Eden rebirt1⚠️", 'OrbitMid'},
-    {"⚠️Eden rebirth1⚠️", 'OrbitMid'},
+    {"⚠️Eden rebirth2⚠️", 'OrbitEnd'},
     {"⚠️👼Heaven⚠️", 'CandleSpaceEnd'},
     {"⚠️Credit⚠️", 'Credits'
  }
