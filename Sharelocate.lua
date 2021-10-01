@@ -588,7 +588,6 @@ crlist = {
 {map='Skyway',x=-131.95932006836,y=306.20147705078,z=237.91209411621}
 }
 
-
 posits = {
 {map='CandleSpace',name='BLACKOUT',x=800,y=0.6,z=0},
 {map='CandleSpace',name='Home',x=1.3682793378829956,y=1.1504778861999512,z=-0.7198812365531921},
