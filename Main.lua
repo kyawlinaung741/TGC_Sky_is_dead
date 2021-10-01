@@ -2315,7 +2315,7 @@ function candlefarm(aa,bb)
     elseif nyn == 'SunsetEnd2' then
       ntn = cpoint.va1
     elseif nyn == 'Dusk' then
-      ntn = int.de1
+      ntn = cpoint.de1
     elseif nyn == 'DuskGraveyard' then
       ntn = cpoint.de2
     elseif nyn == 'DuskOasis' then
