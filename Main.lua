@@ -288,7 +288,7 @@ windwallset = {
 }
 
 cworld = {
-   {"[🏠Home]CandleSpace", 'CandleSpace'},
+   {"[Home]🏠CandleSpace", 'CandleSpace'},
    {"[Isle]Dawn", 'Dawn'},
    {"[Isle]DawnCave", 'DawnCave'},
    {"[Trial]Dawn_TrialsWater", 'Dawn_TrialsWater'},
