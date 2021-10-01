@@ -3813,7 +3813,7 @@ function domenu()
           return;
         end
         if x == 18 then
-         if isfreeze(pbase+poffsets.crabmode) then
+          if isfreeze(pbase+poffsets.crabmode) then
             setadd(pbase+poffsets.crabmode,gg.TYPE_DWORD,0,false)
             gg.toast('off')
             else
