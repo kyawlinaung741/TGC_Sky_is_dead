@@ -6,7 +6,7 @@
 
 
 gg.toast('ခဏစောင့်ပါ')
-ddd = 210930
+ddd = ('21နှစ်,10လ,3ရက်, update')
 pshare = ''
 umenu = true
 fasthome = true
