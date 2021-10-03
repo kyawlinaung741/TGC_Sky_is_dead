@@ -6,7 +6,7 @@
 
 
 gg.toast('FuckChina Loaded')
-ddd = 211001
+ddd = 211003
 pshare = ''
 umenu = true
 fasthome = true
@@ -43,7 +43,7 @@ psettings = {
   ufps = 30
   }
   
-changelog = '10.01 update\n\n-Fixed bugs in engine settings option\n-Added new exploit "Crab mode" in Troll option\nServer sided, others can see it'
+changelog = '10.03 update\n\n-Fixed absorb spirits bugs'
 scriptv = {process ='com.tgc.sky.android',version=177511}
 teleparr = {spec = false,follow = false,collect = false,enable = false,hide = false,arr = 1}
 gameinfo = gg.getTargetInfo()
@@ -1487,12 +1487,13 @@ function absorb()
 end
 
 function absspirits()
-  ExMach = 0xFCD0
+  ExMach = 0xFDD0
   xde = {}
   mpos = getcoord(true)
+  elkc = getadd(pbase+poffsets.positX-0x18,gg.TYPE_DWORD)
   for i = 0, 40 do
-    xda = pbase + 0xAB438 + (i * ExMach)
-    if getadd(xda-0x18,gg.TYPE_DWORD) ~= 0 and getadd(xda,gg.TYPE_FLOAT) ~= 0 then
+    xda = pbase + 0x9BF68 + (i * ExMach)
+    if getadd(xda-0x18,gg.TYPE_DWORD) == elkc and getadd(xda,gg.TYPE_FLOAT) ~= 0 then
       table.insert(xde,{address=xda,flags=gg.TYPE_FLOAT,value=mpos[1],freeze=true})
       table.insert(xde,{address=xda+(0x4),flags=gg.TYPE_FLOAT,value=mpos[2],freeze=true})
       table.insert(xde,{address=xda+(0x8),flags=gg.TYPE_FLOAT,value=mpos[3],freeze=true})
