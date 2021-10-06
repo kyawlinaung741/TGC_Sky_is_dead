@@ -5,8 +5,8 @@
 
 
 
-gg.toast('ခဏစောင့်ပါ')
-ddd = ('21နှစ်,10လ,3ရက်, update')
+gg.toast('FuckChina Loaded')
+ddd = 211005
 pshare = ''
 umenu = true
 fasthome = true
@@ -19,6 +19,7 @@ fastmax = 0
 stojump = false
 crset = {enable = false, level = 0, map = ''}
 wrset = {enable = false, level = 0, map = ''}
+srset = {enable = false, level = -1, map = ''}
 spinset = {enable = false, rot = 0, val = 0, lby = true, speed = 20}
 huiset = false
 hsmem = false
@@ -43,7 +44,7 @@ psettings = {
   ufps = 30
   }
   
-changelog = '09.30 update\n\n-Updated to new game version is completed\n"Take other players hands" and "ride player" is patched by tgc\nnow it works for your friends only'
+changelog = '10.05 update\n\n-Added semi-auto spirit runner for ez to get spirits'
 scriptv = {process ='com.tgc.sky.android',version=177511}
 teleparr = {spec = false,follow = false,collect = false,enable = false,hide = false,arr = 1}
 gameinfo = gg.getTargetInfo()
@@ -71,13 +72,14 @@ poffsets = {
   ptonentity = 0xC8A79C,
   ptonworld = 0x63D49C,
   ptofps = 0x1819908,
-  ptocwings = 0x1767BD0,
+  ptocwings = 0x17A9720,
   wlevel = 0x22400,
   positX = 0x1C968,
   positY = 0x1C96C,
   positZ = 0x1C970,
   bheight = 0x00,
   pose = 0x1FCF0,
+  crabmode = 0x23C08,
   pwing = 0x2241C,
   ewing = 0x24108,
   eprop = 0x24108+0x1C,
@@ -117,7 +119,8 @@ poffsets = {
   daily = 0x1303A24,
   wingmap = 0x12C7DAC,
   enode = 0x139EA84,
-  hidenseek = 0x1C8F4
+  hidenseek = 0x1C8F4,
+  mspirit = 0x9BF68
   }
 
 allmagics = {}
@@ -706,7 +709,7 @@ function addtostr(add,amount)
 end
 
 function getpatch()
-  API = gg.makeRequest('https://raw.githubusercontent.com/kyawlinaung741/TGC_Sky_is_dead/main/Sharelocate.lua').content
+  API = gg.makeRequest('https://raw.githubusercontent.com/Kelrit402/TGC_Sky_is_dead/main/Sharelocate.lua').content
   if not API then
     gg.toast('patch failed')
   else
@@ -902,12 +905,12 @@ function startup()
   print(nn)
   gg.clearResults()
   eoffsets.sspeed = getadd(rbootloader+poffsets.ptocwings,gg.TYPE_QWORD)
-  eoffsets.cspeed = eoffsets.sspeed - 0x33CE4
-  eoffsets.cloud = eoffsets.sspeed - 0x33CE8
-  eoffsets.glight = eoffsets.sspeed - 0x1C134
+  eoffsets.cspeed = eoffsets.sspeed - 0x34754
+  eoffsets.cloud = eoffsets.sspeed - 0x34758
+  eoffsets.glight = eoffsets.sspeed - 0x1C81C
   eoffsets.wforce = eoffsets.sspeed + 0x530
   eoffsets.jforce = eoffsets.sspeed + 0x638
-  eoffsets.wlight = eoffsets.sspeed - 0x3FD08
+  eoffsets.wlight = eoffsets.sspeed - 0x40BE8
   --[[
   ggrange(gg.REGION_C_DATA)
 gg.searchNumber("3.5", gg.TYPE_FLOAT)
@@ -1103,7 +1106,7 @@ mm = {}
  if gg.getResultsCount() > 3 then
  nn = gg.getResults(5)[4].address
  gg.clearResults()
- setstr(nn,27,'စိတ်၏သခင်')
+ setstr(nn,27,'by ExMachina')
  end
  nn = 0
  gg.clearResults()
@@ -1486,18 +1489,94 @@ function absorb()
 end
 
 function absspirits()
-  ExMach = 0xFCD0
+  ExMach = 0xFDD0
   xde = {}
   mpos = getcoord(true)
+  elkc = getadd(pbase+poffsets.positX-0x18,gg.TYPE_DWORD)
   for i = 0, 40 do
-    xda = pbase + 0xAB438 + (i * ExMach)
-    if getadd(xda-0x18,gg.TYPE_DWORD) ~= 0 and getadd(xda,gg.TYPE_FLOAT) ~= 0 then
+    xda = pbase + poffsets.mspirit + (i * ExMach)
+    if getadd(xda-0x18,gg.TYPE_DWORD) == elkc and getadd(xda,gg.TYPE_FLOAT) ~= 0 then
       table.insert(xde,{address=xda,flags=gg.TYPE_FLOAT,value=mpos[1],freeze=true})
       table.insert(xde,{address=xda+(0x4),flags=gg.TYPE_FLOAT,value=mpos[2],freeze=true})
       table.insert(xde,{address=xda+(0x8),flags=gg.TYPE_FLOAT,value=mpos[3],freeze=true})
       end
   end
   gg.setValues(xde)
+end
+
+function spiritmem()
+  vfr = gg.choice({'Teleport to spirit','Teleport spirit to me','Collect spirits in a line','Collect spirits in a dot','Auto collect all'})
+  if vfr == nil then return; end
+  if vfr == 4 then absspirits() return; end
+  if vfr < 3 then
+  expat = 0xFDD0
+  exmac = {}
+  exsub = {}
+  elkc = getadd(pbase+poffsets.positX-0x18,gg.TYPE_DWORD)
+  table.insert(exmac,'Working')
+  for i=0, 40 do
+    xda = pbase + poffsets.mspirit + (i * expat)
+    if getadd(xda-0x18,gg.TYPE_DWORD) == elkc and getadd(xda,gg.TYPE_FLOAT) ~= 0 then
+      ghr = {
+      {xda,gg.TYPE_FLOAT},
+      {xda+0x4,gg.TYPE_FLOAT},
+      {xda+0x8,gg.TYPE_FLOAT},
+      {xda+0xD50,gg.TYPE_DWORD}
+      }
+      ghr = getaddm(ghr)
+      ap = {x=ghr[1],y=ghr[2],z=ghr[3]}
+      bp = getcoord(false)
+      dist = (math.floor(calc3d(bp,ap)*100)/100)
+      sta = ''
+      if ghr[4] == 2 then sta = 'normal'
+      elseif ghr[4] == 6 then sta = 'done'
+      elseif ghr[4] == 1 then sta = 'unloaded'
+      else sta = ghr[4]
+      end
+      table.insert(exmac,'['..i..'] dist : '..dist..' / status : ' .. sta)
+      table.insert(exsub,i)
+    end
+  end
+  vwr = gg.choice(exmac)
+  if vwr == nil then return; end
+  if vwr == 1 then
+    vgr = {}
+    cvt = -1
+    for i=0, 40 do
+      table.insert(vgr,{pbase + poffsets.mspirit + (i * expat)+0xD50,gg.TYPE_DWORD})
+    end
+    vgr = getaddm(vgr)
+    for i,v in ipairs(vgr) do
+      if v > 3 and v ~= 6 then
+        cvt = i-1
+        break
+      end
+    end
+    if cvt == -1 then
+      gg.toast('no working spirit detected')
+      return
+    else
+      if vfr == 1 then
+        setposit(getadd(pbase + poffsets.mspirit + (cvt * expat),gg.TYPE_FLOAT),getadd(pbase + poffsets.mspirit + (cvt * expat)+0x4,gg.TYPE_FLOAT),getadd(pbase + poffsets.mspirit + (cvt * expat)+0x8,gg.TYPE_FLOAT))
+      else
+        cfr = getcoord(false)
+        setadd(pbase + poffsets.mspirit + (cvt * expat),gg.TYPE_FLOAT,cfr.x,false)
+        setadd(pbase + poffsets.mspirit + (cvt * expat)+0x4,gg.TYPE_FLOAT,cfr.y,false)
+        setadd(pbase + poffsets.mspirit + (cvt * expat)+0x8,gg.TYPE_FLOAT,cfr.z,false)
+      end
+    end
+    return;
+  end
+  vwr = exsub[vwr-1]
+  if vfr == 1 then
+    setposit(getadd(pbase + poffsets.mspirit + (vwr * expat),gg.TYPE_FLOAT),getadd(pbase + poffsets.mspirit + (vwr * expat)+0x4,gg.TYPE_FLOAT),getadd(pbase + poffsets.mspirit + (vwr * expat)+0x8,gg.TYPE_FLOAT))
+    else
+    cfr = getcoord(false)
+    setadd(pbase + poffsets.mspirit + (vwr * expat),gg.TYPE_FLOAT,cfr.x,false)
+    setadd(pbase + poffsets.mspirit + (vwr * expat)+0x4,gg.TYPE_FLOAT,cfr.y,false)
+    setadd(pbase + poffsets.mspirit + (vwr * expat)+0x8,gg.TYPE_FLOAT,cfr.z,false)
+  end
+  end
 end
 
 function portallegacy(str)
@@ -3427,7 +3506,7 @@ function domenu()
           if k == 3 then mev = 2 end
           if k == 4 then mev = 3 end
         end
-      if x == 18 then
+      if x == 19 then
           nnn = '{\"' .. getmap() .. '\",  {'
           for i = 0, 6 do
             nnn = nnn .. getadd(eoffsets.nworld + (i * 4),4) .. '; '
@@ -3611,6 +3690,7 @@ function domenu()
            ,'💤Fake sleeping'
            ,'🦽Break legs'
            ,'😝Hide and seek'
+           ,'🦀Crab mode'
            ,'🔃Spinbot'
          },nil,'')
        if x == nil then
@@ -3811,6 +3891,15 @@ function domenu()
           return;
         end
         if x == 18 then
+          if isfreeze(pbase+poffsets.crabmode) then
+            setadd(pbase+poffsets.crabmode,gg.TYPE_DWORD,0,false)
+            gg.toast('off')
+            else
+            setadd(pbase+poffsets.crabmode,gg.TYPE_DWORD,132000,true)
+            gg.toast('on')
+          end
+        end
+        if x == 19 then
           spinmenu()
         end
         gg.setVisible(false)
@@ -3866,6 +3955,7 @@ function domenu()
            ,'⚠️Auto candle farm⚠️'
            ,'Semi-Auto candle farm'
            ,'Semi-Auto wing farm'
+           ,'Semi-Auto spirit farm'
            ,'Lock player candle'
            ,'Unlock elders'
            ,'Absorb spirits(unstable!)'
@@ -3952,8 +4042,13 @@ function domenu()
          gg.setVisible(false)
           wrset.enable = true
           wrmenu()
+       end
+      if x == 5 then
+         gg.setVisible(false)
+          srset.enable = true
+          srmenu()
         end
-        if x == 5 then
+        if x == 6 then
           if isfreeze(eoffsets.nentity + poffsets.ucandle) then
             setadd(eoffsets.nentity + poffsets.ucandle,gg.TYPE_DWORD,getadd(eoffsets.nentity + poffsets.ucandle,gg.TYPE_DWORD),false)
             gg.toast('off')
@@ -3963,11 +4058,11 @@ function domenu()
           end
             
         end
-        if x == 6 then
+        if x == 7 then
           gg.setVisible(false)
           fkelders()
         end
-        if x == 7 then
+        if x == 8 then
           gg.setVisible(false)
           pmap = getmap()
           gg.toast('Open gg to stop')
@@ -4181,6 +4276,180 @@ function hsmenu()
     end
   elseif vqw == 7 then
     hsmem = false
+  end
+  gg.setVisible(false)
+end
+
+function srmenu()
+  hq = getmap()
+  --gg.toast(#crlist)
+  --gg.toast(#crarray)
+  if hq ~= srset.map then
+    srset.level = -1
+    srset.map = hq
+  end
+  jy=gg.choice({
+    'Go to spirit',
+    '➡️Next Spirit',
+    '⬅️Previous Spirit',
+    'Spirit to me',
+    'Absorb all',
+    '🔁Absorb loop',
+    '⏩Teleport',
+    'Spirit list',
+    '🤝Change map together',
+    '🛄Main menu',
+    '❌Exit'
+  },nil,'Target code : ' .. srset.level)
+  if jy == nil then return; end
+  gg.setVisible(false)
+  if jy == 1 then
+    if srset.level < 0 or getadd(pbase+poffsets.mspirit+(srset.level*0xFDD0),gg.TYPE_FLOAT) == 0 then
+      gg.toast('Invalid spirit')
+      return;
+    end
+    bg = {getadd(pbase+poffsets.mspirit+(srset.level*0xFDD0),gg.TYPE_FLOAT),getadd(pbase+poffsets.mspirit+(srset.level*0xFDD0)+0x4,gg.TYPE_FLOAT),getadd(pbase+poffsets.mspirit+(srset.level*0xFDD0)+0x8,gg.TYPE_FLOAT)}
+    setposit(bg[1],bg[2],bg[3])
+  end
+  if jy == 2 then
+    btn = -1
+    for i=srset.level+1, 40-srset.level do
+      if getadd(pbase+poffsets.mspirit+(i*0xFDD0),gg.TYPE_FLOAT) ~= 0 then
+        btn = i
+        break;
+      end
+    end
+    if btn == -1 then gg.toast('No more spirits detected'); return; end
+    srset.level = btn
+    bg = {getadd(pbase+poffsets.mspirit+(srset.level*0xFDD0),gg.TYPE_FLOAT),getadd(pbase+poffsets.mspirit+(srset.level*0xFDD0)+0x4,gg.TYPE_FLOAT),getadd(pbase+poffsets.mspirit+(srset.level*0xFDD0)+0x8,gg.TYPE_FLOAT)}
+    setposit(bg[1],bg[2],bg[3])
+  end
+  if jy == 3 then
+    btn = -1
+    for i=1, srset.level do
+      if getadd(pbase+poffsets.mspirit+(srset.level*0xFDD0)-(i*0xFDD0),gg.TYPE_FLOAT) ~= 0 then
+        btn = srset.level - i
+        break;
+      end
+    end
+    if btn == -1 then gg.toast('No more spirits detected'); return; end
+    srset.level = btn
+    bg = {getadd(pbase+poffsets.mspirit+(srset.level*0xFDD0),gg.TYPE_FLOAT),getadd(pbase+poffsets.mspirit+(srset.level*0xFDD0)+0x4,gg.TYPE_FLOAT),getadd(pbase+poffsets.mspirit+(srset.level*0xFDD0)+0x8,gg.TYPE_FLOAT)}
+    setposit(bg[1],bg[2],bg[3])
+  end
+  if jy == 4 then
+    if srset.level < 0 or getadd(pbase+poffsets.mspirit+(srset.level*0xFDD0),gg.TYPE_FLOAT) == 0 then
+      gg.toast('Invalid spirit')
+      return;
+    end
+    br = getcoord(false)
+    setadd(pbase+poffsets.mspirit+(srset.level*0xFDD0),gg.TYPE_FLOAT,br.x,false)
+    setadd(pbase+poffsets.mspirit+(srset.level*0xFDD0)+0x4,gg.TYPE_FLOAT,br.y,false)
+    setadd(pbase+poffsets.mspirit+(srset.level*0xFDD0)+0x8,gg.TYPE_FLOAT,br.z,false)
+  end
+  if jy == 5 then
+    absspirits()
+  end
+  if jy == 6 then
+    gg.setVisible(false)
+    pmap = getmap()
+    gg.toast('Open gg to stop')
+    for i = 0, 60 do
+      if gg.isVisible(true) or pmap ~= getmap() then
+        break;
+      end
+      if srset.level < 0 or getadd(pbase+poffsets.mspirit+(srset.level*0xFDD0),gg.TYPE_FLOAT) == 0 then
+        break;
+      end
+      br = getcoord(false)
+      setadd(pbase+poffsets.mspirit+(srset.level*0xFDD0),gg.TYPE_FLOAT,br.x,false)
+      setadd(pbase+poffsets.mspirit+(srset.level*0xFDD0)+0x4,gg.TYPE_FLOAT,br.y,false)
+      setadd(pbase+poffsets.mspirit+(srset.level*0xFDD0)+0x8,gg.TYPE_FLOAT,br.z,false)
+      gg.sleep(900)
+    end
+    gg.toast('Absorb spirits disabled')
+  end
+  if jy == 7 then
+    telelist()
+  end
+  if jy == 8 then
+  expat = 0xFDD0
+  exmac = {}
+  exsub = {}
+  vsw = {}
+  elkc = getadd(pbase+poffsets.positX-0x18,gg.TYPE_DWORD)
+  table.insert(exmac,'Nearby')
+  for i=0, 40 do
+    xda = pbase + poffsets.mspirit + (i * expat)
+    if getadd(xda-0x18,gg.TYPE_DWORD) == elkc and getadd(xda,gg.TYPE_FLOAT) ~= 0 then
+      ghr = {
+      {xda,gg.TYPE_FLOAT},
+      {xda+0x4,gg.TYPE_FLOAT},
+      {xda+0x8,gg.TYPE_FLOAT},
+      {xda+0xD50,gg.TYPE_DWORD}
+      }
+      ghr = getaddm(ghr)
+      ap = {x=ghr[1],y=ghr[2],z=ghr[3]}
+      bp = getcoord(false)
+      dist = (math.floor(calc3d(bp,ap)*100)/100)
+      sta = ''
+      if ghr[4] == 2 then sta = 'normal'
+      elseif ghr[4] == 6 then sta = 'done'
+      elseif ghr[4] == 1 then sta = 'unloaded'
+      else sta = ghr[4]
+      end
+      table.insert(exmac,'['..i..'] dist : '..dist..' / status : ' .. sta)
+      table.insert(exsub,i)
+      table.insert(vsw,{v=dist,a=i})
+    end
+  end
+  vwr = gg.choice(exmac)
+  if vwr == nil then return; end
+  if vwr == 1 then
+    table.sort(vsw,compare2)
+    vwr = vsw[1].a
+  end
+  srset.level = exsub[vwr-1]
+  bg = {getadd(pbase+poffsets.mspirit+(srset.level*0xFDD0),gg.TYPE_FLOAT),getadd(pbase+poffsets.mspirit+(srset.level*0xFDD0)+0x4,gg.TYPE_FLOAT),getadd(pbase+poffsets.mspirit+(srset.level*0xFDD0)+0x8,gg.TYPE_FLOAT)}
+  setposit(bg[1],bg[2],bg[3])
+  end
+  if jy == 9 then
+    y={}
+    for i, v in ipairs(cworld) do
+      table.insert(y,cworld[i][1])
+    end
+    table.insert(y,'⚠️Crash game')
+    r=gg.choice(y,nil,'Select map and use your wing! ')
+    if (r ~= nil) then 
+      gg.setVisible(false)
+      if psettings.fhspeed > 1 and fasthome and not teleping then
+        fasthome = false
+        teleping = true
+        gg.toast('Fast home disabled')
+      end
+      xre = eoffsets.nentity - poffsets.wingmap
+      setadd(xre,gg.TYPE_QWORD,49,false)
+      setadd(xre+0x4,gg.TYPE_DWORD,0,false)
+      setadd(xre+0x8,gg.TYPE_DWORD,28,false)
+      setadd(xre+0xC,gg.TYPE_DWORD,0,false)
+      setadd(xre+0x10,gg.TYPE_QWORD,eoffsets.nentity - poffsets.wingmap + 0x36D0,false)
+      if r == #y then
+        setstr(eoffsets.nentity - poffsets.wingmap + 0x36D0,24,'ExMachina')
+      else
+        setstr(eoffsets.nentity - poffsets.wingmap + 0x36D0,24,cworld[r][2])
+      end
+        setadd(pbase + poffsets.ewing,gg.TYPE_DWORD,1973407668,false)
+    end
+    WhyYouRemoveThisLine = 'by Ex'
+  end
+  if jy == 10 then
+    domenu()
+    return;
+  end
+  if jy == 11 then
+    gg.setVisible(false)
+    srset.enable = false
+    domenu()
   end
   gg.setVisible(false)
 end
@@ -4746,6 +5015,8 @@ while true do
       crmenu()
     elseif wrset.enable then
       wrmenu()
+    elseif srset.enable then
+      srmenu()
     elseif teleparr.enable then
       telemenu()
     elseif huiset then
@@ -4768,6 +5039,8 @@ while true do
         crmenu()
       elseif wrset.enable then
         wrmenu()
+      elseif srset.enable then
+        srmenu()
       elseif teleparr.enable then
         telemenu()
       elseif huiset then
