@@ -280,7 +280,7 @@ windwallset = {
     {"DuskStart", 4793244457638695424},
     {"Dusk", 4803651955820274913},
     {"DuskGraveyard", 4807836432909636834},
-    {"Duskoasis", 4845558260964967524},
+    {"DuskOasis", 4845558260964967524},
     {"Dusk_CrabField", 4794390915414850800},
     {"DuskMid", 4830500777766158336},
     {"DuskEnd", 4855161876522205184},
@@ -324,7 +324,7 @@ cworld = {
     {"[Desert]DuskStart", 'DuskStart'},
     {"[Desert]Dusk", 'Dusk'},
     {"[Desert]DuskGraveyard", 'DuskGraveyard'},
-    {"[Desert]Duskoasis", 'Duskoasis'},
+    {"[Desert]DuskOasis", 'DuskOasis'},
     {"[Desert]Dusk_CrabField", 'Dusk_CrabField'},
     {"[Desert]DuskMid", 'DuskMid'},
     {"[Desert]DuskEnd", 'DuskEnd'},
@@ -2396,7 +2396,7 @@ function candlefarm(aa,bb)
       ntn = cpoint.de1
     elseif nyn == 'DuskGraveyard' then
       ntn = cpoint.de2
-    elseif nyn == 'Duskoasis' then
+    elseif nyn == 'DuskOasis' then
       ntn = cpoint.de3
     elseif nyn == 'Dusk_CrabField' then
       ntn = cpoint.de4
