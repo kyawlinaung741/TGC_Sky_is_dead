@@ -5,8 +5,8 @@
 
 
 
-gg.toast('FuckChina Loaded')
-ddd = 211005
+gg.toast('ခဏစောင့်ပါ')
+ddd = ('၂၁နှစ်,၁၀လ,၀၅ရက်')
 pshare = ''
 umenu = true
 fasthome = true
@@ -1106,7 +1106,7 @@ mm = {}
  if gg.getResultsCount() > 3 then
  nn = gg.getResults(5)[4].address
  gg.clearResults()
- setstr(nn,27,'by ExMachina')
+ setstr(nn,27,'စိတ်၏သခင်')
  end
  nn = 0
  gg.clearResults()
