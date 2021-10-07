@@ -6,7 +6,7 @@
 
 
 gg.toast('FuckChina Loaded')
-ddd = 211005
+ddd = 211007
 pshare = ''
 umenu = true
 fasthome = true
@@ -44,7 +44,7 @@ psettings = {
   ufps = 30
   }
   
-changelog = '10.05 update\n\n-Added semi-auto spirit runner for ez to get spirits'
+changelog = '10.07 update\n\n-Fixed semi auto spirit runner\n-Added "Find door" in world option(not works at home)'
 scriptv = {process ='com.tgc.sky.android',version=177511}
 teleparr = {spec = false,follow = false,collect = false,enable = false,hide = false,arr = 1}
 gameinfo = gg.getTargetInfo()
@@ -2439,10 +2439,10 @@ function showmessage()
 end
 
 function doorpeek(boo)
+  gg.setVisible(false)
   dpoint = eoffsets.nentity - poffsets.mportal
   vf = {}
   if boo then
-    gg.setVisible(false)
     for i = 0, 15 do
       if getadd(dpoint + (0xE0 * i) - 0x4,gg.TYPE_DWORD) == 0 then
       break;
@@ -2471,6 +2471,7 @@ function doorpeek(boo)
       table.insert(mf,{x=getadd(dpoint + (0xE0 * i) - 0x74,gg.TYPE_FLOAT),y=getadd(dpoint + (0xE0 * i) - 0x74+0x4,gg.TYPE_FLOAT),z=getadd(dpoint + (0xE0 * i) - 0x74+0x8,gg.TYPE_FLOAT)})
     end
   end 
+  if #vf == 0 then gg.toast('Doors not detected'); return; end
   hf = gg.choice(vf,nil,'')
   if hf == nil then return; end
   setposit(mf[hf].x,mf[hf].y,mf[hf].z)
@@ -3318,6 +3319,7 @@ function domenu()
       	,'🦀Crabs'
       	,'🦐Krills'
       	,'🚪Remove map changes/limits'
+      	,'🔍Find door'
       	,'Set Warp distance'
       	,'Set breaching hotkey'
       	},nil,getmap())
@@ -3488,10 +3490,13 @@ function domenu()
         doorpeek(true)
       end
       if x == 17 then
+        doorpeek(false)
+      end
+      if x == 18 then
           psettings.warpdis = inputnum(6)
           --savedata()
       end
-      if x == 18 then
+      if x == 19 then
           k=gg.choice({
         'Disable'
       	,'Honk'
@@ -3506,7 +3511,7 @@ function domenu()
           if k == 3 then mev = 2 end
           if k == 4 then mev = 3 end
         end
-      if x == 19 then
+      if x == 20 then
           nnn = '{\"' .. getmap() .. '\",  {'
           for i = 0, 6 do
             nnn = nnn .. getadd(eoffsets.nworld + (i * 4),4) .. '; '
@@ -4408,8 +4413,10 @@ function srmenu()
   if vwr == 1 then
     table.sort(vsw,compare2)
     vwr = vsw[1].a
+    gg.toast(vwr)
+    else
   end
-  srset.level = exsub[vwr-1]
+  srset.level = exsub[vwr]
   bg = {getadd(pbase+poffsets.mspirit+(srset.level*0xFDD0),gg.TYPE_FLOAT),getadd(pbase+poffsets.mspirit+(srset.level*0xFDD0)+0x4,gg.TYPE_FLOAT),getadd(pbase+poffsets.mspirit+(srset.level*0xFDD0)+0x8,gg.TYPE_FLOAT)}
   setposit(bg[1],bg[2],bg[3])
   end
