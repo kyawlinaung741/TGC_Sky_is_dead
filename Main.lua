@@ -14,7 +14,7 @@ fastvalue = false
 fastitem = false
 echanged = false
 teleping = false
-message = '⚠️Use at educational and personal only⚠️\nYour own risk'
+message = '⚠️ပညာရေး နှင့် ကိုယ်ပိုင်အတွက်သာသုံးသုံးပါ⚠️\nသင်၏ ကိုယ်ပိုင် အန္တရာယ်'
 fastmax = 0
 stojump = false
 crset = {enable = false, level = 0, map = ''}
@@ -44,7 +44,6 @@ psettings = {
   ufps = 30
   }
   
-changelog = '10.08 update\n\n-Fixed for new game version'
 scriptv = {process ='com.tgc.sky.android',version=177980}
 teleparr = {spec = false,follow = false,collect = false,enable = false,hide = false,arr = 1}
 gameinfo = gg.getTargetInfo()
