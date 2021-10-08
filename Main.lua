@@ -44,6 +44,7 @@ psettings = {
   ufps = 30
   }
   
+  changelog = ('နောက်ဆုံးထွက်ဗားရှင်းနှင့်ကိုက်ညီ‌သည်')
 scriptv = {process ='com.tgc.sky.android',version=177980}
 teleparr = {spec = false,follow = false,collect = false,enable = false,hide = false,arr = 1}
 gameinfo = gg.getTargetInfo()
