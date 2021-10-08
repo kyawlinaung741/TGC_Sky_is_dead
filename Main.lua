@@ -6,7 +6,7 @@
 
 
 gg.toast('FuckChina Loaded')
-ddd = 211007
+ddd = 211008
 pshare = ''
 umenu = true
 fasthome = true
@@ -44,8 +44,8 @@ psettings = {
   ufps = 30
   }
   
-changelog = '10.07 update\n\n-Fixed semi auto spirit runner\n-Added "Find door" in world option(not works at home)'
-scriptv = {process ='com.tgc.sky.android',version=177511}
+changelog = '10.08 update\n\n-Fixed for new game version'
+scriptv = {process ='com.tgc.sky.android',version=177980}
 teleparr = {spec = false,follow = false,collect = false,enable = false,hide = false,arr = 1}
 gameinfo = gg.getTargetInfo()
 crarray = {}
@@ -68,7 +68,7 @@ poffsets = {
   sival = -1096122630,
   ptoplayer = 0x18B6C30,
   ptoentity = 0x1B30B20,
-  ptopbase = 0x40E288,
+  ptopbase = 0x412E88,
   ptonentity = 0xC8A79C,
   ptonworld = 0x63D49C,
   ptofps = 0x1819908,
