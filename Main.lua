@@ -5,8 +5,8 @@
 
 
 
-gg.toast('ခဏစောင့်ပါ')
-ddd = 211008
+gg.toast('FuckChina Loaded')
+ddd = 211021
 pshare = ''
 umenu = true
 fasthome = true
@@ -14,7 +14,7 @@ fastvalue = false
 fastitem = false
 echanged = false
 teleping = false
-message = '⚠️ပညာရေး နှင့် ကိုယ်ပိုင်အတွက်သာသုံးသုံးပါ⚠️\nသင်၏ ကိုယ်ပိုင် အန္တရာယ်'
+message = '⚠️Use at educational and personal only⚠️\nYour own risk'
 fastmax = 0
 stojump = false
 crset = {enable = false, level = 0, map = ''}
@@ -44,7 +44,7 @@ psettings = {
   ufps = 30
   }
   
-  changelog ='10.21 update\n\n-Change map crashing fixed'
+changelog = '10.21 update\n\n-Change map crashing fixed'
 scriptv = {process ='com.tgc.sky.android',version=177980}
 teleparr = {spec = false,follow = false,collect = false,enable = false,hide = false,arr = 1}
 gameinfo = gg.getTargetInfo()
@@ -709,7 +709,7 @@ function addtostr(add,amount)
 end
 
 function getpatch()
-  API = gg.makeRequest('https://raw.githubusercontent.com/kyawlinaung741/TGC_Sky_is_dead/main/Sharelocate.lua').content
+  API = gg.makeRequest('https://raw.githubusercontent.com/Kelrit402/TGC_Sky_is_dead/main/Sharelocate.lua').content
   if not API then
     gg.toast('patch failed')
   else
@@ -1106,7 +1106,7 @@ mm = {}
  if gg.getResultsCount() > 3 then
  nn = gg.getResults(5)[4].address
  gg.clearResults()
- setstr(nn,27,'စိတ်၏သခင်')
+ setstr(nn,27,'by ExMachina')
  end
  nn = 0
  gg.clearResults()
@@ -1116,7 +1116,7 @@ mm = {}
    eoffsets.gravity = nn + 0x20
    eoffsets.jump = nn - 0x4E8C
    eoffsets.slide = nn - 0x54828
-   print(nn)
+   --print(nn)
  end
  ggrange(4)
  --[[
@@ -1635,7 +1635,7 @@ function portal(str)
     {address = xtr - 0x34,flags=gg.TYPE_QWORD,value=49},
     {address = xtr - 0x30,flags=gg.TYPE_DWORD,value=0},
     {address = xtr - 0x70,flags=gg.TYPE_FLOAT,value=80000},
-    {address = xtr - 0x8C,flags=gg.TYPE_FLOAT,value=80000},
+    {address = xtr - 0x90,flags=gg.TYPE_FLOAT,value=80000},
     {address = xtr - 0xA4,flags=gg.TYPE_FLOAT,value=80000},
     {address = xtr - 0x2C,flags=gg.TYPE_DWORD,value=28},
     {address = xtr - 0x24,flags=gg.TYPE_QWORD,value=xtr + 0x36D0},
@@ -4183,7 +4183,8 @@ function domenu()
             setadd(eoffsets.ncamera+0x478,gg.TYPE_DWORD,65793,true)
             gg.toast('on')
           end
-         end
+          gg.setVisible(false)
+        end
         else
           gg.toast('Hook camera failed!')
         end
