@@ -102,7 +102,7 @@ poffsets = {
   eused = 0x2B48C,
   vcandles = 0x501B74,
   gchat = 0x94EDC4,
-  ucandle = 0x5953D0,
+  ucandle = 0x5953D0+0x30,
   fullmagic = 0x27B98,
   mymagic = 0x23A48,
   mportal = 0x17438,
@@ -113,7 +113,7 @@ poffsets = {
   fastfly = 0x123324C-0x8840,
   cfrags = 0x91BE80,
   gcamera = 0xF9604C,
-  ecrabs = 0x5A49CC,
+  ecrabs = 0x5A5E58,
   uihook = 0x95119C,
   shoutscale = 0x25698, --
   daily = 0x1303A24,
@@ -4093,6 +4093,7 @@ function domenu()
            ,'Camera fov'
            ,'Camera balance'
            ,'Camera left/right'
+           ,'Break cutscene'
          },nil,'')
         if y == 1 then
           nn = getadd(eoffsets.ncamera,gg.TYPE_FLOAT)
@@ -4174,6 +4175,15 @@ function domenu()
             setadd(eoffsets.ncamera - 0x394,gg.TYPE_DWORD,65537,true)
           end
         end
+        if y == 10 then
+          if isfreeze(eoffsets.ncamera+0x478) then
+            setadd(eoffsets.ncamera+0x478,gg.TYPE_DWORD,65793,false)
+            gg.toast('off')
+          else
+            setadd(eoffsets.ncamera+0x478,gg.TYPE_DWORD,65793,true)
+            gg.toast('on')
+          end
+         end
         else
           gg.toast('Hook camera failed!')
         end
@@ -4416,7 +4426,7 @@ function srmenu()
     gg.toast(vwr)
     else
   end
-  srset.level = exsub[vwr]
+  srset.level = exsub[vwr-1]
   bg = {getadd(pbase+poffsets.mspirit+(srset.level*0xFDD0),gg.TYPE_FLOAT),getadd(pbase+poffsets.mspirit+(srset.level*0xFDD0)+0x4,gg.TYPE_FLOAT),getadd(pbase+poffsets.mspirit+(srset.level*0xFDD0)+0x8,gg.TYPE_FLOAT)}
   setposit(bg[1],bg[2],bg[3])
   end
@@ -4769,7 +4779,7 @@ function wrmenu()
     '⏸Coord list',
     '🕯Candle run',
     '🛄Main menu',
-    '❌Exit'},nil,'candle : ' .. wrset.level .. '/' .. #wrarray)
+    '❌Exit'},nil,'Wing : ' .. wrset.level .. '/' .. #wrarray)
   if jy == 1 then
     gg.setVisible(false)
     if wrset.level >= #wrarray then
