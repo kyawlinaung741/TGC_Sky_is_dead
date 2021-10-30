@@ -1,12 +1,5 @@
---That dead sky open source by Kel
---tgc must patch this all
---Do you have some good functions or codes?
---Tell me https://t.me/EL_Khan049
-
-
-
 gg.toast('FuckChina Loaded')
-ddd = 211021
+ddd = 211026
 pshare = ''
 umenu = true
 fasthome = true
@@ -44,7 +37,7 @@ psettings = {
   ufps = 30
   }
   
-changelog = '10.21 update\n\n-Change map crashing fixed'
+changelog = '10.26 update\n\n-Spirit runner fixed\n-Unlimited spell, modify spell got patched by tgc, so removed\n-Added Ride players mode in players option'
 scriptv = {process ='com.tgc.sky.android',version=177980}
 teleparr = {spec = false,follow = false,collect = false,enable = false,hide = false,arr = 1}
 gameinfo = gg.getTargetInfo()
@@ -200,7 +193,7 @@ mid = {
   {'️👑Rainbow Flower', 2141511649,2},
   {'️👑Rainbow Tassel', -290700605,2},
   {'👑Pumpkin Hat',1046521292,2},
-  {'👑Witche Hat',1983755432,2},
+  {'👑Witch Hat',1983755432,2},
   {'👑Lion Dance Hat',2093744529,2},
  {'👑Double Maru Head',-2099997114,2},
  {'👑Felt Hat',-823266018,2},
@@ -231,25 +224,25 @@ mid = {
  {'️🌠Red tail',-1304862813,0},
  {'️🌠Yellow tail',-1354381164,0},
  {'️🌠Rainbow trail',147016038,0},
- {'Fox',2237536272,0},
- {'Pants Sword',3799734077,0},
- {'Scarf Cape',2207305370,1},
- {'Asteroid Jacket',1402240423,1},
- {'️Chair Wood',3136256372,0},
- {'️Chair Cloth',472595010,0},
- {'️Chair Pipe',2428135093,0},
-{'️Hair Pin',4123817368,0},
-{'️Brazier 2',160072902,0},
-{'️Summer Umbrella',2878211958,0},
-{'️Summer Hat',2052387583,2},
-{'️Recliner',2875484078,0},
-{'️Golden Cape',330655056,1},
-{'️Kizuna AI Call',2413103828,0},
-{'️Small rabit',-848739711,0},
-{'️Winter piano',-1202427550,0},
+ {'🧸Fox',2237536272,0},
+ {'👖Pants Sword',3799734077,0},
+ {'👗Scarf Cape',2207305370,1},
+ {'👗Asteroid Jacket',1402240423,1},
+ {'🧸️Chair Wood',3136256372,0},
+ {'️🧸Chair Cloth',472595010,0},
+ {'️🧸Pipe',2428135093,0},
+{'️👑Hair Pin',4123817368,0},
+{'🧸️Brazier 2',160072902,0},
+{'🧸️Summer Umbrella',2878211958,0},
+{'👑️Summer Hat',2052387583,2},
+{'🧸️Recliner',2875484078,0},
+{'️👗Golden Cape',330655056,1},
+{'🙀️Kizuna AI Call',2413103828,0},
+{'👑️Small rabit',-848739711,0},
+{'🧸️Winter piano',-1202427550,0},
 {'🆕️Crab Troll',901504997,0},
 {'🆕️Anti Krill',3362316915,0}, 
-{'🆕️Halloween Cape',769892976,1},
+{'👗️Canada Cape',769892976,1},
 {'🆕️Halloween Pants',969946279,0},
 {'🆕️Halloween Hair 1',116679863,0},
 {'🆕️Halloween Hair 2',2534225385,0},
@@ -709,7 +702,7 @@ function addtostr(add,amount)
 end
 
 function getpatch()
-  API = gg.makeRequest('https://raw.githubusercontent.com/kyawlinaung741/TGC_Sky_is_dead/main/Sharelocate.lua').content
+  API = gg.makeRequest('https://raw.githubusercontent.com/Kelrit402/TGC_Sky_is_dead/main/Sharelocate.lua').content
   if not API then
     gg.toast('patch failed')
   else
@@ -1106,7 +1099,7 @@ mm = {}
  if gg.getResultsCount() > 3 then
  nn = gg.getResults(5)[4].address
  gg.clearResults()
- setstr(nn,27,'Kyaw')
+ setstr(nn,27,'by ExMachina')
  end
  nn = 0
  gg.clearResults()
@@ -1134,10 +1127,10 @@ eoffsets.ncamera = eoffsets.nentity - poffsets.gcamera
 --gg.addListItems(candles)
 gg.clearResults()
 if andro >= 30 then
-    gg.toast('\n𝙉𝙤 𝙋𝙖𝙞𝙣 𝙔𝙚𝙨 𝙂𝙖𝙞𝙣\n' .. ddd .. ' [A11] by Kel')
+    gg.toast('\n𝙃𝙖𝙫𝙚 𝙛𝙪𝙣 𝙪𝙣𝙩𝙞𝙡 𝙗𝙖𝙣\n' .. ddd .. ' [A11] by Kel')
     print('Android 11 detected')
   else
-    gg.toast('\n𝙉𝙤 𝙋𝙖𝙞𝙣 𝙔𝙚𝙨 𝙂𝙖𝙞𝙣\n' .. ddd .. ' by Kel')
+    gg.toast('\n𝙃𝙖𝙫𝙚 𝙛𝙪𝙣 𝙪𝙣𝙩𝙞𝙡 𝙗𝙖𝙣\n' .. ddd .. ' by Kel')
 end
   
 if psettings.nodamage then
@@ -2127,7 +2120,8 @@ function teleplayers()
     '🏃Follow players',
     '👁Spectate players',
     '🤝Take players hands',
-    '🎠Ride players',
+    '🐎Ride players mode',
+    '🎠Ride players list',
     '😱Request relationships',
     '🚷Hide all players',
     '💕Unlock friendly nodes',
@@ -2218,6 +2212,23 @@ function teleplayers()
   end
   --19F8
   if vh == 6 then
+    --Taran and Tosta will copy this
+    gg.setVisible(false)
+    if isfreeze(pbase + poffsets.positX + 0xFEC0-0x50) then
+      for i = 1, 8 do
+        setadd(pbase + poffsets.positX + (i*0xFEC0)-0x50,gg.TYPE_DWORD,0,false)
+        setadd(pbase + poffsets.positX + (i*0xFEC0)-0x50+0x4,gg.TYPE_DWORD,0,false)
+      end
+      gg.toast('off')
+      else
+      for i = 1, 8 do
+        setadd(pbase + poffsets.positX + (i*0xFEC0)-0x50,gg.TYPE_DWORD,14,true)
+        setadd(pbase + poffsets.positX + (i*0xFEC0)-0x50+0x4,gg.TYPE_DWORD,41249,true)
+      end
+      gg.toast('on')
+    end
+  end
+  if vh == 7 then
     --Taran and Tosta will copy this again
     nra = chooseplayer()
     if nra < 1 then return; end
@@ -2231,7 +2242,7 @@ function teleplayers()
     end
     gg.setVisible(false)
   end
-  if vh == 7 then
+  if vh == 8 then
     nra = chooseplayer()
     rutype = gg.choice({
       'Take hands',
@@ -2282,7 +2293,7 @@ function teleplayers()
     end
     gg.setVisible(false)
   end
-  if vh == 8 then
+  if vh == 9 then
     teleparr.enable = true
     teleparr.hide = true
     for i = 1, 7 do
@@ -2290,7 +2301,7 @@ function teleplayers()
     end
     gg.setVisible(false)
   end
-  if vh == 9 then
+  if vh == 10 then
     gg.setVisible(false)
     getfriendnode()
     srd = {}
@@ -2300,7 +2311,7 @@ function teleplayers()
     gg.setValues(srd)
     gg.toast('done')
   end
-  if vh == 10 then
+  if vh == 11 then
     gg.setVisible(false)
     resetfriendnode()
   end
@@ -2569,7 +2580,7 @@ function dumpdaily()
 end
 
 function magicmenu()
-  gf = gg.choice({'Do spell','Do spell no effects','Modify my spell','Unlimited spells temporary', 'Random spells','Remove all spells'},nil,'')
+  gf = gg.choice({'Do spell','Do spell no effects','Random spells','Remove all spells'},nil,'')
   if gf == nil then return; end
   if gf == 1 or gf == 2 then
     y={}
@@ -2601,16 +2612,10 @@ function magicmenu()
     end
   end
   if gf == 3 then
-    modmagic(2)
-  end
-  if gf == 4 then
-    modmagic(1)
-  end
-  if gf == 5 then
     pmagic(7,-1,1)
     pmagic(6,-2,1)
   end
-  if gf == 6 then
+  if gf == 4 then
     gg.setVisible(false)
     for i=1,9 do
       pmagic(i,0,1)
@@ -3915,14 +3920,10 @@ function domenu()
       end
       if m == 8 then
         x=gg.choice({
-           'Upgrade all emotes'
-           ,'Change special emotes'
+           'Change special emotes'
            ,'Change all emotes'
          },nil,'❌This features got patched by tgc❌')
-       if x == 1 then
-         gg.setVisible(false)
-         upemote()
-       end
+       x = x + 1
        if x == 2 then
          if echanged then
           echange(false)
@@ -4425,9 +4426,11 @@ function srmenu()
     table.sort(vsw,compare2)
     vwr = vsw[1].a
     gg.toast(vwr)
+    srset.level = vwr
     else
+    srset.level = exsub[vwr-1]
   end
-  srset.level = exsub[vwr-1]
+  
   bg = {getadd(pbase+poffsets.mspirit+(srset.level*0xFDD0),gg.TYPE_FLOAT),getadd(pbase+poffsets.mspirit+(srset.level*0xFDD0)+0x4,gg.TYPE_FLOAT),getadd(pbase+poffsets.mspirit+(srset.level*0xFDD0)+0x8,gg.TYPE_FLOAT)}
   setposit(bg[1],bg[2],bg[3])
   end
