@@ -1,5 +1,5 @@
 gg.toast('FuckChina Loaded')
-ddd = 211026
+ddd = 211101
 pshare = ''
 umenu = true
 fasthome = true
@@ -37,7 +37,7 @@ psettings = {
   ufps = 30
   }
   
-changelog = '10.26 update\n\n-Spirit runner fixed\n-Unlimited spell, modify spell got patched by tgc, so removed\n-Added Ride players mode in players option'
+changelog = '11.01 update\n\n-Change map with auto candle run crashing fixed'
 scriptv = {process ='com.tgc.sky.android',version=177980}
 teleparr = {spec = false,follow = false,collect = false,enable = false,hide = false,arr = 1}
 gameinfo = gg.getTargetInfo()
@@ -113,7 +113,8 @@ poffsets = {
   wingmap = 0x12C7DAC,
   enode = 0x139EA84,
   hidenseek = 0x1C8F4,
-  mspirit = 0x9BF68
+  mspirit = 0x9BF68,
+  testflower = 0xA1C6F4
   }
 
 allmagics = {}
@@ -1406,6 +1407,34 @@ function schemote()
   end
 end
 
+function ptestflower()
+  xpoint = eoffsets.nentity+poffsets.testflower
+  npattern = 0x3B0
+  endpoint = 0
+  tup = {}
+  top = {}
+  for i = 0,256 do
+    table.insert(tup,{xpoint+(i*npattern),gg.TYPE_FLOAT})
+  end
+  tup = getaddm(tup)
+  for i,v in ipairs(tup) do
+    if v == 0 then
+      endpoint = i - 1
+      break;
+    end
+  end
+  gg.toast('end point = '..endpoint)
+  if endpoint == 0 then return; end
+  npos = getcoord(true)
+  for i = 0, endpoint do
+    table.insert(top,{address=xpoint+(i*npattern),flags=gg.TYPE_FLOAT,value=npos[1]})
+    table.insert(top,{address=xpoint+(i*npattern)+0x4,flags=gg.TYPE_FLOAT,value=npos[2]})
+    table.insert(top,{address=xpoint+(i*npattern)+0x8,flags=gg.TYPE_FLOAT,value=npos[3]})
+    --table.insert(top,{address=xpoint+(i*npattern)-0x2D4,flags=gg.TYPE_DWORD,value=65793})
+  end
+  gg.setValues(top)
+end
+
 function absflower()
   gg.setVisible(false)
   tmp = {}
@@ -1628,9 +1657,18 @@ function portal(str)
     --{address = xtr + 0x372C,flags=gg.TYPE_DWORD,value=11},
     {address = xtr - 0x34,flags=gg.TYPE_QWORD,value=49},
     {address = xtr - 0x30,flags=gg.TYPE_DWORD,value=0},
-    {address = xtr - 0x70,flags=gg.TYPE_FLOAT,value=80000},
-    {address = xtr - 0x90,flags=gg.TYPE_FLOAT,value=80000},
+{address = xtr - 0x74,flags=gg.TYPE_FLOAT,value=80000},
+    {address = xtr - 0x74+0x4,flags=gg.TYPE_FLOAT,value=80000},
+    {address = xtr - 0x74+0x8,flags=gg.TYPE_FLOAT,value=80000},
+    {address = xtr - 0x84,flags=gg.TYPE_FLOAT,value=80000},
+    {address = xtr - 0x84+0x4,flags=gg.TYPE_FLOAT,value=80000},
+    {address = xtr - 0x84+0x8,flags=gg.TYPE_FLOAT,value=80000},
+    {address = xtr - 0x94,flags=gg.TYPE_FLOAT,value=80000},
+    {address = xtr - 0x94+0x4,flags=gg.TYPE_FLOAT,value=80000},
+    {address = xtr - 0x94+0x8,flags=gg.TYPE_FLOAT,value=80000},
     {address = xtr - 0xA4,flags=gg.TYPE_FLOAT,value=80000},
+    {address = xtr - 0xA4+0x4,flags=gg.TYPE_FLOAT,value=80000},
+    {address = xtr - 0xA4+0x8,flags=gg.TYPE_FLOAT,value=80000},
     {address = xtr - 0x2C,flags=gg.TYPE_DWORD,value=28},
     {address = xtr - 0x24,flags=gg.TYPE_QWORD,value=xtr + 0x36D0},
     {address = xtr + 0x372C,flags = gg.TYPE_DWORD,value = string.len(str)},
@@ -4203,7 +4241,7 @@ function domenu()
         scsettings()
       end
       if m == 15 then
-        x=gg.choice({'Kill game','print offsets','print emotes','print items','print magics','print daily','frags','pick crab','throw crab','absorb spirits','execute','load coord','door','search'
+        x=gg.choice({'Kill game','print offsets','print emotes','print items','print magics','print daily','frags','pick crab','throw crab','absorb spirits','execute','load coord','door','flowers'
         },nil,'⚠️This features are not stable')
         if x == 1 then
           killgame()
@@ -4252,9 +4290,7 @@ function domenu()
           doorpeek(false)
         end
         if x == 14 then
-          gg.setVisible(false)
-          gg.sleep(1000)
-          gg.refineNumber('0.01~3',gg.TYPE_FLOAT)
+          ptestflower()
         end
       end
         --absflower()
