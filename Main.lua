@@ -1,5 +1,5 @@
 gg.toast('FuckChina Loaded')
-ddd = 211101
+ddd = 211102
 pshare = ''
 umenu = true
 fasthome = true
@@ -221,7 +221,6 @@ mid = {
  {'️🌠Purple pink tail',-1527316661,0},
  {'️🌠orange tail',1237283438,0},
  {'️🌠purple tail',470393304,0},
- {'️🌠purple tail',-1071076330,0},
  {'️🌠Red tail',-1304862813,0},
  {'️🌠Yellow tail',-1354381164,0},
  {'️🌠Rainbow trail',147016038,0},
