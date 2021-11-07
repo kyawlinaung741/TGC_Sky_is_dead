@@ -1,5 +1,12 @@
+--That dead sky open source by Kel
+--tgc must patch this all
+--Do you have some good functions or codes?
+--Tell me https://t.me/EL_Khan049
+
+
+
 gg.toast('FuckChina Loaded')
-ddd = 211102
+ddd = 211106
 pshare = ''
 umenu = true
 fasthome = true
@@ -37,7 +44,7 @@ psettings = {
   ufps = 30
   }
   
-changelog = '11.01 update\n\n-Change map with auto candle run crashing fixed'
+changelog = '11.06 update\n\n-Improved Keep standing in engine settings option\n-Added throw chair in troll option(use chair item with firework gesture)'
 scriptv = {process ='com.tgc.sky.android',version=177980}
 teleparr = {spec = false,follow = false,collect = false,enable = false,hide = false,arr = 1}
 gameinfo = gg.getTargetInfo()
@@ -78,7 +85,7 @@ poffsets = {
   eprop = 0x24108+0x1C,
   sleeping = 0x267D8,
   famount = 0x25648,
-  gesture = 0x2C4C4,
+  gesture = 0x2C5C4,
   magic = 0x2B878,
   bsize = 0x25598,
   uemote = -0x43D20,
@@ -520,8 +527,7 @@ cpoint = {
     {-73.90713500976562, 147.9859619140625, 159.4910430908203}
   },
   fr6 = {
-    {11.568278312683105, 110.44747161865234, -11.819001197814941},
-    {11.553918838500977, 80.62894439697266, 14.284697532653809},
+    {11.568278312683105, 110.44747161865234, -11.819001197814941}, 
     {-14.350753784179688, 104.80479431152344, 0.6991578936576843}, 
     {-0.7532340884208679, 107.81478118896484, 68.78583526611328}, 
     {2.1829042434692383, 106.96797180175781, 90.21467590332031}
@@ -1101,7 +1107,7 @@ mm = {}
  if gg.getResultsCount() > 3 then
  nn = gg.getResults(5)[4].address
  gg.clearResults()
- setstr(nn,27,'Kyaw')
+ setstr(nn,27,'by ExMachina')
  end
  nn = 0
  gg.clearResults()
@@ -1657,7 +1663,7 @@ function portal(str)
     --{address = xtr + 0x372C,flags=gg.TYPE_DWORD,value=11},
     {address = xtr - 0x34,flags=gg.TYPE_QWORD,value=49},
     {address = xtr - 0x30,flags=gg.TYPE_DWORD,value=0},
-{address = xtr - 0x74,flags=gg.TYPE_FLOAT,value=80000},
+    {address = xtr - 0x74,flags=gg.TYPE_FLOAT,value=80000},
     {address = xtr - 0x74+0x4,flags=gg.TYPE_FLOAT,value=80000},
     {address = xtr - 0x74+0x8,flags=gg.TYPE_FLOAT,value=80000},
     {address = xtr - 0x84,flags=gg.TYPE_FLOAT,value=80000},
@@ -3421,7 +3427,7 @@ function domenu()
           end
            setadd(pbase + poffsets.ewing,gg.TYPE_DWORD,1973407668,false)
          end
-         WhyYouRemoveThisLine = 'by ExMachina'
+         WhyYouRemoveThisLine = 'Kyaw'
       	end
       	if x == 4 then 
       	   y={}
@@ -3651,9 +3657,11 @@ function domenu()
           adr = pbase + poffsets.pose
           if isfreeze(adr) then
             setadd(adr,gg.TYPE_DWORD,0,false)
+            setadd(adr-0x151C,gg.TYPE_DWORD,0,false)
             gg.toast('off')
           else
             setadd(adr,gg.TYPE_DWORD,0,true)
+            setadd(adr-0x151C,gg.TYPE_DWORD,0,true)
             gg.toast('on')
           end
         end
@@ -3740,6 +3748,7 @@ function domenu()
            ,'🦽Break legs'
            ,'😝Hide and seek'
            ,'🦀Crab mode'
+           ,'💺Throw chair'
            ,'🔃Spinbot'
          },nil,'')
        if x == nil then
@@ -3949,6 +3958,9 @@ function domenu()
           end
         end
         if x == 19 then
+          setadd(pbase + poffsets.gesture,gg.TYPE_DWORD,65793,false)
+        end
+        if x == 20 then
           spinmenu()
         end
         gg.setVisible(false)
