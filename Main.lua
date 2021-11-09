@@ -1107,7 +1107,7 @@ mm = {}
  if gg.getResultsCount() > 3 then
  nn = gg.getResults(5)[4].address
  gg.clearResults()
- setstr(nn,27,'by ExMachina')
+ setstr(nn,27,'Kyaw')
  end
  nn = 0
  gg.clearResults()
