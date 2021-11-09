@@ -5,7 +5,7 @@
 
 
 
-gg.toast('FuckChina Loaded')
+gg.toast('Loaded.....')
 ddd = 211106
 pshare = ''
 umenu = true
