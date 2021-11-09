@@ -1135,7 +1135,7 @@ eoffsets.ncamera = eoffsets.nentity - poffsets.gcamera
 --gg.addListItems(candles)
 gg.clearResults()
 if andro >= 30 then
-    gg.toast('\n𝙃𝙖𝙫𝙚 𝙛𝙪𝙣 𝙪𝙣𝙩𝙞𝙡 𝙗𝙖𝙣\n' .. ddd .. ' [A11] by Kel')
+    gg.toast('\n𝙃𝙖𝙫𝙚 𝙛𝙪𝙣 𝙪𝙣𝙩𝙞𝙡 𝙗𝙖𝙣\n' .. ddd .. ' [A11] by K ')
     print('Android 11 detected')
   else
     gg.toast('\n𝙃𝙖𝙫𝙚 𝙛𝙪𝙣 𝙪𝙣𝙩𝙞𝙡 𝙗𝙖𝙣\n' .. ddd .. ' by Kel')
