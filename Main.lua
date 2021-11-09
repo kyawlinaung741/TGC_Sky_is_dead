@@ -750,13 +750,13 @@ function tbltostr(tbl)
 end
 
 function savedata()
-  local data = io.open('/sdcard/fuck.cfg','w')
+  local data = io.open('/sdcard/Kyaw.cfg','w')
   data:write("psettings=" .. tbltostr(psettings))
   data:close()
 end
 
 function loadsave()
-  local data = io.open('/sdcard/fuck.cfg','r')
+  local data = io.open('/sdcard/Kyaw.cfg','r')
   if data == nil then
     savedata()
     return;
