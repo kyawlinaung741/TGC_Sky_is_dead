@@ -5,7 +5,7 @@
 
 
 
-gg.toast('Loaded......')'
+gg.toast('Loaded......')
 ddd = 211109
 pshare = ''
 umenu = true
