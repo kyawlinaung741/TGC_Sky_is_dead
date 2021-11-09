@@ -5,8 +5,8 @@
 
 
 
-gg.toast('Loaded......')
-ddd = 211109
+gg.toast('FuckChina Loaded')
+ddd = 211106
 pshare = ''
 umenu = true
 fasthome = true
@@ -750,13 +750,13 @@ function tbltostr(tbl)
 end
 
 function savedata()
-  local data = io.open('/sdcard/kyaw.cfg','w')
+  local data = io.open('/sdcard/fuck.cfg','w')
   data:write("psettings=" .. tbltostr(psettings))
   data:close()
 end
 
 function loadsave()
-  local data = io.open('/sdcard/kyaw.cfg','r')
+  local data = io.open('/sdcard/fuck.cfg','r')
   if data == nil then
     savedata()
     return;
@@ -1107,7 +1107,7 @@ mm = {}
  if gg.getResultsCount() > 3 then
  nn = gg.getResults(5)[4].address
  gg.clearResults()
- setstr(nn,27,'Kyaw')
+ setstr(nn,27,'by ExMachina')
  end
  nn = 0
  gg.clearResults()
@@ -1135,7 +1135,7 @@ eoffsets.ncamera = eoffsets.nentity - poffsets.gcamera
 --gg.addListItems(candles)
 gg.clearResults()
 if andro >= 30 then
-    gg.toast('\nHave a Good Day\n' .. ddd .. ' [A11]')
+    gg.toast('\n𝙃𝙖𝙫𝙚 𝙛𝙪𝙣 𝙪𝙣𝙩𝙞𝙡 𝙗𝙖𝙣\n' .. ddd .. ' [A11] by Kel')
     print('Android 11 detected')
   else
     gg.toast('\n𝙃𝙖𝙫𝙚 𝙛𝙪𝙣 𝙪𝙣𝙩𝙞𝙡 𝙗𝙖𝙣\n' .. ddd .. ' by Kel')
