@@ -5,8 +5,8 @@
 
 
 
-gg.toast('Loaded.....')
-ddd = 211106
+gg.toast('Loading.....')
+ddd = 211112
 pshare = ''
 umenu = true
 fasthome = true
@@ -21,6 +21,7 @@ crset = {enable = false, level = 0, map = ''}
 wrset = {enable = false, level = 0, map = ''}
 srset = {enable = false, level = -1, map = ''}
 spinset = {enable = false, rot = 0, val = 0, lby = true, speed = 20}
+mloop = {a = false, b= false}
 huiset = false
 hsmem = false
 psettings = {
@@ -31,7 +32,7 @@ psettings = {
   wrdelay=1100,
   warpdis=6,
   portalspeed=true,
-  fasthome=true,
+  fasthome=false,
   nodamage=true,
   ggspeed=false,
   showmenu = true,
@@ -41,10 +42,11 @@ psettings = {
   fhspeed = 100,
   cmimage = 1,
   aeleven = false,
+  unblock = true,
   ufps = 30
   }
   
-changelog = '11.06 update\n\n-Improved Keep standing in engine settings option\n-Added throw chair in troll option(use chair item with firework gesture)'
+changelog = '11.10 update\n\n-Added [change map together] in semi-auto menus\n-Added [No movement block] in Engine settings option\nYou can move around while getting candles, cutscenes'
 scriptv = {process ='com.tgc.sky.android',version=177980}
 teleparr = {spec = false,follow = false,collect = false,enable = false,hide = false,arr = 1}
 gameinfo = gg.getTargetInfo()
@@ -121,7 +123,8 @@ poffsets = {
   enode = 0x139EA84,
   hidenseek = 0x1C8F4,
   mspirit = 0x9BF68,
-  testflower = 0xA1C6F4
+  testflower = 0xA1C6F4,
+  pcontrol = 0x1229558
   }
 
 allmagics = {}
@@ -770,17 +773,9 @@ function loadsave()
     if not ert then
       savedata()
     end
-    if psettings.fhspeed == nil then
-      psettings.fhspeed = 100
-    end
-    if psettings.cmimage == nil then
-      psettings.cmimage = 1
-    end
-    if psettings.aeleven == nil then
-      psettings.aeleven = false
-    end
-    if psettings.ufps == nil then
-      psettings.ufps = 30
+    
+    if psettings.unblock == nil then
+      psettings.unblock = true
     end
     if psettings.ver == nil or psettings.ver ~= ddd then
       psettings.ver = ddd
@@ -1135,7 +1130,7 @@ eoffsets.ncamera = eoffsets.nentity - poffsets.gcamera
 --gg.addListItems(candles)
 gg.clearResults()
 if andro >= 30 then
-    gg.toast('\n𝙃𝙖𝙫𝙚 𝙛𝙪𝙣 𝙪𝙣𝙩𝙞𝙡 𝙗𝙖𝙣\n' .. ddd .. ' [A11] by K ')
+    gg.toast('\n𝙃𝙖𝙫𝙚 𝙛𝙪𝙣 𝙪𝙣𝙩𝙞𝙡 𝙗𝙖𝙣\n' .. ddd .. ' [A11] by Kel')
     print('Android 11 detected')
   else
     gg.toast('\n𝙃𝙖𝙫𝙚 𝙛𝙪𝙣 𝙪𝙣𝙩𝙞𝙡 𝙗𝙖𝙣\n' .. ddd .. ' by Kel')
@@ -1148,6 +1143,10 @@ if psettings.fasthome then
   fasthome = true
   else
   fasthome = false
+end
+if psettings.unblock then
+  setadd(eoffsets.nentity - poffsets.pcontrol,gg.TYPE_FLOAT,1,true)
+  setadd(eoffsets.nentity - poffsets.pcontrol+0x4,gg.TYPE_FLOAT,1,true)
 end
 eoffsets.gframe = getadd(rbootloader + poffsets.ptofps,gg.TYPE_QWORD) + 0x160
 setadd(eoffsets.gframe,gg.TYPE_FLOAT,psettings.ufps,false)
@@ -1487,7 +1486,7 @@ end
 
 function absorb()
   gg.setVisible(false)
-  abslight()
+  --abslight()
   for i,v in pairs(candles) do
     v.value = 1.0
   end
@@ -3427,7 +3426,7 @@ function domenu()
           end
            setadd(pbase + poffsets.ewing,gg.TYPE_DWORD,1973407668,false)
          end
-         WhyYouRemoveThisLine = 'Kyaw'
+         WhyYouRemoveThisLine = 'by ExMachina'
       	end
       	if x == 4 then 
       	   y={}
@@ -3592,7 +3591,8 @@ function domenu()
            '🔦Light multiply',
            '🏜World bright',
            '🏃Honk to jump',
-           '📥No item cool down'
+           '📥No item cool down',
+           '🦿No movement block'
          },nil,'')
           if x == 1 then 
             if getadd(eoffsets.cspeed,gg.TYPE_FLOAT) >= 3.0 then
@@ -3724,6 +3724,20 @@ function domenu()
         if x == 19 then
           fastitem = toggle(fastitem)
           gg.toast(boolling(fastitem))
+        end
+        if x == 20 then
+          if isfreeze(eoffsets.nentity - poffsets.pcontrol) then
+            setadd(eoffsets.nentity - poffsets.pcontrol,gg.TYPE_FLOAT,1,false)
+            setadd(eoffsets.nentity - poffsets.pcontrol+0x4,gg.TYPE_FLOAT,1,false)
+            psettings.unblock = false
+            gg.toast('off')
+            else
+            setadd(eoffsets.nentity - poffsets.pcontrol,gg.TYPE_FLOAT,1,true)
+            setadd(eoffsets.nentity - poffsets.pcontrol+0x4,gg.TYPE_FLOAT,1,true)
+            psettings.unblock = true
+            gg.toast('on')
+          end
+          savedata()
         end
         gg.setVisible(false)
       end
@@ -4302,7 +4316,8 @@ function domenu()
           doorpeek(false)
         end
         if x == 14 then
-          ptestflower()
+          mloop.a = toggle(mloop.a)
+          gg.toast(boolling(mloop.a))
         end
       end
         --absflower()
@@ -4544,6 +4559,7 @@ function crmenu()
     '🔒Lock player candle',
     '⬆️Breach Wall',
     '⏩Teleport',
+    '🤝Change map together',
     '🔥Auto burn',
     '💸Wing run'},nil,'No data on this map')
       if jy == 1 then
@@ -4570,6 +4586,36 @@ function crmenu()
         telelist()
       end
       if jy == 5 then
+        y={}
+        for i, v in ipairs(cworld) do
+          table.insert(y,cworld[i][1])
+        end
+        table.insert(y,'⚠️Crash game')
+         r=gg.choice(y,nil,'Select map and use your wing! ')
+         if (r ~= nil) then 
+           gg.setVisible(false)
+           if psettings.fhspeed > 1 and fasthome and not teleping then
+            fasthome = false
+            teleping = true
+            gg.toast('Fast home disabled')
+           end
+           xre = eoffsets.nentity - poffsets.wingmap
+           setadd(xre,gg.TYPE_QWORD,49,false)
+           setadd(xre+0x4,gg.TYPE_DWORD,0,false)
+           setadd(xre+0x8,gg.TYPE_DWORD,28,false)
+           setadd(xre+0xC,gg.TYPE_DWORD,0,false)
+           --use pointer to not crash game
+           setadd(xre+0x10,gg.TYPE_QWORD,eoffsets.nentity - poffsets.wingmap + 0x36D0,false)
+           if r == #y then
+            setstr(eoffsets.nentity - poffsets.wingmap + 0x36D0,24,'ExMachina')
+          else
+            setstr(eoffsets.nentity - poffsets.wingmap + 0x36D0,24,cworld[r][2])
+          end
+           setadd(pbase + poffsets.ewing,gg.TYPE_DWORD,1973407668,false)
+         end
+         WhyYouRemoveThisLine = 'by ExMachina'
+      end
+      if jy == 6 then
         if candles[1].freeze then
           gg.removeListItems(candles)
           gg.removeListItems(flowers)
@@ -4588,7 +4634,7 @@ function crmenu()
           gg.toast('on')
         end
       end
-      if jy == 6 then
+      if jy == 7 then
         crset.enable = false
         wrset.enable = true
         wrmenu()
@@ -4780,6 +4826,7 @@ function wrmenu()
     '🔒Lock player candle',
     '⬆️Breach Wall',
     '⏩Teleport',
+    '🤝Change map together',
     '🕯Candle run'},nil,'No wings detected on this map')
       if jy == 1 then
         gg.setVisible(false)
@@ -4805,6 +4852,36 @@ function wrmenu()
         telelist()
       end
       if jy == 5 then
+        y={}
+        for i, v in ipairs(cworld) do
+          table.insert(y,cworld[i][1])
+        end
+        table.insert(y,'⚠️Crash game')
+         r=gg.choice(y,nil,'Select map and use your wing! ')
+         if (r ~= nil) then 
+           gg.setVisible(false)
+           if psettings.fhspeed > 1 and fasthome and not teleping then
+            fasthome = false
+            teleping = true
+            gg.toast('Fast home disabled')
+           end
+           xre = eoffsets.nentity - poffsets.wingmap
+           setadd(xre,gg.TYPE_QWORD,49,false)
+           setadd(xre+0x4,gg.TYPE_DWORD,0,false)
+           setadd(xre+0x8,gg.TYPE_DWORD,28,false)
+           setadd(xre+0xC,gg.TYPE_DWORD,0,false)
+           --use pointer to not crash game
+           setadd(xre+0x10,gg.TYPE_QWORD,eoffsets.nentity - poffsets.wingmap + 0x36D0,false)
+           if r == #y then
+            setstr(eoffsets.nentity - poffsets.wingmap + 0x36D0,24,'ExMachina')
+          else
+            setstr(eoffsets.nentity - poffsets.wingmap + 0x36D0,24,cworld[r][2])
+          end
+           setadd(pbase + poffsets.ewing,gg.TYPE_DWORD,1973407668,false)
+         end
+         WhyYouRemoveThisLine = 'by ExMachina'
+      end
+      if jy == 6 then
         crset.enable = true
         wrset.enable = false
         crmenu()
@@ -4830,6 +4907,7 @@ function wrmenu()
     '⏩Teleport',
     '🔁Run all',
     '⏸Coord list',
+    '🤝Change map together',
     '🕯Candle run',
     '🛄Main menu',
     '❌Exit'},nil,'Wing : ' .. wrset.level .. '/' .. #wrarray)
@@ -4881,16 +4959,46 @@ function wrmenu()
     end
   end
   if jy == 7 then
+    y={}
+        for i, v in ipairs(cworld) do
+          table.insert(y,cworld[i][1])
+        end
+        table.insert(y,'⚠️Crash game')
+         r=gg.choice(y,nil,'Select map and use your wing! ')
+         if (r ~= nil) then 
+           gg.setVisible(false)
+           if psettings.fhspeed > 1 and fasthome and not teleping then
+            fasthome = false
+            teleping = true
+            gg.toast('Fast home disabled')
+           end
+           xre = eoffsets.nentity - poffsets.wingmap
+           setadd(xre,gg.TYPE_QWORD,49,false)
+           setadd(xre+0x4,gg.TYPE_DWORD,0,false)
+           setadd(xre+0x8,gg.TYPE_DWORD,28,false)
+           setadd(xre+0xC,gg.TYPE_DWORD,0,false)
+           --use pointer to not crash game
+           setadd(xre+0x10,gg.TYPE_QWORD,eoffsets.nentity - poffsets.wingmap + 0x36D0,false)
+           if r == #y then
+            setstr(eoffsets.nentity - poffsets.wingmap + 0x36D0,24,'ExMachina')
+          else
+            setstr(eoffsets.nentity - poffsets.wingmap + 0x36D0,24,cworld[r][2])
+          end
+           setadd(pbase + poffsets.ewing,gg.TYPE_DWORD,1973407668,false)
+         end
+         WhyYouRemoveThisLine = 'by ExMachina'
+  end
+  if jy == 8 then
     crset.enable = true
     wrset.enable = false
     crmenu()
     return;
   end
-  if jy == 8 then
+  if jy == 9 then
     domenu()
     return;
   end
-  if jy == 9 then
+  if jy == 10 then
     gg.setVisible(false)
     wrset.enable = false
     domenu()
@@ -5045,6 +5153,16 @@ function teleloop()
   end
 end
 
+function testloop()
+  if mloop.b then
+    pmagic(3,3362316915,1)
+    mloop.b = false
+  else
+    pmagic(3,0,1)
+    mloop.b = true
+  end
+end
+
 while true do
   if teleparr.enable then
     teleloop()
@@ -5052,7 +5170,6 @@ while true do
   if stojump then
     mtrigger()
   end
-  
   if mev ~= 0 and teleparr.enable == false then
     mtrigger()
   end
