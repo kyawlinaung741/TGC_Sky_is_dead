@@ -757,6 +757,7 @@ posits = {
 {map='Sunset_YetiPark',name='To Village',x=126.6,y=35.0,z=29.0},
 {map='DuskStart',name='Whirl pool',x=-171.370361328125,y=47.68985366821289,z=-873.1289672851562},
 {map='DuskStart',name='Ice Castle OOB',x=-50.03977966308594,y=4735.7001953125,z=-807.4383544921875},
+{map='DuskStart',name='Ice Castle down OOB',x=-51.916748046875,y=181.05349731445312,z=-786.8286743164062},
 {map='DuskStart',name='Social Space',x=-77.0,y=64.0,z=-772.0},
 {map='DuskStart',name='To Valley',x=10.0,y=140.0,z=-195.0},
 {map='DuskGraveyard',name='To Dusk',x=54.0,y=97.0,z=362.0},
