@@ -6,7 +6,7 @@
 
 
 gg.toast('FuckChina Loaded')
-ddd = 211120
+ddd = 211122
 pshare = ''
 umenu = true
 fasthome = true
@@ -46,7 +46,7 @@ psettings = {
   ufps = 30
   }
   
-changelog = '11.20 update\n\n-Script fixed to new game version\nBut not completed now(70%)'
+changelog = '11.22 update\n\n-Script fixed to new game version\nBut not completed now(90%)'
 scriptv = {process ='com.tgc.sky.android',version=179644}
 teleparr = {spec = false,follow = false,collect = false,enable = false,hide = false,arr = 1}
 gameinfo = gg.getTargetInfo()
@@ -112,17 +112,17 @@ poffsets = {
   sglow = 0x21C28,
   wwind = 0x9DD8EC,
   pwalk = 0x1245BBC,
-  fastfly = 0x123324C-0x8840,
+  fastfly = 0x1245BBC-0x8840,
   cfrags = 0x91BE80,
-  gcamera = 0xF9604C,
+  gcamera = 0xFA89A4,
   ecrabs = 0x5A5E58,
-  uihook = 0x95119C,
+  uihook = 0x6A96A4,
   shoutscale = 0x25698, --
   daily = 0x1303A24,
-  wingmap = 0x12C7DAC,
+  wingmap = 0x12E0BCB,
   enode = 0x139EA84,
   hidenseek = 0x1C8F4,
-  mspirit = 0x9BF68,
+  mspirit = 0xB7E70,
   testflower = 0xA1C6F4,
   pcontrol = 0x123BEC0
   }
@@ -1664,10 +1664,10 @@ function portal(str)
   xar = {}
   xtr = eoffsets.nentity - poffsets.mportal
   mgc = getcoord(true)
-  setstr(xtr + 0x36D0,24,str)
-  setstr(xtr + 0x36F0,28,imgs[psettings.cmimage])
+  setstr(xtr + 0x39D0,24,str)
+  setstr(xtr + 0x39F0,28,imgs[psettings.cmimage])
   
-  setadd(xtr + 0x372C,gg.TYPE_DWORD,string.len(str),false)
+  setadd(xtr + 0x39AC,gg.TYPE_DWORD,string.len(str),false)
   xar = {
     --{address = xtr + 0x372C,flags=gg.TYPE_DWORD,value=11},
     {address = xtr - 0x34,flags=gg.TYPE_QWORD,value=49},
@@ -1685,13 +1685,13 @@ function portal(str)
     {address = xtr - 0xA4+0x4,flags=gg.TYPE_FLOAT,value=80000},
     {address = xtr - 0xA4+0x8,flags=gg.TYPE_FLOAT,value=80000},
     {address = xtr - 0x2C,flags=gg.TYPE_DWORD,value=28},
-    {address = xtr - 0x24,flags=gg.TYPE_QWORD,value=xtr + 0x36D0},
-    {address = xtr + 0x372C,flags = gg.TYPE_DWORD,value = string.len(str)},
+    {address = xtr - 0x24,flags=gg.TYPE_QWORD,value=xtr + 0x39D0},
+    {address = xtr + 0x39AC,flags = gg.TYPE_DWORD,value = string.len(str)},
     {address = xtr - 0x1C,flags=gg.TYPE_DWORD,value=49},
     {address = xtr - 0x18,flags=gg.TYPE_DWORD,value=0},
     {address = xtr - 0x14,flags=gg.TYPE_DWORD,value=10},
     {address = xtr - 0x10,flags=gg.TYPE_DWORD,value=0},
-    {address = xtr - 0xC,flags=gg.TYPE_QWORD,value=xtr+0x36F0},
+    {address = xtr - 0xC,flags=gg.TYPE_QWORD,value=xtr+0x39F0},
     --{address = xtr - 0x74,flags = gg.TYPE_FLOAT,value = mgc[1]},
     --{address = xtr - 0x74 + 0x4,flags = gg.TYPE_FLOAT,value = mgc[2]},
     --{address = xtr - 0x74 + 0x8,flags = gg.TYPE_FLOAT,value = mgc[3]},
