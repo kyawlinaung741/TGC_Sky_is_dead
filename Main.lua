@@ -6,7 +6,7 @@
 
 
 gg.toast('FuckChina Loaded')
-ddd = 211122
+ddd = 211124
 pshare = ''
 umenu = true
 fasthome = true
@@ -46,7 +46,7 @@ psettings = {
   ufps = 30
   }
   
-changelog = '11.22 update\n\n-Script fixed to new game version\nBut not completed now(90%)'
+changelog = '11.24 update\n\n-Script fixing almost done\nrace runner not working now'
 scriptv = {process ='com.tgc.sky.android',version=179644}
 teleparr = {spec = false,follow = false,collect = false,enable = false,hide = false,arr = 1}
 gameinfo = gg.getTargetInfo()
@@ -74,7 +74,7 @@ poffsets = {
   ptonentity = 0xC93F5C,
   ptonworld = 0x643ACC,
   ptofps = 0x13EEA18,
-  ptocwings = 0x17A9720,
+  ptocwings = 0x1708690,
   wlevel = 0x22400,
   positX = 0x189B0,
   positY = 0x189B0+0x4,
@@ -89,7 +89,7 @@ poffsets = {
   famount = 0x216E0,
   gesture = 0x2865C,
   magic = 0x27910,
-  bsize = 0x25598,--
+  bsize = 0x21630,--
   uemote = -0x43D20,--
   eflowers = 0xB632F8,
   pshout = 0x1EEC8,
@@ -110,21 +110,22 @@ poffsets = {
   mportal = 0x17448,
   mcandles = 0x266F8,
   sglow = 0x21C28,
-  wwind = 0x9DD8EC,
+  wwind = 0x9E70AC,
   pwalk = 0x1245BBC,
   fastfly = 0x1245BBC-0x8840,
   cfrags = 0x91BE80,
-  gcamera = 0xFA89A4,
+  gcamera = 0xFA89A4-0x8,
   ecrabs = 0x5A5E58,
   uihook = 0x6A96A4,
   shoutscale = 0x25698, --
   daily = 0x1303A24,
-  wingmap = 0x12E0BCB,
+  wingmap = 0x12E0BCC,
   enode = 0x139EA84,
   hidenseek = 0x1C8F4,
   mspirit = 0xB7E70,
   testflower = 0xA1C6F4,
-  pcontrol = 0x123BEC0
+  pcontrol = 0x123BEC0,
+  srpattern = 0xFE20
   }
 
 allmagics = {}
@@ -911,12 +912,12 @@ function startup()
   print(nn)
   gg.clearResults()
   eoffsets.sspeed = getadd(rbootloader+poffsets.ptocwings,gg.TYPE_QWORD)
-  eoffsets.cspeed = eoffsets.sspeed - 0x34754
-  eoffsets.cloud = eoffsets.sspeed - 0x34758
-  eoffsets.glight = eoffsets.sspeed - 0x1C81C
-  eoffsets.wforce = eoffsets.sspeed + 0x530
-  eoffsets.jforce = eoffsets.sspeed + 0x638
-  eoffsets.wlight = eoffsets.sspeed - 0x40BE8
+  eoffsets.cspeed = eoffsets.sspeed - 0x34EC8
+  eoffsets.cloud = eoffsets.cspeed + 0x4
+  eoffsets.glight = eoffsets.sspeed - 0x1CB08
+  eoffsets.wforce = eoffsets.sspeed + 0x580
+  eoffsets.jforce = eoffsets.sspeed + 0x684
+  eoffsets.wlight = eoffsets.sspeed - 0x41814
   --[[
   ggrange(gg.REGION_C_DATA)
 gg.searchNumber("3.5", gg.TYPE_FLOAT)
@@ -1527,7 +1528,7 @@ function absorb()
 end
 
 function absspirits()
-  ExMach = 0xFDD0
+  ExMach = 0xFE20
   xde = {}
   mpos = getcoord(true)
   elkc = getadd(pbase+poffsets.positX-0x18,gg.TYPE_DWORD)
@@ -1547,7 +1548,7 @@ function spiritmem()
   if vfr == nil then return; end
   if vfr == 4 then absspirits() return; end
   if vfr < 3 then
-  expat = 0xFDD0
+  expat = poffsets.srpattern
   exmac = {}
   exsub = {}
   elkc = getadd(pbase+poffsets.positX-0x18,gg.TYPE_DWORD)
@@ -4393,50 +4394,51 @@ function srmenu()
     '❌Exit'
   },nil,'Target code : ' .. srset.level)
   if jy == nil then return; end
+  srpattern = 0xFE20
   gg.setVisible(false)
   if jy == 1 then
-    if srset.level < 0 or getadd(pbase+poffsets.mspirit+(srset.level*0xFDD0),gg.TYPE_FLOAT) == 0 then
+    if srset.level < 0 or getadd(pbase+poffsets.mspirit+(srset.level*poffsets.srpattern),gg.TYPE_FLOAT) == 0 then
       gg.toast('Invalid spirit')
       return;
     end
-    bg = {getadd(pbase+poffsets.mspirit+(srset.level*0xFDD0),gg.TYPE_FLOAT),getadd(pbase+poffsets.mspirit+(srset.level*0xFDD0)+0x4,gg.TYPE_FLOAT),getadd(pbase+poffsets.mspirit+(srset.level*0xFDD0)+0x8,gg.TYPE_FLOAT)}
+    bg = {getadd(pbase+poffsets.mspirit+(srset.level*poffsets.srpattern),gg.TYPE_FLOAT),getadd(pbase+poffsets.mspirit+(srset.level*poffsets.srpattern)+0x4,gg.TYPE_FLOAT),getadd(pbase+poffsets.mspirit+(srset.level*poffsets.srpattern)+0x8,gg.TYPE_FLOAT)}
     setposit(bg[1],bg[2],bg[3])
   end
   if jy == 2 then
     btn = -1
     for i=srset.level+1, 40-srset.level do
-      if getadd(pbase+poffsets.mspirit+(i*0xFDD0),gg.TYPE_FLOAT) ~= 0 then
+      if getadd(pbase+poffsets.mspirit+(i*poffsets.srpattern),gg.TYPE_FLOAT) ~= 0 then
         btn = i
         break;
       end
     end
     if btn == -1 then gg.toast('No more spirits detected'); return; end
     srset.level = btn
-    bg = {getadd(pbase+poffsets.mspirit+(srset.level*0xFDD0),gg.TYPE_FLOAT),getadd(pbase+poffsets.mspirit+(srset.level*0xFDD0)+0x4,gg.TYPE_FLOAT),getadd(pbase+poffsets.mspirit+(srset.level*0xFDD0)+0x8,gg.TYPE_FLOAT)}
+    bg = {getadd(pbase+poffsets.mspirit+(srset.level*poffsets.srpattern),gg.TYPE_FLOAT),getadd(pbase+poffsets.mspirit+(srset.level*poffsets.srpattern)+0x4,gg.TYPE_FLOAT),getadd(pbase+poffsets.mspirit+(srset.level*poffsets.srpattern)+0x8,gg.TYPE_FLOAT)}
     setposit(bg[1],bg[2],bg[3])
   end
   if jy == 3 then
     btn = -1
     for i=1, srset.level do
-      if getadd(pbase+poffsets.mspirit+(srset.level*0xFDD0)-(i*0xFDD0),gg.TYPE_FLOAT) ~= 0 then
+      if getadd(pbase+poffsets.mspirit+(srset.level*poffsets.srpattern)-(i*poffsets.srpattern),gg.TYPE_FLOAT) ~= 0 then
         btn = srset.level - i
         break;
       end
     end
     if btn == -1 then gg.toast('No more spirits detected'); return; end
     srset.level = btn
-    bg = {getadd(pbase+poffsets.mspirit+(srset.level*0xFDD0),gg.TYPE_FLOAT),getadd(pbase+poffsets.mspirit+(srset.level*0xFDD0)+0x4,gg.TYPE_FLOAT),getadd(pbase+poffsets.mspirit+(srset.level*0xFDD0)+0x8,gg.TYPE_FLOAT)}
+    bg = {getadd(pbase+poffsets.mspirit+(srset.level*poffsets.srpattern),gg.TYPE_FLOAT),getadd(pbase+poffsets.mspirit+(srset.level*poffsets.srpattern)+0x4,gg.TYPE_FLOAT),getadd(pbase+poffsets.mspirit+(srset.level*poffsets.srpattern)+0x8,gg.TYPE_FLOAT)}
     setposit(bg[1],bg[2],bg[3])
   end
   if jy == 4 then
-    if srset.level < 0 or getadd(pbase+poffsets.mspirit+(srset.level*0xFDD0),gg.TYPE_FLOAT) == 0 then
+    if srset.level < 0 or getadd(pbase+poffsets.mspirit+(srset.level*poffsets.srpattern),gg.TYPE_FLOAT) == 0 then
       gg.toast('Invalid spirit')
       return;
     end
     br = getcoord(false)
-    setadd(pbase+poffsets.mspirit+(srset.level*0xFDD0),gg.TYPE_FLOAT,br.x,false)
-    setadd(pbase+poffsets.mspirit+(srset.level*0xFDD0)+0x4,gg.TYPE_FLOAT,br.y,false)
-    setadd(pbase+poffsets.mspirit+(srset.level*0xFDD0)+0x8,gg.TYPE_FLOAT,br.z,false)
+    setadd(pbase+poffsets.mspirit+(srset.level*poffsets.srpattern),gg.TYPE_FLOAT,br.x,false)
+    setadd(pbase+poffsets.mspirit+(srset.level*poffsets.srpattern)+0x4,gg.TYPE_FLOAT,br.y,false)
+    setadd(pbase+poffsets.mspirit+(srset.level*poffsets.srpattern)+0x8,gg.TYPE_FLOAT,br.z,false)
   end
   if jy == 5 then
     absspirits()
@@ -4449,13 +4451,13 @@ function srmenu()
       if gg.isVisible(true) or pmap ~= getmap() then
         break;
       end
-      if srset.level < 0 or getadd(pbase+poffsets.mspirit+(srset.level*0xFDD0),gg.TYPE_FLOAT) == 0 then
+      if srset.level < 0 or getadd(pbase+poffsets.mspirit+(srset.level*poffsets.srpattern),gg.TYPE_FLOAT) == 0 then
         break;
       end
       br = getcoord(false)
-      setadd(pbase+poffsets.mspirit+(srset.level*0xFDD0),gg.TYPE_FLOAT,br.x,false)
-      setadd(pbase+poffsets.mspirit+(srset.level*0xFDD0)+0x4,gg.TYPE_FLOAT,br.y,false)
-      setadd(pbase+poffsets.mspirit+(srset.level*0xFDD0)+0x8,gg.TYPE_FLOAT,br.z,false)
+      setadd(pbase+poffsets.mspirit+(srset.level*poffsets.srpattern),gg.TYPE_FLOAT,br.x,false)
+      setadd(pbase+poffsets.mspirit+(srset.level*poffsets.srpattern)+0x4,gg.TYPE_FLOAT,br.y,false)
+      setadd(pbase+poffsets.mspirit+(srset.level*poffsets.srpattern)+0x8,gg.TYPE_FLOAT,br.z,false)
       gg.sleep(900)
     end
     gg.toast('Absorb spirits disabled')
@@ -4464,7 +4466,7 @@ function srmenu()
     telelist()
   end
   if jy == 8 then
-  expat = 0xFDD0
+  expat = 0xFE20
   exmac = {}
   exsub = {}
   vsw = {}
@@ -4505,7 +4507,7 @@ function srmenu()
     srset.level = exsub[vwr-1]
   end
   
-  bg = {getadd(pbase+poffsets.mspirit+(srset.level*0xFDD0),gg.TYPE_FLOAT),getadd(pbase+poffsets.mspirit+(srset.level*0xFDD0)+0x4,gg.TYPE_FLOAT),getadd(pbase+poffsets.mspirit+(srset.level*0xFDD0)+0x8,gg.TYPE_FLOAT)}
+  bg = {getadd(pbase+poffsets.mspirit+(srset.level*poffsets.srpattern),gg.TYPE_FLOAT),getadd(pbase+poffsets.mspirit+(srset.level*poffsets.srpattern)+0x4,gg.TYPE_FLOAT),getadd(pbase+poffsets.mspirit+(srset.level*poffsets.srpattern)+0x8,gg.TYPE_FLOAT)}
   setposit(bg[1],bg[2],bg[3])
   end
   if jy == 9 then
