@@ -5,8 +5,8 @@
 
 
 
-gg.toast('FuckChina Loaded')
-ddd = 211124
+gg.toast('Loaded......')
+ddd = 211127
 pshare = ''
 umenu = true
 fasthome = true
@@ -46,7 +46,7 @@ psettings = {
   ufps = 30
   }
   
-changelog = '11.24 update\n\n-Script fixing almost done\nrace runner not working now'
+changelog = '11.27 update\n\n-Fixed race runner\n-Added [Make hidden props] in magic menu'
 scriptv = {process ='com.tgc.sky.android',version=179644}
 teleparr = {spec = false,follow = false,collect = false,enable = false,hide = false,arr = 1}
 gameinfo = gg.getTargetInfo()
@@ -95,7 +95,8 @@ poffsets = {
   pshout = 0x1EEC8,
   pdamage = 0x1E544,
   wwings = 0x4E06DC,
-  wobjs = 0x8F9B54,
+  wobjs = 0x8FA644,
+  cfrags = 0x8FA644+0x2232C,
   wbtns = 0x993778,
   gohome = 0x1FD00,
   phands = 0x1AF08,
@@ -113,19 +114,19 @@ poffsets = {
   wwind = 0x9E70AC,
   pwalk = 0x1245BBC,
   fastfly = 0x1245BBC-0x8840,
-  cfrags = 0x91BE80,
   gcamera = 0xFA89A4-0x8,
   ecrabs = 0x5A5E58,
-  uihook = 0x6A96A4,
+  uihook = 0x6AEC44,
   shoutscale = 0x25698, --
   daily = 0x1303A24,
   wingmap = 0x12E0BCC,
-  enode = 0x139EA84,
+  enode = 0x13BC474,
   hidenseek = 0x1C8F4,
-  mspirit = 0xB7E70,
+  mspirit = 0x98230,
   testflower = 0xA1C6F4,
   pcontrol = 0x123BEC0,
-  srpattern = 0xFE20
+  srpattern = 0xFE20,
+  phidden = 0x130D04C
   }
 
 allmagics = {}
@@ -483,6 +484,16 @@ pid = {
        {1931354705,"Snow Globe"},
        {-699266735, "Pillow Xmas"},
        {2035109393,"Nothing"}
+}
+
+hpid = {
+  "Rainbow",
+  "Sparkler",
+  "BirthdayCakeL",
+  "BirthdayCakeM",
+  "BirthdayCakeS",
+  "BeachBall",
+  "Spell"
 }
 
 cpoint = {
@@ -2635,7 +2646,7 @@ function dumpdaily()
 end
 
 function magicmenu()
-  gf = gg.choice({'Do spell','Do spell no effects','Random spells','Remove all spells'},nil,'')
+  gf = gg.choice({'Do spell','Do spell no effects','Random spells','Remove all spells','Make hidden props'},nil,'')
   if gf == nil then return; end
   if gf == 1 or gf == 2 then
     y={}
@@ -2674,6 +2685,12 @@ function magicmenu()
     gg.setVisible(false)
     for i=1,9 do
       pmagic(i,0,1)
+    end
+  end
+  if gf == 5 then
+    y = gg.choice(hpid)
+    if hpid ~= nil then
+      makehidden(hpid[y])
     end
   end
   gg.setVisible(false)
@@ -3038,20 +3055,15 @@ function getfriendnode()
   
 end
 
-function setdesk(str,add)
-  if eoffsets.pdesk == 0x00 then
-    gg.setVisible(false)
-    gg.clearResults()
-    ggrange(4)
-    gg.searchNumber('h 22 55 69 4F 75 74 66 69 74 50 72 6F 70 43 68 61 69 72 00 00 00 00 00 00 14 74 61 62')
-    gg.refineNumber(20)
-    if gg.getResultsCount() == 0 then
-      gg.toast('fail!')
-      return;
-    end
-    eoffsets.pdesk = gg.getResults(1)[1].address + 0x1
-  end
-  setstr(eoffsets.pdesk + add,24,str)
+function makehidden(str)
+  --h 69 61 6C 54 61 62 6C 65 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 20 55 69 4D 65 6E 75 53 70 65 6C 6C 57 61 74 65
+  setadd(pbase + poffsets.eprop,gg.TYPE_DWORD,-481291981,false)
+  setadd(eoffsets.nentity - poffsets.phidden,gg.TYPE_DWORD,49,false)
+  setadd(eoffsets.nentity - poffsets.phidden+0x4,gg.TYPE_DWORD,0,false)
+  setadd(eoffsets.nentity - poffsets.phidden+0x8,gg.TYPE_DWORD,string.len(str),false)
+  setadd(eoffsets.nentity - poffsets.phidden+0xC,gg.TYPE_DWORD,0,false)
+  setadd(eoffsets.nentity - poffsets.phidden+0x10,gg.TYPE_QWORD,eoffsets.nentity - poffsets.phidden+0x58,false)
+  setstr(eoffsets.nentity - poffsets.phidden + 0x58,24,str)
 end
 
 function setspirit(val)
