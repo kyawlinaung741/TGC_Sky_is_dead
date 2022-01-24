@@ -67,10 +67,10 @@ pbase = 0x00
 prange = {a = 0,b = -1}
 rbootloader = 0x00
 poffsets = {
-  sival = -72796D9000,
+  sival = -1096122630,
   ptoplayer = 0x1493098,
   ptoentity = 0x1716A90,
-  ptopbase = 0x420910,
+  ptopbase = 0x6D9000,
   ptonentity = 0xC93F5C,
   ptonworld = 0x643ACC,
   ptofps = 0x13EEA18,
