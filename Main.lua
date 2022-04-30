@@ -47,7 +47,7 @@ psettings = {
   }
   
 changelog = '11.27 update\n\n-Fixed race runner\n-Added [Make hidden props] in magic menu'
-scriptv = {process ='com.tgc.sky.android',version=182597}
+scriptv = {process ='com.tgc.sky.android',version=187218}
 teleparr = {spec = false,follow = false,collect = false,enable = false,hide = false,arr = 1}
 gameinfo = gg.getTargetInfo()
 crarray = {}
@@ -68,17 +68,17 @@ prange = {a = 0,b = -1}
 rbootloader = 0x00
 poffsets = {
   sival = -1096122630,
-  ptoplayer = 0x1493098,
-  ptoentity = 0x1716A90,
-  ptopbase = 0x6D9000,
-  ptonentity = 0xC93F5C,
-  ptonworld = 0x643ACC,
+  ptoplayer = 0x22374648,
+  ptoentity = 0x25024560,
+  ptopbase = 0x4397760,
+  ptonentity = 0x13172652,
+  ptonworld = 0x6525100,
   ptofps = 0x13EEA18,
   ptocwings = 0x1708690,
   wlevel = 0x22400,
-  positX = 0x189B0,
-  positY = 0x189B0+0x4,
-  positZ = 0x189B0+0x8,
+  positX = 0x100976,
+  positY = 0x100980,
+  positZ = 0x100984,
   bheight = 0x00,
   pose = 0x1BD68,
   crabmode = 0x23C08,
