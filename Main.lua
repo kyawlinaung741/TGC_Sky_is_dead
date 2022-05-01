@@ -47,7 +47,7 @@ psettings = {
   }
   
 changelog = '11.27 update\n\n-Fixed race runner\n-Added [Make hidden props] in magic menu'
-scriptv = {process ='com.tgc.sky.android',version=187218}
+scriptv = {process ='com.tgc.sky.android',version=189403}
 teleparr = {spec = false,follow = false,collect = false,enable = false,hide = false,arr = 1}
 gameinfo = gg.getTargetInfo()
 crarray = {}
